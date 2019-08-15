@@ -5,7 +5,6 @@ var INSTRUCTIONS_TEXT = '[WASD]&nbsp; MOVE AROUND&nbsp;&nbsp;&nbsp;<br>[CLICK] S
  */
 var canvas;
 var context;
-var shaderProgram;
 var camera;
 var overlayEl;
 var healthEl;
@@ -16,22 +15,13 @@ var now = 0;
 var gameState = 'menu';
 var nearbyTree = null;
 
-function c_init() {
+function game_init() {
   canvas = document.getElementById('scene');
   context = canvas.getContext('webgl');
 
   buffers_init();
-  gl_init(); 
-  v_init();
-  soundEffects_init();
-  //a_init();
-  c_attachListeners();
-
-  c_resetGame();
-}
-
-function v_init() {
-  shaderProgram = context.createProgram();
+  
+  
   camera = {};
   overlayEl = document.getElementById('a');
   healthEl = document.getElementById('b');
@@ -40,15 +30,19 @@ function v_init() {
 
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  
-  // NOTE: fragmentShader and vertexShader are compiled
-  gl_setShaderProgram(fragmentShader, vertexShader);
+
+
+  webgl_init(); 
+  soundEffects_init();
+  //a_init();
+  c_attachListeners();
+
+  c_resetGame();
 
   textures_load(function() {
     c_gameLoop();
   });
 }
-
 
 function c_resetGame() {
   camera = {

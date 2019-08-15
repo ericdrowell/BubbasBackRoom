@@ -1,11 +1,15 @@
 var mvMatrix; 
 var pMatrix;
 var mvMatrixStack;
+var shaderProgram;
 
-function gl_init() {
+function webgl_init() {
   mvMatrix = mat4.create(); 
   pMatrix = mat4.create();
   mvMatrixStack = [];
+
+  webgl_setShaderProgram();
+  webgl_initUniforms();
 
   // init depth test
   context.enable(context.DEPTH_TEST);
@@ -29,24 +33,21 @@ function gl_restore() {
   mvMatrix = mvMatrixStack.pop();
 };
 
-function gl_initShaders() {
-  gl_initPositionShader();
-  gl_initTextureShader();
-  gl_initNormalShader();
-  gl_initLightingShader();
-};
+function webgl_setShaderProgram() {
+  var shader;
 
-function gl_setShaderProgram(fragmentGLSL, vertexGLSL) {
-  var fragmentShader = context.createShader(context.FRAGMENT_SHADER);
-  context.shaderSource(fragmentShader, fragmentGLSL);
-  context.compileShader(fragmentShader);
+  shaderProgram = context.createProgram();
   
-  var vertexShader = context.createShader(context.VERTEX_SHADER);
-  context.shaderSource(vertexShader, vertexGLSL);
-  context.compileShader(vertexShader);
+  shader = context.createShader(context.FRAGMENT_SHADER);
+  context.shaderSource(shader, fragmentShader);
+  context.compileShader(shader);
+  context.attachShader(shaderProgram, shader);
+  
+  shader = context.createShader(context.VERTEX_SHADER);
+  context.shaderSource(shader, vertexShader);
+  context.compileShader(shader);
+  context.attachShader(shaderProgram, shader);
 
-  context.attachShader(shaderProgram, vertexShader);
-  context.attachShader(shaderProgram, fragmentShader);
   context.linkProgram(shaderProgram);
   
   if (!context.getProgramParameter(shaderProgram, context.LINK_STATUS)) {
@@ -54,9 +55,28 @@ function gl_setShaderProgram(fragmentGLSL, vertexGLSL) {
   }
   
   context.useProgram(shaderProgram);
-  
-  // once shader program is loaded, it's time to init the shaders
-  gl_initShaders();
+ 
+};
+
+function webgl_initUniforms() {
+  shaderProgram.vertexPositionAttribute = context.getAttribLocation(shaderProgram, 'aVertexPosition');
+  context.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+  shaderProgram.pMatrixUniform = context.getUniformLocation(shaderProgram, 'uPMatrix');
+  shaderProgram.mvMatrixUniform = context.getUniformLocation(shaderProgram, 'uMVMatrix');
+
+  shaderProgram.textureCoordAttribute = context.getAttribLocation(shaderProgram, 'aTextureCoord');
+  context.enableVertexAttribArray(shaderProgram.textureCoordAttribute);
+  shaderProgram.samplerUniform = context.getUniformLocation(shaderProgram, 'uSampler');
+
+  shaderProgram.vertexNormalAttribute = context.getAttribLocation(shaderProgram, 'aVertexNormal');
+  context.enableVertexAttribArray(shaderProgram.vertexNormalAttribute);
+  shaderProgram.nMatrixUniform = context.getUniformLocation(shaderProgram, 'uNMatrix');
+
+  shaderProgram.useLightingUniform = context.getUniformLocation(shaderProgram, 'uUseLighting');
+  shaderProgram.ambientColorUniform = context.getUniformLocation(shaderProgram, 'uAmbientColor');
+  shaderProgram.pointLightingLocationUniform = context.getUniformLocation(shaderProgram, 'uPointLightingLocation');
+  shaderProgram.pointLightingColorUniform = context.getUniformLocation(shaderProgram, 'uPointLightingColor');
+  shaderProgram.useDistanceLighWeightingUniform = context.getUniformLocation(shaderProgram, 'uUseDistanceLightWeighting');
 };
 
 function gl_perspective(viewAngle, minDist, maxDist) {
@@ -79,37 +99,6 @@ function gl_scale(x, y, z) {
   mat4.scale(mvMatrix, [x, y, z]);
 };
 
-function gl_initPositionShader() {
-  shaderProgram.vertexPositionAttribute = context.getAttribLocation(shaderProgram, 'aVertexPosition');
-  context.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
-  shaderProgram.pMatrixUniform = context.getUniformLocation(shaderProgram, 'uPMatrix');
-  shaderProgram.mvMatrixUniform = context.getUniformLocation(shaderProgram, 'uMVMatrix');
-};
-
-function gl_initColorShader() {
-  shaderProgram.vertexColorAttribute = context.getAttribLocation(shaderProgram, 'aVertexColor');
-  context.enableVertexAttribArray(shaderProgram.vertexColorAttribute);
-};
-
-function gl_initTextureShader() {
-  shaderProgram.textureCoordAttribute = context.getAttribLocation(shaderProgram, 'aTextureCoord');
-  context.enableVertexAttribArray(shaderProgram.textureCoordAttribute);
-  shaderProgram.samplerUniform = context.getUniformLocation(shaderProgram, 'uSampler');
-};
-
-function gl_initNormalShader() {
-  shaderProgram.vertexNormalAttribute = context.getAttribLocation(shaderProgram, 'aVertexNormal');
-  context.enableVertexAttribArray(shaderProgram.vertexNormalAttribute);
-  shaderProgram.nMatrixUniform = context.getUniformLocation(shaderProgram, 'uNMatrix');
-};
-
-function gl_initLightingShader() {
-  shaderProgram.useLightingUniform = context.getUniformLocation(shaderProgram, 'uUseLighting');
-  shaderProgram.ambientColorUniform = context.getUniformLocation(shaderProgram, 'uAmbientColor');
-  shaderProgram.pointLightingLocationUniform = context.getUniformLocation(shaderProgram, 'uPointLightingLocation');
-  shaderProgram.pointLightingColorUniform = context.getUniformLocation(shaderProgram, 'uPointLightingColor');
-  shaderProgram.useDistanceLighWeightingUniform = context.getUniformLocation(shaderProgram, 'uUseDistanceLightWeighting');
-};
 
 function gl_initTexture(glTexture, image) {
   context.pixelStorei(context.UNPACK_FLIP_Y_WEBGL, true);
@@ -169,14 +158,14 @@ function gl_setMatrixUniforms() {
   context.uniformMatrix3fv(shaderProgram.nMatrixUniform, false, normalMatrix);
 };
 
-function gl_drawElements(buffers) {
+function gl_drawElements(buffer) {
   gl_setMatrixUniforms();
   
   // draw elements
-  context.drawElements(context.TRIANGLES, buffers.index.numElements, context.UNSIGNED_SHORT, 0);
+  context.drawElements(context.TRIANGLES, buffer.index.numElements, context.UNSIGNED_SHORT, 0);
 };
 
-// function l_drawArrays(buffers) {
+// function webgl_drawArrays(buffers) {
 //   gl_setMatrixUniforms();
   
 //   // draw arrays
