@@ -5,10 +5,10 @@ var INSTRUCTIONS_TEXT = '[WASD]&nbsp; MOVE AROUND&nbsp;&nbsp;&nbsp;<br>[CLICK] S
  */
 var canvas;
 var context;
-var camera;
+var camera = {};
 var overlayEl;
 var healthEl;
-var openMenuTime;
+var openMenuTime = 0;
 var elapsedTime = 0;
 var lastTime = 0;
 var now = 0;
@@ -18,33 +18,24 @@ var nearbyTree = null;
 function game_init() {
   canvas = document.getElementById('scene');
   context = canvas.getContext('webgl');
-
-  buffers_init();
-  
-  
-  camera = {};
-  overlayEl = document.getElementById('a');
-  healthEl = document.getElementById('b');
-  openMenuTime = 0;
-
-
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-
+  overlayEl = document.getElementById('a');
+  healthEl = document.getElementById('b');
 
   webgl_init(); 
   soundEffects_init();
   //a_init();
   c_attachListeners();
 
-  c_resetGame();
+  game_reset();
 
   textures_load(function() {
-    c_gameLoop();
+    game_loop();
   });
 }
 
-function c_resetGame() {
+function game_reset() {
   camera = {
     x: 0,
     y: PLAYER_HEIGHT,
@@ -53,7 +44,7 @@ function c_resetGame() {
     yaw: 0
   };
 
-  w_init();
+  world_init();
   p_init();
   gameState = 'menu';
   //a_playMusic('menu', 0.4);
@@ -62,60 +53,48 @@ function c_resetGame() {
 }
 
 
-function v_renderGround(x, z) {
-  gl_save();
-  gl_translate(x * BLOCK_SIZE, -1.1, z * BLOCK_SIZE);
-  gl_pushBuffers(buffers.plane, textures.ground.glTexture, true);
-  gl_drawElements(buffers.plane);
-  gl_restore();
-};
+// function v_renderGround() {
+//   gl_save();
+//   gl_translate(0, -1.1, 0);
+//   gl_pushBuffers(buffers.plane, textures.ground.glTexture, true);
+//   gl_drawElements(buffers.plane);
+//   gl_restore();
+// };
 
-function v_renderTrees(x, z) {
-  if (world.blocks[x] && world.blocks[x][z]){
-    var trees = world.blocks[x][z].trees;
+// function v_renderTrees(x, z) {
+//   if (world.blocks[x] && world.blocks[x][z]){
+//     var trees = world.blocks[x][z].trees;
 
-    for (var n = 0; n < trees.length; n++) {
-      var tree = trees[n];
+//     for (var n = 0; n < trees.length; n++) {
+//       var tree = trees[n];
 
-      tree.points.forEach(function(point) {
-        // trunk
-        gl_save();
-        gl_translate(point.x, point.y, point.z);
-        gl_rotate(tree.rotationY, 0, 1, 0);
-        gl_scale(2, 2, 2);
-        gl_pushBuffers(buffers.cube, textures.tree.glTexture, true);
-        gl_drawElements(buffers.cube);
-        gl_restore();
-      });
+//       tree.points.forEach(function(point) {
+//         // trunk
+//         gl_save();
+//         gl_translate(point.x, point.y, point.z);
+//         gl_rotate(tree.rotationY, 0, 1, 0);
+//         gl_scale(2, 2, 2);
+//         gl_pushBuffers(buffers.cube, textures.tree.glTexture, true);
+//         gl_drawElements(buffers.cube);
+//         gl_restore();
+//       });
 
-      var lastPoint = tree.points[tree.points.length-1];
-      var treeX = lastPoint.x;
-      var treeY = lastPoint.y;
-      var treeZ = lastPoint.z;
+//       var lastPoint = tree.points[tree.points.length-1];
+//       var treeX = lastPoint.x;
+//       var treeY = lastPoint.y;
+//       var treeZ = lastPoint.z;
 
-      LEAVES_GEOMETRY.forEach(function(leaf) {
-        gl_save();
-        gl_translate(treeX + leaf[0]*8, treeY + leaf[2]*8, treeZ + leaf[1]*8);
-        gl_scale(4, 4, 4);
-        gl_pushBuffers(buffers.cube, textures.leaves.glTexture, true);
-        gl_drawElements(buffers.cube);
-        gl_restore();
-      });
-    }
-  }
-};
-
-function v_renderBlocks() {
-  // only render blocks potentially within view
-  var blocks = w_getSurroundingBlocks();
-
-  blocks.forEach(function(block) {
-    var x = block.x;
-    var z = block.z;
-    v_renderGround(x, z);
-    v_renderTrees(x, z);
-  });
-}
+//       LEAVES_GEOMETRY.forEach(function(leaf) {
+//         gl_save();
+//         gl_translate(treeX + leaf[0]*8, treeY + leaf[2]*8, treeZ + leaf[1]*8);
+//         gl_scale(4, 4, 4);
+//         gl_pushBuffers(buffers.cube, textures.leaves.glTexture, true);
+//         gl_drawElements(buffers.cube);
+//         gl_restore();
+//       });
+//     }
+//   }
+// };
 
 function v_render() {
   gl_clear();
@@ -137,8 +116,11 @@ function v_render() {
   gl_rotate(-camera.yaw, 0, 1, 0);
   gl_translate(-camera.x, -camera.y, -camera.z);
   
+  world_render();
+
   //v_renderHealth()
-  v_renderBlocks();
+  //v_renderGround();
+  //v_renderTrees();
   //v_renderBeacon();
   //v_renderMonsters();
   //v_renderLasers();
@@ -181,7 +163,7 @@ function c_die() {
   aa.play('player-die');
 }
 
-function c_gameLoop() {
+function game_loop() {
   now = new Date().getTime();
   if (lastTime !== 0) {
     elapsedTime = now - lastTime;
@@ -189,15 +171,15 @@ function c_gameLoop() {
 
   if (gameState === 'playing') {
     p_updatePlayerPos();
-    w_updateLasers();
-    w_updateMonsters();
-    w_updateBeacon();
-    w_addBlocks(true); 
+    //w_updateLasers();
+    //w_updateMonsters();
+    //w_updateBeacon();
+    //w_addBlocks(true); 
   }
 
   v_render();
 
   lastTime = now;
 
-  window.requestAnimationFrame(c_gameLoop);  
+  window.requestAnimationFrame(game_loop);  
 } 

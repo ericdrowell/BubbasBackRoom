@@ -79,6 +79,102 @@ function webgl_initUniforms() {
   shaderProgram.useDistanceLighWeightingUniform = context.getUniformLocation(shaderProgram, 'uUseDistanceLightWeighting');
 };
 
+// function webgl_createBuffer(vertices, itemSize) {
+//   let vertexBuffer = context.createBuffer();
+
+//   context.bindBuffer(context.ARRAY_BUFFER, vertexBuffer);
+//   context.bufferData(context.ARRAY_BUFFER, vertices, context.STATIC_DRAW);
+//   vertexBuffer.itemSize = itemSize;
+//   vertexBuffer.numItems = vertices.length / vertexBuffer.itemSize;
+
+//   return vertexBuffer;
+// }
+
+function webgl_createArrayBuffer(vertices) {
+  var buffer = context.createBuffer();
+  buffer.numElements = vertices.length;
+  context.bindBuffer(context.ARRAY_BUFFER, buffer);
+  context.bufferData(context.ARRAY_BUFFER, new Float32Array(vertices), context.STATIC_DRAW);
+  return buffer;
+};
+
+function webgl_createElementArrayBuffer(vertices) {
+  var buffer = context.createBuffer();
+  buffer.numElements = vertices.length;
+  context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, buffer);
+  context.bufferData(context.ELEMENT_ARRAY_BUFFER, new Uint16Array(vertices), context.STATIC_DRAW);
+  return buffer;
+};
+
+
+function webgl_setUniforms() {
+  context.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
+  context.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
+  
+  var normalMatrix = mat3.create();
+  mat4.toInverseMat3(mvMatrix, normalMatrix);
+  mat3.transpose(normalMatrix);
+  context.uniformMatrix3fv(shaderProgram.nMatrixUniform, false, normalMatrix);
+};
+
+function webgl_render(buffers, texture, useDistanceLightWeighting) {
+  // position buffers
+  context.bindBuffer(context.ARRAY_BUFFER, buffers.position);
+  context.vertexAttribPointer(shaderProgram.vertexPositionAttribute, 3, context.FLOAT, false, 0, 0);
+
+  // texture buffers
+  context.bindBuffer(context.ARRAY_BUFFER, buffers.texture);
+  context.vertexAttribPointer(shaderProgram.textureCoordAttribute, 2, context.FLOAT, false, 0, 0);
+  context.activeTexture(context.TEXTURE0);
+  context.bindTexture(context.TEXTURE_2D, texture);
+  context.uniform1i(shaderProgram.samplerUniform, 0);
+
+  context.uniform1i(shaderProgram.useDistanceLighWeightingUniform, useDistanceLightWeighting);
+
+  // index buffers
+  context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, buffers.index);
+
+  // normal buffers
+  context.bindBuffer(context.ARRAY_BUFFER, buffers.normal);
+  context.vertexAttribPointer(shaderProgram.vertexNormalAttribute, 3, context.FLOAT, false, 0, 0);
+
+  // set uniforms
+  webgl_setUniforms();
+
+  // draw elements
+  context.drawElements(context.TRIANGLES, buffers.index.numElements, context.UNSIGNED_SHORT, 0);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function gl_perspective(viewAngle, minDist, maxDist) {
   mat4.perspective(viewAngle, canvas.width / canvas.height, minDist, maxDist, pMatrix);
 };
@@ -110,60 +206,16 @@ function gl_initTexture(glTexture, image) {
   context.bindTexture(context.TEXTURE_2D, null);
 };
 
-function gl_createArrayBuffer(vertices) {
-  var buffer = context.createBuffer();
-  buffer.numElements = vertices.length;
-  context.bindBuffer(context.ARRAY_BUFFER, buffer);
-  context.bufferData(context.ARRAY_BUFFER, new Float32Array(vertices), context.STATIC_DRAW);
-  return buffer;
-};
 
-function gl_createElementArrayBuffer(vertices) {
-  var buffer = context.createBuffer();
-  buffer.numElements = vertices.length;
-  context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, buffer);
-  context.bufferData(context.ELEMENT_ARRAY_BUFFER, new Uint16Array(vertices), context.STATIC_DRAW);
-  return buffer;
-};
 
-function gl_pushBuffers(buffers, texture, useDistanceLightWeighting) {
-  // position buffers
-  context.bindBuffer(context.ARRAY_BUFFER, buffers.position);
-  context.vertexAttribPointer(shaderProgram.vertexPositionAttribute, 3, context.FLOAT, false, 0, 0);
 
-  // texture buffers
-  context.bindBuffer(context.ARRAY_BUFFER, buffers.texture);
-  context.vertexAttribPointer(shaderProgram.textureCoordAttribute, 2, context.FLOAT, false, 0, 0);
-  context.activeTexture(context.TEXTURE0);
-  context.bindTexture(context.TEXTURE_2D, texture);
-  context.uniform1i(shaderProgram.samplerUniform, 0);
 
-  context.uniform1i(shaderProgram.useDistanceLighWeightingUniform, useDistanceLightWeighting);
-
-  // index buffers
-  context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, buffers.index);
-
-  // normal buffers
-  context.bindBuffer(context.ARRAY_BUFFER, buffers.normal);
-  context.vertexAttribPointer(shaderProgram.vertexNormalAttribute, 3, context.FLOAT, false, 0, 0);
-};
-
-function gl_setMatrixUniforms() {
-  context.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
-  context.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
+// function gl_drawElements(buffer) {
+//   gl_setMatrixUniforms();
   
-  var normalMatrix = mat3.create();
-  mat4.toInverseMat3(mvMatrix, normalMatrix);
-  mat3.transpose(normalMatrix);
-  context.uniformMatrix3fv(shaderProgram.nMatrixUniform, false, normalMatrix);
-};
-
-function gl_drawElements(buffer) {
-  gl_setMatrixUniforms();
-  
-  // draw elements
-  context.drawElements(context.TRIANGLES, buffer.index.numElements, context.UNSIGNED_SHORT, 0);
-};
+//   // draw elements
+//   context.drawElements(context.TRIANGLES, buffer.index.numElements, context.UNSIGNED_SHORT, 0);
+// };
 
 // function webgl_drawArrays(buffers) {
 //   gl_setMatrixUniforms();

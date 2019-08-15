@@ -56,38 +56,38 @@ function p_updatePlayerPos() {
   // handle tree collision detection
 
 
-  var intersectingObj = w_getGridObject({
-    x: camera.x,
-    y: 0,
-    z: camera.z
-  });
+  // var intersectingObj = w_getGridObject({
+  //   x: camera.x,
+  //   y: 0,
+  //   z: camera.z
+  // });
 
-  if (intersectingObj && intersectingObj.type === 'tree') {
-    camera.x = lastPos.x;
-    camera.y = lastPos.y;
-    camera.z = lastPos.z;
-  }
-
-  // handle touching the beacon and winning the game
-  if (w_isNearbyBeacon() && gameState !== 'won') {
-    c_win();
-  }
+  // if (intersectingObj && intersectingObj.type === 'tree') {
+  //   camera.x = lastPos.x;
+  //   camera.y = lastPos.y;
+  //   camera.z = lastPos.z;
+  // }
 
   // handle touching the beacon and winning the game
-  if (player.health <= 0 && gameState !== 'died') {
-    c_die();
-  }
+  // if (w_isNearbyBeacon() && gameState !== 'won') {
+  //   c_win();
+  // }
+
+  // handle touching the beacon and winning the game
+  // if (player.health <= 0 && gameState !== 'died') {
+  //   c_die();
+  // }
 
   // handle monsters hurting you
-  w_getNearbyMonsters().forEach(function(monster) {
-    if (!monster.cooldown) {
-      p_hurt();
-      monster.cooldown = true;
-      setTimeout(function() {
-        monster.cooldown = false;
-      }, MONSTER_COOLDOWN_TIME * 1000);
-    }
-  });
+  // w_getNearbyMonsters().forEach(function(monster) {
+  //   if (!monster.cooldown) {
+  //     p_hurt();
+  //     monster.cooldown = true;
+  //     setTimeout(function() {
+  //       monster.cooldown = false;
+  //     }, MONSTER_COOLDOWN_TIME * 1000);
+  //   }
+  // });
 
 
 };
