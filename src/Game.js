@@ -16,12 +16,17 @@ var gameState = 'menu';
 var nearbyTree = null;
 
 function game_init() {
-  canvas = document.getElementById('scene');
+  let body = document.querySelector('body');
+  body.style.overflow = 'hidden';
+  body.style.padding = 0;
+  body.style.margin = 0;
+
+  canvas = document.getElementById('webglCanvas');
   context = canvas.getContext('webgl');
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  overlayEl = document.getElementById('a');
-  healthEl = document.getElementById('b');
+
+  canvas.style.backgroundColor = 'black';
 
   webgl_init(); 
   soundEffects_init();
@@ -53,77 +58,18 @@ function game_reset() {
 }
 
 
-// function v_renderGround() {
-//   gl_save();
-//   gl_translate(0, -1.1, 0);
-//   gl_pushBuffers(buffers.plane, textures.ground.glTexture, true);
-//   gl_drawElements(buffers.plane);
-//   gl_restore();
-// };
-
-// function v_renderTrees(x, z) {
-//   if (world.blocks[x] && world.blocks[x][z]){
-//     var trees = world.blocks[x][z].trees;
-
-//     for (var n = 0; n < trees.length; n++) {
-//       var tree = trees[n];
-
-//       tree.points.forEach(function(point) {
-//         // trunk
-//         gl_save();
-//         gl_translate(point.x, point.y, point.z);
-//         gl_rotate(tree.rotationY, 0, 1, 0);
-//         gl_scale(2, 2, 2);
-//         gl_pushBuffers(buffers.cube, textures.tree.glTexture, true);
-//         gl_drawElements(buffers.cube);
-//         gl_restore();
-//       });
-
-//       var lastPoint = tree.points[tree.points.length-1];
-//       var treeX = lastPoint.x;
-//       var treeY = lastPoint.y;
-//       var treeZ = lastPoint.z;
-
-//       LEAVES_GEOMETRY.forEach(function(leaf) {
-//         gl_save();
-//         gl_translate(treeX + leaf[0]*8, treeY + leaf[2]*8, treeZ + leaf[1]*8);
-//         gl_scale(4, 4, 4);
-//         gl_pushBuffers(buffers.cube, textures.leaves.glTexture, true);
-//         gl_drawElements(buffers.cube);
-//         gl_restore();
-//       });
-//     }
-//   }
-// };
-
 function v_render() {
+  let viewAngle = 45;
+  let minDist = 0.1;
+  let maxDist = 150;
+  mat4.perspective(viewAngle, canvas.width / canvas.height, minDist, maxDist, pMatrix);
 
+  mat4.identity(mvMatrix);
+  mat4.rotate(mvMatrix, -camera.pitch, [1, 0, 0]);
+  mat4.rotate(mvMatrix, -camera.yaw, [0, 1, 0]);
+  mat4.translate(mvMatrix, [-camera.x, -camera.y, -camera.z]);
 
-  // set field of view at 45 degrees
-  // set viewing range between 0.1 and 100 units away.
-  gl_perspective(45, 0.1, 150.0);
-  gl_identity();
-  
-  // enable lighting
-  gl_enableLighting();
-  gl_setAmbientLighting(0, 0, 0);
-
-
-  //gl_setDirectionalLighting(-0.25, -0.25, -1, 0.8, 0.8, 0.8);
-  gl_setPointLighting(0.9, 0.9, 0.9);
-
-  gl_rotate(-camera.pitch, 1, 0, 0);
-  gl_rotate(-camera.yaw, 0, 1, 0);
-  gl_translate(-camera.x, -camera.y, -camera.z);
-  
   world_render();
-
-  //v_renderHealth()
-  //v_renderGround();
-  //v_renderTrees();
-  //v_renderBeacon();
-  //v_renderMonsters();
-  //v_renderLasers();
 };
 
 function c_playGame() {

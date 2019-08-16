@@ -5,27 +5,20 @@ attribute vec2 aTextureCoord;
 uniform mat4 uMVMatrix;
 uniform mat4 uPMatrix;
 uniform mat3 uNMatrix;
-uniform vec3 uAmbientColor;
-uniform vec3 uPointLightingLocation;
-uniform vec3 uPointLightingColor;
-uniform bool uUseLighting;
 
 varying vec2 vTextureCoord;
 varying vec3 vLightWeighting;
 
-uniform bool uUseDistanceLightWeighting;
 
 void main(void) {
-  float distanceLightWeighting = 1.0; 
-  vec4 mvPosition = uMVMatrix * vec4(aVertexPosition, 1.0);
-  gl_Position = uPMatrix * mvPosition;
+  gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+
   vTextureCoord = aTextureCoord;
-  vec3 lightDirection = normalize(uPointLightingLocation - mvPosition.xyz);
-  vec3 transformedNormal = uNMatrix * aVertexNormal;
-  float directionalLightWeighting = max(dot(transformedNormal, lightDirection), 0.0);
-  float mvDistance = length(uPointLightingLocation - mvPosition.xyz);
-  if (uUseDistanceLightWeighting) {
-    distanceLightWeighting = pow(0.992, mvDistance*2.0);
-  }
-  vLightWeighting = uAmbientColor + uPointLightingColor * distanceLightWeighting;
+
+  vec3 ambientLight = vec3(0.3, 0.3, 0.3);
+  vec3 directionalLightColor = vec3(1, 1, 1);
+  vec4 directionalVector = normalize(vec4(0.85, 0.8, 0.75, 0.0));
+
+  float directional = max(dot(aVertexNormal.xyz, directionalVector.xyz), 0.0);
+  vLightWeighting = ambientLight + (directionalLightColor * directional);
 }

@@ -54,11 +54,7 @@ function webgl_initUniforms() {
   context.enableVertexAttribArray(shaderProgram.vertexNormalAttribute);
   shaderProgram.nMatrixUniform = context.getUniformLocation(shaderProgram, 'uNMatrix');
 
-  shaderProgram.useLightingUniform = context.getUniformLocation(shaderProgram, 'uUseLighting');
-  shaderProgram.ambientColorUniform = context.getUniformLocation(shaderProgram, 'uAmbientColor');
-  shaderProgram.pointLightingLocationUniform = context.getUniformLocation(shaderProgram, 'uPointLightingLocation');
-  shaderProgram.pointLightingColorUniform = context.getUniformLocation(shaderProgram, 'uPointLightingColor');
-  shaderProgram.useDistanceLighWeightingUniform = context.getUniformLocation(shaderProgram, 'uUseDistanceLightWeighting');
+
 };
 
 function webgl_createArrayBuffer(vertices) {
@@ -78,9 +74,8 @@ function webgl_createElementArrayBuffer(vertices) {
 };
 
 
-function webgl_setUniforms(useDistanceLightWeighting) {
+function webgl_setUniforms() {
   context.uniform1i(shaderProgram.samplerUniform, 0);
-  context.uniform1i(shaderProgram.useDistanceLighWeightingUniform, useDistanceLightWeighting);
 
   context.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
   context.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
@@ -91,7 +86,7 @@ function webgl_setUniforms(useDistanceLightWeighting) {
   context.uniformMatrix3fv(shaderProgram.nMatrixUniform, false, normalMatrix);
 };
 
-function webgl_render(buffers, texture, useDistanceLightWeighting) {
+function webgl_render(buffers, texture) {
   // clear
   context.viewport(0, 0, canvas.width, canvas.height);
   context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT);
@@ -114,7 +109,7 @@ function webgl_render(buffers, texture, useDistanceLightWeighting) {
   context.vertexAttribPointer(shaderProgram.vertexNormalAttribute, 3, context.FLOAT, false, 0, 0);
 
   // set uniforms
-  webgl_setUniforms(useDistanceLightWeighting);
+  webgl_setUniforms();
 
   // draw elements
   context.drawElements(context.TRIANGLES, buffers.index.numElements, context.UNSIGNED_SHORT, 0);
@@ -178,14 +173,4 @@ function gl_scale(x, y, z) {
   mat4.scale(mvMatrix, [x, y, z]);
 };
 
-function gl_enableLighting() {
-  context.uniform1i(shaderProgram.useLightingUniform, true);
-};
 
-function gl_setAmbientLighting(red, green, blue) {
-  context.uniform3f(shaderProgram.ambientColorUniform, red, green, blue);
-};
-
-function gl_setPointLighting(red, green, blue) {
-  context.uniform3f(shaderProgram.pointLightingColorUniform, red, green, blue);
-}
