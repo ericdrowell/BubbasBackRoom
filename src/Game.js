@@ -97,7 +97,7 @@ function game_reset() {
 // };
 
 function v_render() {
-  gl_clear();
+
 
   // set field of view at 45 degrees
   // set viewing range between 0.1 and 100 units away.

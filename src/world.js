@@ -5,65 +5,72 @@ var worldBuffers = {};
 
 function world_init() {
   world_buildModel();
-  //world_buildVertices();
   world_buildBuffers();
-
-  
 }
 
 function world_buildModel() {
-  world[0] = {};
-  world[0][0] = {};
-  world[0][0][0] = {
-    type: 'ground'
-  }
-
-  world[1] = {};
-  world[1][1] = {};
-  world[1][1][1] = {
-    type: 'ground'
-  }
-
-  world[2] = {};
-  world[2][2] = {};
-  world[2][2][2] = {
-    type: 'ground'
+  for (let x=0; x<5; x++) {
+    for (let y=0; y<x; y++) {
+      for (let z=0; z<5; z++) {
+        world_addBlock(x*2, y*2, z*2);
+      }
+    }
   }
 }
 
-// function world_buildVertices() {
-//   let numBlocks = 3;
-//   let positionsIndex = 0;
-//   let normalsIndex = 0;
-//   let texturesIndex = 0;
+function world_addBlock(x, y, z) {
+  if (world[x] === undefined) {
+    world[x] = [];
+  }
+  if (world[x][y] === undefined) {
+    world[x][y] = [];
+  }
 
-//   worldVertices.positions = new Float32Array(numBlocks*3);
-//   worldVertices.normals = new Float32Array(numBlocks*3);
-//   worldVertices.textures = new Float32Array(numBlocks*2);
-
-//   for (let x in world) {
-//     for (let y in world[x]) {
-//       for (let z in world[x][y]) {
-//         worldVertices[positionsIndex++] = x;
-//         worldVertices[positionsIndex++] = y;
-//         worldVertices[positionsIndex++] = z;
-
-//       }
-//     }
-//   }
-
-// }
+  world[x][y][z] = {
+    type: 'ground'
+  };
+  
+}
 
 function world_buildBuffers() {
-   // right now, just a world with one block, and one texture
-  worldBuffers.position = webgl_createArrayBuffer(CUBE_BUFFERS.position);
-  worldBuffers.normal = webgl_createArrayBuffer(CUBE_BUFFERS.normal);
-  worldBuffers.texture = webgl_createArrayBuffer(CUBE_BUFFERS.texture);
-  worldBuffers.index = webgl_createElementArrayBuffer(CUBE_BUFFERS.index);
+  let positionBuffer = [];
+  let normalBuffer = [];
+  let textureBuffer = [];
+  let indexBuffer = [];
+  let blockCount = 0;
 
+  for (let x in world) {
+    for (let y in world[x]) {
+      for (let z in world[x][y]) {
+        let n;
+        // position buffer
+        for (n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
+          positionBuffer.push(CUBE_BUFFERS.position[n] + parseInt(x));
+          positionBuffer.push(CUBE_BUFFERS.position[n+1] + parseInt(y));
+          positionBuffer.push(CUBE_BUFFERS.position[n+2] + parseInt(z));
+        }
 
+        // normal buffer
+        normalBuffer = normalBuffer.concat(CUBE_BUFFERS.normal);
 
+        // texture buffer
+        textureBuffer = textureBuffer.concat(CUBE_BUFFERS.texture);
 
+        // index buffer
+        for (n = 0; n < CUBE_BUFFERS.index.length; n++) {
+          indexBuffer.push(CUBE_BUFFERS.index[n] + (24 * blockCount));
+        }
+
+        blockCount++;
+
+      }
+    }
+  }
+
+  worldBuffers.position = webgl_createArrayBuffer(positionBuffer);
+  worldBuffers.normal = webgl_createArrayBuffer(normalBuffer);
+  worldBuffers.texture = webgl_createArrayBuffer(textureBuffer);
+  worldBuffers.index = webgl_createElementArrayBuffer(indexBuffer);
 
 }
 

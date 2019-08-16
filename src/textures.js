@@ -99,7 +99,7 @@ function textures_load(callback) {
       var glTexture = texture.glTexture = context.createTexture();
       var image = texture.image = new Image();
       image.onload = function() {
-        gl_initTexture(glTexture, image);
+        webgl_initTexture(glTexture, image);
         if (++loadedImages >= numImages) {
           callback();
         }

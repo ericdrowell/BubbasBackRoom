@@ -15,24 +15,6 @@ function webgl_init() {
   context.enable(context.DEPTH_TEST);
 };
 
-function gl_clear() {
-  context.viewport(0, 0, canvas.width, canvas.height);
-  context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT);
-};
-
-function gl_save() {
-  var copy = mat4.create();
-  mat4.set(mvMatrix, copy);
-  mvMatrixStack.push(copy);
-};
-
-function gl_restore() {
-  // if (mvMatrixStack.length == 0) {
-  //   throw 'Invalid popMatrix!';
-  // }
-  mvMatrix = mvMatrixStack.pop();
-};
-
 function webgl_setShaderProgram() {
   var shader;
 
@@ -79,17 +61,6 @@ function webgl_initUniforms() {
   shaderProgram.useDistanceLighWeightingUniform = context.getUniformLocation(shaderProgram, 'uUseDistanceLightWeighting');
 };
 
-// function webgl_createBuffer(vertices, itemSize) {
-//   let vertexBuffer = context.createBuffer();
-
-//   context.bindBuffer(context.ARRAY_BUFFER, vertexBuffer);
-//   context.bufferData(context.ARRAY_BUFFER, vertices, context.STATIC_DRAW);
-//   vertexBuffer.itemSize = itemSize;
-//   vertexBuffer.numItems = vertices.length / vertexBuffer.itemSize;
-
-//   return vertexBuffer;
-// }
-
 function webgl_createArrayBuffer(vertices) {
   var buffer = context.createBuffer();
   buffer.numElements = vertices.length;
@@ -107,7 +78,10 @@ function webgl_createElementArrayBuffer(vertices) {
 };
 
 
-function webgl_setUniforms() {
+function webgl_setUniforms(useDistanceLightWeighting) {
+  context.uniform1i(shaderProgram.samplerUniform, 0);
+  context.uniform1i(shaderProgram.useDistanceLighWeightingUniform, useDistanceLightWeighting);
+
   context.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
   context.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
   
@@ -118,6 +92,10 @@ function webgl_setUniforms() {
 };
 
 function webgl_render(buffers, texture, useDistanceLightWeighting) {
+  // clear
+  context.viewport(0, 0, canvas.width, canvas.height);
+  context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT);
+
   // position buffers
   context.bindBuffer(context.ARRAY_BUFFER, buffers.position);
   context.vertexAttribPointer(shaderProgram.vertexPositionAttribute, 3, context.FLOAT, false, 0, 0);
@@ -127,9 +105,6 @@ function webgl_render(buffers, texture, useDistanceLightWeighting) {
   context.vertexAttribPointer(shaderProgram.textureCoordAttribute, 2, context.FLOAT, false, 0, 0);
   context.activeTexture(context.TEXTURE0);
   context.bindTexture(context.TEXTURE_2D, texture);
-  context.uniform1i(shaderProgram.samplerUniform, 0);
-
-  context.uniform1i(shaderProgram.useDistanceLighWeightingUniform, useDistanceLightWeighting);
 
   // index buffers
   context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, buffers.index);
@@ -139,13 +114,21 @@ function webgl_render(buffers, texture, useDistanceLightWeighting) {
   context.vertexAttribPointer(shaderProgram.vertexNormalAttribute, 3, context.FLOAT, false, 0, 0);
 
   // set uniforms
-  webgl_setUniforms();
+  webgl_setUniforms(useDistanceLightWeighting);
 
   // draw elements
   context.drawElements(context.TRIANGLES, buffers.index.numElements, context.UNSIGNED_SHORT, 0);
 };
 
-
+function webgl_initTexture(glTexture, image) {
+  context.pixelStorei(context.UNPACK_FLIP_Y_WEBGL, true);
+  context.bindTexture(context.TEXTURE_2D, glTexture);
+  context.texImage2D(context.TEXTURE_2D, 0, context.RGBA, context.RGBA, context.UNSIGNED_BYTE, image);
+  context.texParameteri(context.TEXTURE_2D, context.TEXTURE_MAG_FILTER, context.NEAREST);
+  context.texParameteri(context.TEXTURE_2D, context.TEXTURE_MIN_FILTER, context.LINEAR_MIPMAP_NEAREST);
+  context.generateMipmap(context.TEXTURE_2D);
+  context.bindTexture(context.TEXTURE_2D, null);
+};
 
 
 
@@ -194,35 +177,6 @@ function gl_rotate(angle, x, y, z) {
 function gl_scale(x, y, z) {
   mat4.scale(mvMatrix, [x, y, z]);
 };
-
-
-function gl_initTexture(glTexture, image) {
-  context.pixelStorei(context.UNPACK_FLIP_Y_WEBGL, true);
-  context.bindTexture(context.TEXTURE_2D, glTexture);
-  context.texImage2D(context.TEXTURE_2D, 0, context.RGBA, context.RGBA, context.UNSIGNED_BYTE, image);
-  context.texParameteri(context.TEXTURE_2D, context.TEXTURE_MAG_FILTER, context.NEAREST);
-  context.texParameteri(context.TEXTURE_2D, context.TEXTURE_MIN_FILTER, context.LINEAR_MIPMAP_NEAREST);
-  context.generateMipmap(context.TEXTURE_2D);
-  context.bindTexture(context.TEXTURE_2D, null);
-};
-
-
-
-
-
-// function gl_drawElements(buffer) {
-//   gl_setMatrixUniforms();
-  
-//   // draw elements
-//   context.drawElements(context.TRIANGLES, buffer.index.numElements, context.UNSIGNED_SHORT, 0);
-// };
-
-// function webgl_drawArrays(buffers) {
-//   gl_setMatrixUniforms();
-  
-//   // draw arrays
-//   context.drawArrays(context.TRIANGLES, 0, buffers.position.numElements / 3);
-// };
 
 function gl_enableLighting() {
   context.uniform1i(shaderProgram.useLightingUniform, true);
