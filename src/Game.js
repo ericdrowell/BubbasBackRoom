@@ -58,16 +58,18 @@ function game_reset() {
 }
 
 
-function v_render() {
+function game_render() {
   let viewAngle = 45;
   let minDist = 0.1;
-  let maxDist = 150;
+  let maxDist = 100;
   mat4.perspective(viewAngle, canvas.width / canvas.height, minDist, maxDist, pMatrix);
 
   mat4.identity(mvMatrix);
   mat4.rotate(mvMatrix, -camera.pitch, [1, 0, 0]);
   mat4.rotate(mvMatrix, -camera.yaw, [0, 1, 0]);
   mat4.translate(mvMatrix, [-camera.x, -camera.y, -camera.z]);
+
+  webgl_clear();
 
   world_render();
 };
@@ -117,15 +119,9 @@ function game_loop() {
 
   if (gameState === 'playing') {
     p_updatePlayerPos();
-    //w_updateLasers();
-    //w_updateMonsters();
-    //w_updateBeacon();
-    //w_addBlocks(true); 
+    game_render();
   }
 
-  v_render();
-
   lastTime = now;
-
   window.requestAnimationFrame(game_loop);  
 } 

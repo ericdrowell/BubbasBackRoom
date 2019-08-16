@@ -1,6 +1,9 @@
 
+// gl drawElements can only handle 64k vertices.  Each block is defined by exactly 24 vertices.  Thus we can at most
+// render 2,666 blocks for each drawElements call.  Exceeding this number will result in skipping of call draws for individual blocks
+let BLOCKS_PER_BUFFER = 2666;
+
 var world = [];
-var worldVertices = {};
 var worldBuffers = {};
 
 function world_init() {
@@ -9,16 +12,43 @@ function world_init() {
 }
 
 function world_buildModel() {
-  for (let x=0; x<5; x++) {
-    for (let y=0; y<x; y++) {
-      for (let z=0; z<5; z++) {
-        world_addBlock(x*2, y*2, z*2);
+  // floor
+  world_addBlob(-20, 20, -1, -1, -20, 20, 'mossy-stone');
+
+  // pole
+  world_addBlob(-11, -9, 0, 0, -11, -9, 'wood');
+  world_addBlob(-10, -10, 1, 10, -10, -10, 'wood');
+  world_addBlob(-11, -9, 9, 9, -11, -9, 'wood');
+
+  // stairs
+  world_addBlob(0, 0, 0, 0, 0, 5, 'wood');
+  world_addBlob(1, 1, 1, 1, 0, 5, 'wood');
+  world_addBlob(2, 2, 2, 2, 0, 5, 'wood');
+  world_addBlob(3, 3, 3, 3, 0, 5, 'wood');
+
+  // wall
+  world_addBlob(-20, 20, 0, 10, -20, -20, 'mossy-stone');
+  world_addBlob(-20, 20, 0, 10, 20, 20, 'mossy-stone');
+  world_addBlob(-20, -20, 0, 10, -20, 20, 'mossy-stone');
+  world_addBlob(20, 20, 0, 10, -20, 20, 'mossy-stone');
+
+  // celing
+  world_addBlob(-20, 20, 10, 10, -20, 20, 'mossy-stone');
+
+
+}
+
+function world_addBlob(startX, endX, startY, endY, startZ, endZ, texture) {
+  for (let x=startX; x<=endX; x++) {
+    for (let y=startY; y<=endY; y++) {
+      for (let z=startZ; z<=endZ; z++) {
+        world_addBlock(x*2, y*2, z*2, texture);
       }
     }
   }
 }
 
-function world_addBlock(x, y, z) {
+function world_addBlock(x, y, z, type) {
   if (world[x] === undefined) {
     world[x] = [];
   }
@@ -27,64 +57,92 @@ function world_addBlock(x, y, z) {
   }
 
   world[x][y][z] = {
-    type: 'ground'
+    type: type
   };
   
 }
 
-function world_buildBuffers() {
-  let positionBuffer = [];
-  let normalBuffer = [];
-  let textureBuffer = [];
-  let indexBuffer = [];
-  let blockCount = 0;
 
+function world_buildBuffers() {
   for (let x in world) {
     for (let y in world[x]) {
       for (let z in world[x][y]) {
+        let block = world[x][y][z];
+        let type = block.type;
         let n;
+
+        if (worldBuffers[type] === undefined) {
+          worldBuffers[type] = [
+            {
+              position: [],
+              normal: [],
+              texture: [],
+              index: [],
+              numBlocks: 0
+            }
+          ];
+        }
+
+        let lastBuffer = worldBuffers[type][worldBuffers[type].length-1];
+
         // position buffer
         for (n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
-          positionBuffer.push(CUBE_BUFFERS.position[n] + parseInt(x));
-          positionBuffer.push(CUBE_BUFFERS.position[n+1] + parseInt(y));
-          positionBuffer.push(CUBE_BUFFERS.position[n+2] + parseInt(z));
+          lastBuffer.position.push(CUBE_BUFFERS.position[n] + parseInt(x));
+          lastBuffer.position.push(CUBE_BUFFERS.position[n+1] + parseInt(y));
+          lastBuffer.position.push(CUBE_BUFFERS.position[n+2] + parseInt(z));
         }
 
         // normal buffer
-        normalBuffer = normalBuffer.concat(CUBE_BUFFERS.normal);
+        utils_concat(lastBuffer.normal, CUBE_BUFFERS.normal);
 
         // texture buffer
-        textureBuffer = textureBuffer.concat(CUBE_BUFFERS.texture);
+        utils_concat(lastBuffer.texture, CUBE_BUFFERS.texture);
 
         // index buffer
         for (n = 0; n < CUBE_BUFFERS.index.length; n++) {
-          indexBuffer.push(CUBE_BUFFERS.index[n] + (24 * blockCount));
+          lastBuffer.index.push(CUBE_BUFFERS.index[n] + (24 * lastBuffer.numBlocks));
         }
 
-        blockCount++;
+        if (lastBuffer.numBlocks >= BLOCKS_PER_BUFFER) {
+          worldBuffers[type].push({
+            position: [],
+            normal: [],
+            texture: [],
+            index: [],
+            numBlocks: 0
+          });
+        }
+        else {
+          lastBuffer.numBlocks++;
+        }
+
+        
 
       }
     }
   }
 
-  worldBuffers.position = webgl_createArrayBuffer(positionBuffer);
-  worldBuffers.normal = webgl_createArrayBuffer(normalBuffer);
-  worldBuffers.texture = webgl_createArrayBuffer(textureBuffer);
-  worldBuffers.index = webgl_createElementArrayBuffer(indexBuffer);
+
+  // convert regular arrays to webgl buffers
+  for (let type in worldBuffers) {
+    worldBuffers[type].forEach(function(buffer) {
+      buffer.position = webgl_createArrayBuffer(buffer.position);
+      buffer.normal = webgl_createArrayBuffer(buffer.normal);
+      buffer.texture = webgl_createArrayBuffer(buffer.texture);
+      buffer.index = webgl_createElementArrayBuffer(buffer.index);
+    });
+
+  }
+
+
 
 }
 
 function world_render() {
-  // gl_save();
-  // gl_translate(point.x, point.y, point.z);
-  // gl_rotate(tree.rotationY, 0, 1, 0);
-  // gl_scale(2, 2, 2);
-  // gl_pushBuffers(buffers.cube, textures.tree.glTexture, true);
-  // gl_drawElements(buffers.cube);
-  // gl_restore();
-
-
-  webgl_render(worldBuffers, textures.tree.glTexture, true);
-
-
+  for (let type in worldBuffers) {
+    worldBuffers[type].forEach(function(buffer) {
+      webgl_render(buffer, textures[type].glTexture);
+    });
+  }
+  
 }

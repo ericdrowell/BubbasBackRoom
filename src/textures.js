@@ -20,7 +20,7 @@ function textures_create(colors) {
 
 function textures_load(callback) {
   textures = {
-    tree: {
+    'wood': {
       encoding: textures_create([
         '4a493b', 
         '534e3e', 
@@ -31,7 +31,7 @@ function textures_load(callback) {
         '271c10'
       ])
     },
-    ground: {
+    'mossy-stone': {
       encoding: textures_create([
         '2c2e20',
         '282e26',
@@ -48,7 +48,7 @@ function textures_load(callback) {
         '6a6554'
       ])
     },
-    leaves: {
+    'leaves': {
       encoding: textures_create([
         '51531f',
         '4e5315',
@@ -60,32 +60,16 @@ function textures_load(callback) {
         '383c0d',
       ])
     },
-    red: {
+    'red': {
       encoding: textures_create(['ff0000'])
     },
-    shadow: {
+    'black': {
       encoding: textures_create(['000000'])
     },
-    monster: {
-      encoding: textures_create([
-        '5f3b88', 
-        '56367e',
-        '4d3279', 
-        '553783',
-        '412d6f', 
-        '3b2866',
-        '4b337a', 
-        '563986',
-        '4e3179', 
-        '54367f',
-        '663f8f', 
-        '382460'
-      ])
-    },
-    orange: {
+    'orange': {
       encoding: textures_create(['ffcc00'])
     },
-    white: {
+    'white': {
       encoding: textures_create(['ffffff'])
     }
   };

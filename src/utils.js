@@ -9,3 +9,9 @@ function u_getRandomElement(arr) {
   var index = Math.floor(MATH_RANDOM() * arr.length);
   return arr[index];
 }
+
+
+// fast concat
+function utils_concat(a, b) {
+  a.push.apply(a, b);
+}

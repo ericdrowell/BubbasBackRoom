@@ -37,7 +37,6 @@ function webgl_setShaderProgram() {
   }
   
   context.useProgram(shaderProgram);
- 
 };
 
 function webgl_initUniforms() {
@@ -53,8 +52,6 @@ function webgl_initUniforms() {
   shaderProgram.vertexNormalAttribute = context.getAttribLocation(shaderProgram, 'aVertexNormal');
   context.enableVertexAttribArray(shaderProgram.vertexNormalAttribute);
   shaderProgram.nMatrixUniform = context.getUniformLocation(shaderProgram, 'uNMatrix');
-
-
 };
 
 function webgl_createArrayBuffer(vertices) {
@@ -86,11 +83,12 @@ function webgl_setUniforms() {
   context.uniformMatrix3fv(shaderProgram.nMatrixUniform, false, normalMatrix);
 };
 
-function webgl_render(buffers, texture) {
-  // clear
+function webgl_clear() {
   context.viewport(0, 0, canvas.width, canvas.height);
   context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT);
+}
 
+function webgl_render(buffers, texture) {
   // position buffers
   context.bindBuffer(context.ARRAY_BUFFER, buffers.position);
   context.vertexAttribPointer(shaderProgram.vertexPositionAttribute, 3, context.FLOAT, false, 0, 0);
@@ -123,54 +121,6 @@ function webgl_initTexture(glTexture, image) {
   context.texParameteri(context.TEXTURE_2D, context.TEXTURE_MIN_FILTER, context.LINEAR_MIPMAP_NEAREST);
   context.generateMipmap(context.TEXTURE_2D);
   context.bindTexture(context.TEXTURE_2D, null);
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function gl_perspective(viewAngle, minDist, maxDist) {
-  mat4.perspective(viewAngle, canvas.width / canvas.height, minDist, maxDist, pMatrix);
-};
-
-function gl_identity() {
-  mat4.identity(mvMatrix);
-};
-
-function gl_translate(x, y, z) {
-  mat4.translate(mvMatrix, [x, y, z]);
-};
-
-function gl_rotate(angle, x, y, z) {
-  mat4.rotate(mvMatrix, angle, [x, y, z]);
-};
-
-function gl_scale(x, y, z) {
-  mat4.scale(mvMatrix, [x, y, z]);
 };
 
 

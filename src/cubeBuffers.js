@@ -1,5 +1,8 @@
 const BLOCK_SIZE = 100; //100;
+const BLOCK_NUM_VERTICES = 24;
+
 const CUBE_BUFFERS = {
+  // 72 elements = 24 vertices
   position: [    
     -1, -1, 1, 1, -1, 1, 1, 1, 1, -1, 1, 1, // Front face    
     -1, -1, -1, -1, 1, -1, 1, 1, -1, 1, -1, -1, // Back face    
@@ -8,6 +11,7 @@ const CUBE_BUFFERS = {
     1, -1, -1, 1, 1, -1, 1, 1, 1, 1, -1, 1, // Right face    
     -1, -1, -1, -1, -1, 1, -1, 1, 1, -1, 1, -1 // Left face
   ],
+  // 72 elements = 24 vertices
   normal: [    
     0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, // Front face    
     0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, // Back face   
@@ -16,6 +20,7 @@ const CUBE_BUFFERS = {
     1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, // Right face    
     -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0 // Left face
   ],
+  // 48 elements = 24 vertices
   texture: [    
     0, 0, 1, 0, 1, 1, 0, 1, // Front face   
     1, 0, 1, 1, 0, 1, 0, 0, // Back face   
