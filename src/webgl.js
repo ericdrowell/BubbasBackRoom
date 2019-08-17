@@ -1,7 +1,7 @@
-var mvMatrix; 
-var pMatrix;
-var mvMatrixStack;
-var shaderProgram;
+let mvMatrix; 
+let pMatrix;
+let mvMatrixStack;
+let shaderProgram;
 
 function webgl_init() {
   mvMatrix = mat4.create(); 
@@ -16,7 +16,7 @@ function webgl_init() {
 };
 
 function webgl_setShaderProgram() {
-  var shader;
+  let shader;
 
   shaderProgram = context.createProgram();
   
@@ -55,7 +55,7 @@ function webgl_initUniforms() {
 };
 
 function webgl_createArrayBuffer(vertices) {
-  var buffer = context.createBuffer();
+  let buffer = context.createBuffer();
   buffer.numElements = vertices.length;
   context.bindBuffer(context.ARRAY_BUFFER, buffer);
   context.bufferData(context.ARRAY_BUFFER, new Float32Array(vertices), context.STATIC_DRAW);
@@ -63,7 +63,7 @@ function webgl_createArrayBuffer(vertices) {
 };
 
 function webgl_createElementArrayBuffer(vertices) {
-  var buffer = context.createBuffer();
+  let buffer = context.createBuffer();
   buffer.numElements = vertices.length;
   context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, buffer);
   context.bufferData(context.ELEMENT_ARRAY_BUFFER, new Uint16Array(vertices), context.STATIC_DRAW);
@@ -77,7 +77,7 @@ function webgl_setUniforms() {
   context.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
   context.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
   
-  var normalMatrix = mat3.create();
+  let normalMatrix = mat3.create();
   mat4.toInverseMat3(mvMatrix, normalMatrix);
   mat3.transpose(normalMatrix);
   context.uniformMatrix3fv(shaderProgram.nMatrixUniform, false, normalMatrix);

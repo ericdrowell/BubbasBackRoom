@@ -1,13 +1,13 @@
-var textures = {};
+let textures = {};
 
 function textures_create(colors) {
-  var canvas = document.createElement('canvas');
+  let canvas = document.createElement('canvas');
   canvas.width = 16;
   canvas.height = 16;
-  var context = canvas.getContext('2d');
+  let context = canvas.getContext('2d');
 
-  for (var x=0; x<16; x++) {
-    for (var y=0; y<16; y++) {
+  for (let x=0; x<16; x++) {
+    for (let y=0; y<16; y++) {
       context.save();
       context.fillStyle = '#' + u_getRandomElement(colors);
       context.fillRect(x, y, 2, 2);
@@ -74,14 +74,14 @@ function textures_load(callback) {
     }
   };
 
-  var loadedImages = 0;
-  var numImages = 0;
-  for (var key in textures) {
+  let loadedImages = 0;
+  let numImages = 0;
+  for (let key in textures) {
     (function() {
       numImages++;
-      var texture = textures[key];
-      var glTexture = texture.glTexture = context.createTexture();
-      var image = texture.image = new Image();
+      let texture = textures[key];
+      let glTexture = texture.glTexture = context.createTexture();
+      let image = texture.image = new Image();
       image.onload = function() {
         webgl_initTexture(glTexture, image);
         if (++loadedImages >= numImages) {

@@ -3,8 +3,8 @@
 // render 2,666 blocks for each drawElements call.  Exceeding this number will result in skipping of call draws for individual blocks
 let BLOCKS_PER_BUFFER = 2666;
 
-var world = [];
-var worldBuffers = {};
+let world = [];
+let worldBuffers = {};
 
 function world_init() {
   world_buildModel();
@@ -85,11 +85,14 @@ function world_buildBuffers() {
 
         let lastBuffer = worldBuffers[type][worldBuffers[type].length-1];
 
+        // used to slightly offset all blocks so they don't fit perfectly, and create a more organic fitting
+        let randomOffset = (MATH_RANDOM() - 0.5) * 0.1;
+
         // position buffer
         for (n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
-          lastBuffer.position.push(CUBE_BUFFERS.position[n] + parseInt(x));
-          lastBuffer.position.push(CUBE_BUFFERS.position[n+1] + parseInt(y));
-          lastBuffer.position.push(CUBE_BUFFERS.position[n+2] + parseInt(z));
+          lastBuffer.position.push(CUBE_BUFFERS.position[n] + parseInt(x) + randomOffset);
+          lastBuffer.position.push(CUBE_BUFFERS.position[n+1] + parseInt(y) + randomOffset);
+          lastBuffer.position.push(CUBE_BUFFERS.position[n+2] + parseInt(z) + randomOffset);
         }
 
         // normal buffer

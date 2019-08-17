@@ -6,7 +6,7 @@ function u_convertNegZeroToPosZero(val) {
 }
 
 function u_getRandomElement(arr) {
-  var index = Math.floor(MATH_RANDOM() * arr.length);
+  let index = Math.floor(MATH_RANDOM() * arr.length);
   return arr[index];
 }
 
