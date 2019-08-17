@@ -1,26 +1,20 @@
-let canvas;
-let context;
 let camera = {};
 let openMenuTime = 0;
 let elapsedTime = 0;
 let lastTime = 0;
 let now = 0;
 let gameState = 'menu';
+let hasRendered = false;
 
 function game_init() {
   let body = document.querySelector('body');
   body.style.overflow = 'hidden';
   body.style.padding = 0;
   body.style.margin = 0;
-
-  canvas = document.getElementById('webglCanvas');
-  context = canvas.getContext('webgl');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  canvas.style.backgroundColor = 'black';
+  body.style.backgroundColor = 'black';
 
   webgl_init(); 
+  hud_init();
   soundEffects_init();
   userInputs_init();
 
@@ -58,8 +52,9 @@ function game_render() {
   mat4.translate(mvMatrix, [-camera.x, -camera.y, -camera.z]);
 
   webgl_clear();
-
   world_render();
+
+  hud_render();
 };
 
 function game_play() {
@@ -90,9 +85,14 @@ function game_loop() {
     elapsedTime = now - lastTime;
   }
 
-  if (gameState === 'playing') {
-    player_updatePlayerPos();
+  if (gameState === 'playing' || !hasRendered) {
+    player_update();
+    hud_update();
+
     game_render();
+    hasRendered = true;
+
+    player_postUpdate();
   }
 
   lastTime = now;

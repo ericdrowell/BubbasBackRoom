@@ -1,5 +1,6 @@
 let player = {};
 let isHurting = false;
+let isFiring = false;
 
 function player_init() {
   player = {
@@ -10,7 +11,7 @@ function player_init() {
   };
 }
 
-function player_updatePlayerPos() {
+function player_update() {
   // let lastPos = {
   //   x: camera.x,
   //   y: camera.y,
@@ -50,9 +51,13 @@ function player_updatePlayerPos() {
 
 };
 
-function player_hurt() {
-  
+function player_postUpdate() {
+  if (isFiring) {
+    isFiring = false;
+  }
+}
 
+function player_hurt() {
   if (!isHurting) {
     player.health -= 1;
     //a_soundEffect('player-hurt');
@@ -64,11 +69,11 @@ function player_hurt() {
 }
 
 function player_fire() {
-  let pitch = camera.pitch+MATH_PI/2 + MATH_PI/2;
-  let yaw = camera.yaw;
+  // let pitch = camera.pitch+MATH_PI/2 + MATH_PI/2;
+  // let yaw = camera.yaw;
 
+  isFiring = true;
+  soundEffects.play('shoot');
 
-
-  //a_soundEffect('laser');
-  soundEffects.play('laser');
+  hud_gunRecoil();
 }

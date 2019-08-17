@@ -1,9 +1,19 @@
+let canvas;
+let context;
 let mvMatrix; 
 let pMatrix;
 let mvMatrixStack;
 let shaderProgram;
 
 function webgl_init() {
+  canvas = document.getElementById('webglCanvas');
+  context = canvas.getContext('webgl');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  canvas.style.position = 'fixed';
+  canvas.style.top = 0;
+  canvas.style.left = 0;
+
   mvMatrix = mat4.create(); 
   pMatrix = mat4.create();
   mvMatrixStack = [];
@@ -52,6 +62,8 @@ function webgl_initUniforms() {
   shaderProgram.vertexNormalAttribute = context.getAttribLocation(shaderProgram, 'aVertexNormal');
   context.enableVertexAttribArray(shaderProgram.vertexNormalAttribute);
   shaderProgram.nMatrixUniform = context.getUniformLocation(shaderProgram, 'uNMatrix');
+
+  shaderProgram.isFiring = context.getUniformLocation(shaderProgram, 'isFiring');
 };
 
 function webgl_createArrayBuffer(vertices) {
@@ -73,7 +85,6 @@ function webgl_createElementArrayBuffer(vertices) {
 
 function webgl_setUniforms() {
   context.uniform1i(shaderProgram.samplerUniform, 0);
-
   context.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
   context.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
   
@@ -81,6 +92,8 @@ function webgl_setUniforms() {
   mat4.toInverseMat3(mvMatrix, normalMatrix);
   mat3.transpose(normalMatrix);
   context.uniformMatrix3fv(shaderProgram.nMatrixUniform, false, normalMatrix);
+
+  context.uniform1i(shaderProgram.isFiring, isFiring);
 };
 
 function webgl_clear() {

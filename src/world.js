@@ -34,8 +34,6 @@ function world_buildModel() {
 
   // celing
   world_addBlob(-20, 20, 10, 10, -20, 20, 'mossy-stone');
-
-
 }
 
 function world_addBlob(startX, endX, startY, endY, startZ, endZ, texture) {
@@ -59,9 +57,7 @@ function world_addBlock(x, y, z, type) {
   world[x][y][z] = {
     type: type
   };
-  
 }
-
 
 function world_buildBuffers() {
   for (let x in world) {
@@ -118,13 +114,9 @@ function world_buildBuffers() {
         else {
           lastBuffer.numBlocks++;
         }
-
-        
-
       }
     }
   }
-
 
   // convert regular arrays to webgl buffers
   for (let type in worldBuffers) {
@@ -134,11 +126,7 @@ function world_buildBuffers() {
       buffer.texture = webgl_createArrayBuffer(buffer.texture);
       buffer.index = webgl_createElementArrayBuffer(buffer.index);
     });
-
   }
-
-
-
 }
 
 function world_render() {
@@ -146,6 +134,5 @@ function world_render() {
     worldBuffers[type].forEach(function(buffer) {
       webgl_render(buffer, textures[type].glTexture);
     });
-  }
-  
+  }  
 }
