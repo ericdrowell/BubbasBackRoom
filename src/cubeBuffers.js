@@ -1,6 +1,3 @@
-const BLOCK_SIZE = 100; //100;
-const BLOCK_NUM_VERTICES = 24;
-
 const CUBE_BUFFERS = {
   // 72 elements = 24 vertices
   position: [    

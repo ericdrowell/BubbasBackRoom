@@ -1,6 +1,4 @@
 // http://www.superflashbros.net/as3sfxr/
-let soundEffects;
-
 function soundEffects_init() {
   soundEffects = new ArcadeAudio();
 

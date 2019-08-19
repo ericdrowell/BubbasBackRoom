@@ -1,7 +1,3 @@
-let player = {};
-let isHurting = false;
-let isFiring = false;
-
 function player_init() {
   player = {
     straightMovement: 0,

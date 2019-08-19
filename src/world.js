@@ -1,39 +1,54 @@
-
-// gl drawElements can only handle 64k vertices.  Each block is defined by exactly 24 vertices.  Thus we can at most
-// render 2,666 blocks for each drawElements call.  Exceeding this number will result in skipping of call draws for individual blocks
-let BLOCKS_PER_BUFFER = 2666;
-
-let world = [];
-let worldBuffers = {};
-
 function world_init() {
   world_buildModel();
   world_buildBuffers();
 }
 
 function world_buildModel() {
+  // -------------------- ROOM 1 --------------------
+
   // floor
   world_addBlob(-20, 20, -1, -1, -20, 20, 'mossy-stone');
 
-  // pole
+  // poles
   world_addBlob(-11, -9, 0, 0, -11, -9, 'wood');
   world_addBlob(-10, -10, 1, 10, -10, -10, 'wood');
   world_addBlob(-11, -9, 9, 9, -11, -9, 'wood');
 
-  // stairs
-  world_addBlob(0, 0, 0, 0, 0, 5, 'wood');
-  world_addBlob(1, 1, 1, 1, 0, 5, 'wood');
-  world_addBlob(2, 2, 2, 2, 0, 5, 'wood');
-  world_addBlob(3, 3, 3, 3, 0, 5, 'wood');
+  // broken pole
+  world_addBlob(-11, -9, 0, 0, 9, 11, 'wood');
+  world_addBlob(-10, -10, 1, 3, 10, 10, 'wood');
+  world_addBlob(-11, -7, 0, 0, 5, 5, 'wood');
+  world_addBlob(-11, -9, 9, 9, 9, 11, 'wood');
 
-  // wall
+  // walls
   world_addBlob(-20, 20, 0, 10, -20, -20, 'mossy-stone');
   world_addBlob(-20, 20, 0, 10, 20, 20, 'mossy-stone');
-  world_addBlob(-20, -20, 0, 10, -20, 20, 'mossy-stone');
+  world_addBlob(-30, -20, 0, 20, -3, -3, 'mossy-stone');
+  world_addBlob(-30, -20, 0, 20, 3, 3, 'mossy-stone');
   world_addBlob(20, 20, 0, 10, -20, 20, 'mossy-stone');
 
   // celing
   world_addBlob(-20, 20, 10, 10, -20, 20, 'mossy-stone');
+
+  // -------------------- STAIRS --------------------
+
+  // walls
+  world_addBlob(-20, -20, 0, 10, -20, -3, 'mossy-stone');
+  world_addBlob(-20, -20, 0, 10, 3, 20, 'mossy-stone');
+
+  // steps
+  world_addBlob(-20, -20, 0, 0, -2, 2, 'wood');
+  world_addBlob(-21, -21, 1, 1, -2, 2, 'wood');
+  world_addBlob(-22, -22, 2, 2, -2, 2, 'wood');
+  world_addBlob(-23, -23, 3, 3, -2, 2, 'wood');
+  world_addBlob(-24, -24, 4, 4, -2, 2, 'wood');
+  world_addBlob(-25, -25, 5, 5, -2, 2, 'wood');
+  world_addBlob(-26, -26, 6, 6, -2, 2, 'wood');
+  world_addBlob(-27, -27, 7, 7, -2, 2, 'wood');
+  world_addBlob(-28, -28, 8, 8, -2, 2, 'wood');
+  world_addBlob(-29, -29, 9, 9, -2, 2, 'wood');
+  world_addBlob(-30, -30, 10, 10, -2, 2, 'wood');
+
 }
 
 function world_addBlob(startX, endX, startY, endY, startZ, endZ, texture) {

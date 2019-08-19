@@ -99,7 +99,7 @@ function userInputs_handleMouseMove(evt) {
 }
 
 function userInputs_isPointerLocked() {
-  return document.pointerLockElement === canvas;
+  return document.pointerLockElement === sceneCanvas;
 }
 
 function userInputs_handleMouseDown(evt) {

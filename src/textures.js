@@ -1,5 +1,3 @@
-let textures = {};
-
 function textures_create(colors) {
   let canvas = document.createElement('canvas');
   canvas.width = 16;
@@ -80,7 +78,7 @@ function textures_load(callback) {
     (function() {
       numImages++;
       let texture = textures[key];
-      let glTexture = texture.glTexture = context.createTexture();
+      let glTexture = texture.glTexture = webglContext.createTexture();
       let image = texture.image = new Image();
       image.onload = function() {
         webgl_initTexture(glTexture, image);
