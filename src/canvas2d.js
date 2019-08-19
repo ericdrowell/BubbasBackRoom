@@ -10,9 +10,6 @@ function canvas2d_init() {
 
   pixelateCanvas = document.createElement('canvas');
   pixelateContext = canvas2d_initCanvas(pixelateCanvas, 1);
-  pixelateContext.mozImageSmoothingEnabled = false;
-  pixelateContext.webkitImageSmoothingEnabled = false;
-  pixelateContext.imageSmoothingEnabled = false;
 };
 
 function canvas2d_initCanvas(canvas, pixelRatio) {
@@ -24,6 +21,10 @@ function canvas2d_initCanvas(canvas, pixelRatio) {
   canvas.style.position = 'fixed';
   canvas.style.top = 0;
   canvas.style.left = 0;
+
+  context.mozImageSmoothingEnabled = false;
+  context.webkitImageSmoothingEnabled = false;
+  context.imageSmoothingEnabled = false;
 
   if (pixelRatio !== 1) {
     context.scale(pixelRatio, pixelRatio);

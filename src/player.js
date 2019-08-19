@@ -45,6 +45,11 @@ function player_update() {
     camera.x += distEachFrame * Math.sin(camera.yaw + Math.PI / 2);
   }
 
+  if (player.straightMovement || player.sideMovement) {
+    bobbleCounter += elapsedTime;
+    bobble = BOBBLE_AMPLITUDE * MATH_SIN((bobbleCounter/1000) * BOBBLE_FREQUENCEY);
+  }
+
 };
 
 function player_postUpdate() {

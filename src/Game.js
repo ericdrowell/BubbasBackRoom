@@ -45,6 +45,7 @@ function game_render() {
   mat4.rotate(mvMatrix, -camera.pitch, [1, 0, 0]);
   mat4.rotate(mvMatrix, -camera.yaw, [0, 1, 0]);
   mat4.translate(mvMatrix, [-camera.x, -camera.y, -camera.z]);
+  mat4.translate(mvMatrix, [0, bobble, 0]);
 
   // webgl rendering
   webgl_clear();

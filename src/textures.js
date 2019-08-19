@@ -46,16 +46,37 @@ function textures_load(callback) {
         '6a6554'
       ])
     },
-    'leaves': {
+    'paper': {
       encoding: textures_create([
-        '51531f',
-        '4e5315',
-        '545617',
-        '4c4d13',
-        '252108',
-        '33370a',
-        '474d13',
-        '383c0d',
+        'ece8b9',
+        'e4dea2',
+        'e9e8b8',
+        'e3dea6'
+      ])
+    },
+    'gold': {
+      encoding: textures_create([
+        'a36f35',
+        'b8872a',
+        'a17550',
+        'ac7f3e'
+      ])
+    },
+    'stone': {
+      encoding: textures_create([
+        '292322',
+        '6a5a4b',
+        '665f5f',
+        '3b3534',
+        '645444',
+        '6c6a69'
+      ])
+    },
+    'burned-brick': {
+      encoding: textures_create([
+        '443f40',
+        '211c17',
+        '0a0605'
       ])
     },
     'red': {

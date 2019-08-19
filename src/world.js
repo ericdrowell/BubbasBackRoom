@@ -7,51 +7,59 @@ function world_buildModel() {
   // -------------------- ROOM 1 --------------------
 
   // floor
-  world_addBlob(-20, 20, -1, -1, -20, 20, 'mossy-stone');
+  world_addPlane(-20, 20, -1, -1, -20, 20, 'mossy-stone');
 
   // poles
-  world_addBlob(-11, -9, 0, 0, -11, -9, 'wood');
-  world_addBlob(-10, -10, 1, 10, -10, -10, 'wood');
-  world_addBlob(-11, -9, 9, 9, -11, -9, 'wood');
+  world_addPlane(-11, -9, 0, 0, -11, -9, 'stone');
+  world_addPlane(-10, -10, 1, 10, -10, -10, 'stone');
+  world_addPlane(-11, -9, 9, 9, -11, -9, 'stone');
+
+  world_addPlane(9, 11, 0, 0, -11, -9, 'stone');
+  world_addPlane(10, 10, 1, 10, -10, -10, 'stone');
+  world_addPlane(9, 11, 9, 9, -11, -9, 'stone');
+
+  world_addPlane(-11, -9, 0, 0, 9, 11, 'stone');
+  world_addPlane(-10, -10, 1, 10, 10, 10, 'stone');
+  world_addPlane(-11, -9, 9, 9, 9, 11, 'stone');
 
   // broken pole
-  world_addBlob(-11, -9, 0, 0, 9, 11, 'wood');
-  world_addBlob(-10, -10, 1, 3, 10, 10, 'wood');
-  world_addBlob(-11, -7, 0, 0, 5, 5, 'wood');
-  world_addBlob(-11, -9, 9, 9, 9, 11, 'wood');
+  world_addPlane(9, 11, 0, 0, 9, 11, 'stone');
+  world_addPlane(10, 10, 1, 3, 10, 10, 'stone');
+  world_addPlane(7, 11, 0, 0, 5, 5, 'stone');
+  world_addPlane(9, 11, 9, 9, 9, 11, 'stone');
 
   // walls
-  world_addBlob(-20, 20, 0, 10, -20, -20, 'mossy-stone');
-  world_addBlob(-20, 20, 0, 10, 20, 20, 'mossy-stone');
-  world_addBlob(-30, -20, 0, 20, -3, -3, 'mossy-stone');
-  world_addBlob(-30, -20, 0, 20, 3, 3, 'mossy-stone');
-  world_addBlob(20, 20, 0, 10, -20, 20, 'mossy-stone');
+  world_addPlane(-20, 20, 0, 10, -20, -20, 'mossy-stone');
+  world_addPlane(-20, 20, 0, 10, 20, 20, 'mossy-stone');
+  world_addPlane(-30, -20, 0, 20, -3, -3, 'mossy-stone');
+  world_addPlane(-30, -20, 0, 20, 3, 3, 'mossy-stone');
+  world_addPlane(20, 20, 0, 10, -20, 20, 'mossy-stone');
 
   // celing
-  world_addBlob(-20, 20, 10, 10, -20, 20, 'mossy-stone');
+  world_addPlane(-20, 20, 10, 10, -20, 20, 'mossy-stone');
 
   // -------------------- STAIRS --------------------
 
   // walls
-  world_addBlob(-20, -20, 0, 10, -20, -3, 'mossy-stone');
-  world_addBlob(-20, -20, 0, 10, 3, 20, 'mossy-stone');
+  world_addPlane(-20, -20, 0, 10, -20, -3, 'mossy-stone');
+  world_addPlane(-20, -20, 0, 10, 3, 20, 'mossy-stone');
 
   // steps
-  world_addBlob(-20, -20, 0, 0, -2, 2, 'wood');
-  world_addBlob(-21, -21, 1, 1, -2, 2, 'wood');
-  world_addBlob(-22, -22, 2, 2, -2, 2, 'wood');
-  world_addBlob(-23, -23, 3, 3, -2, 2, 'wood');
-  world_addBlob(-24, -24, 4, 4, -2, 2, 'wood');
-  world_addBlob(-25, -25, 5, 5, -2, 2, 'wood');
-  world_addBlob(-26, -26, 6, 6, -2, 2, 'wood');
-  world_addBlob(-27, -27, 7, 7, -2, 2, 'wood');
-  world_addBlob(-28, -28, 8, 8, -2, 2, 'wood');
-  world_addBlob(-29, -29, 9, 9, -2, 2, 'wood');
-  world_addBlob(-30, -30, 10, 10, -2, 2, 'wood');
+  world_addPlane(-20, -20, 0, 0, -2, 2, 'wood');
+  world_addPlane(-21, -21, 1, 1, -2, 2, 'wood');
+  world_addPlane(-22, -22, 2, 2, -2, 2, 'wood');
+  world_addPlane(-23, -23, 3, 3, -2, 2, 'wood');
+  world_addPlane(-24, -24, 4, 4, -2, 2, 'wood');
+  world_addPlane(-25, -25, 5, 5, -2, 2, 'wood');
+  world_addPlane(-26, -26, 6, 6, -2, 2, 'wood');
+  world_addPlane(-27, -27, 7, 7, -2, 2, 'wood');
+  world_addPlane(-28, -28, 8, 8, -2, 2, 'wood');
+  world_addPlane(-29, -29, 9, 9, -2, 2, 'wood');
+  world_addPlane(-30, -30, 10, 10, -2, 2, 'wood');
 
 }
 
-function world_addBlob(startX, endX, startY, endY, startZ, endZ, texture) {
+function world_addPlane(startX, endX, startY, endY, startZ, endZ, texture) {
   for (let x=startX; x<=endX; x++) {
     for (let y=startY; y<=endY; y++) {
       for (let z=startZ; z<=endZ; z++) {
