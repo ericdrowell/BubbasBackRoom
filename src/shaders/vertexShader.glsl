@@ -25,11 +25,11 @@ void main(void) {
   // gun fire flash
   vec3 transformedNormal;
   if (isFiring) {
-    ambientLight = vec3(0.6, 0.6, 0.6);
+    ambientLight = vec3(1.0, 1.0, 1.0);
     transformedNormal = uNMatrix * aVertexNormal;
   }
   else {
-    ambientLight = vec3(0.3, 0.3, 0.3);
+    ambientLight = vec3(0.7, 0.7, 0.7);
     transformedNormal = aVertexNormal;
   }
 

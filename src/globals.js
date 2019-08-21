@@ -2,16 +2,17 @@ const MONSTER_COOLDOWN_TIME = 1; // s
 const MONSTER_SPEED = 10; // units / s
 const MONSTER_JUMP_SPEED = 25; // units / s
 const PLAYER_SPEED = 40; // units / s
-const PLAYER_HEIGHT = 6;
+const PLAYER_HEIGHT = 8;
 const PAIN_FLASH_DURATION = 100; // ms
 const MENU_COOLDOWN = 0.5; // s
-const GRAVITY = 100; // units / s^2
 const BLOCK_SIZE = 100; //100;
 const BLOCK_NUM_VERTICES = 24;
 const MATH_PI = Math.PI;
 const MATH_ROUND = Math.round;
 const MATH_RANDOM = Math.random;
 const MATH_SIN = Math.sin;
+const MATH_FLOOR = Math.floor;
+const MATH_CEIL = Math.floor;
 const GUN_RECOIL = 100;
 const GUN_RECOIL_RECOVER_SPEED= 400; // units per second
 const PIXEL_RATIO = (window && window.devicePixelRatio) || 1;
@@ -21,6 +22,8 @@ const BLOCKS_PER_BUFFER = 2666;
 const OPTIMAL_VIEWPORT_HEIGHT = 730;
 const BOBBLE_AMPLITUDE = 1;
 const BOBBLE_FREQUENCEY = 10;
+const GRAVITY = -200; // units / second^2
+const JUMP_SPEED = 60;
 
 let world = [];
 let worldBuffers = {};
@@ -55,3 +58,8 @@ let compositeCanvas;
 let compositeContext;
 let bobble = 0;
 let bobbleCounter = 0;
+let numBullets = 6;
+let health = 5;
+let upVelocity = 0;
+let isAirborne = false;
+let hudRatio;

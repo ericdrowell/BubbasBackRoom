@@ -1,4 +1,4 @@
-function textures_create(colors) {
+function textures_createRandom(colors) {
   let canvas = document.createElement('canvas');
   canvas.width = 16;
   canvas.height = 16;
@@ -16,13 +16,40 @@ function textures_create(colors) {
   return canvas.toDataURL();
 }
 
+function textures_createTile(colors) {
+  let canvas = document.createElement('canvas');
+  canvas.width = 16;
+  canvas.height = 16;
+  let context = canvas.getContext('2d');
+
+  for (let x=1; x<14; x++) {
+    for (let y=1; y<14; y++) {
+      context.save();
+      context.fillStyle = '#' + u_getRandomElement(colors);
+      context.fillRect(x, y, 2, 2);
+      context.restore();
+    }
+  }
+
+  // tile outline
+  context.fillStyle = '#' + colors[0];
+  context.fillRect(0, 0, 16, 1);
+  context.fillRect(0, 0, 1, 15);
+
+  context.fillStyle = '#' + colors[colors.length-1];
+  context.fillRect(0, 15, 16, 1);
+  context.fillRect(15, 1, 1, 16);
+
+  return canvas.toDataURL();
+}
+
 function textures_load(callback) {
   textures = {
     'wood': {
-      encoding: textures_create([
+      encoding: textures_createTile([
+        '3d3527', 
         '4a493b', 
         '534e3e', 
-        '3d3527', 
         '524534', 
         '46433b', 
         '443e2b', 
@@ -30,7 +57,7 @@ function textures_load(callback) {
       ])
     },
     'mossy-stone': {
-      encoding: textures_create([
+      encoding: textures_createTile([
         '2c2e20',
         '282e26',
         '303e1a',
@@ -41,13 +68,13 @@ function textures_load(callback) {
         '2c2e23',
         '3d3f36',
         '3d3a30',
-        '464339',
         '514938',
-        '6a6554'
+        '6a6554',
+        '464339'
       ])
     },
     'paper': {
-      encoding: textures_create([
+      encoding: textures_createRandom([
         'ece8b9',
         'e4dea2',
         'e9e8b8',
@@ -55,7 +82,7 @@ function textures_load(callback) {
       ])
     },
     'gold': {
-      encoding: textures_create([
+      encoding: textures_createRandom([
         'a36f35',
         'b8872a',
         'a17550',
@@ -63,33 +90,33 @@ function textures_load(callback) {
       ])
     },
     'stone': {
-      encoding: textures_create([
-        '292322',
+      encoding: textures_createTile([
+        '6c6a69',
         '6a5a4b',
         '665f5f',
         '3b3534',
         '645444',
-        '6c6a69'
+        '292322'  
       ])
     },
     'burned-brick': {
-      encoding: textures_create([
+      encoding: textures_createRandom([
         '443f40',
         '211c17',
         '0a0605'
       ])
     },
     'red': {
-      encoding: textures_create(['ff0000'])
+      encoding: textures_createRandom(['ff0000'])
     },
     'black': {
-      encoding: textures_create(['000000'])
+      encoding: textures_createRandom(['000000'])
     },
     'orange': {
-      encoding: textures_create(['ffcc00'])
+      encoding: textures_createRandom(['ffcc00'])
     },
     'white': {
-      encoding: textures_create(['ffffff'])
+      encoding: textures_createRandom(['ffffff'])
     }
   };
 

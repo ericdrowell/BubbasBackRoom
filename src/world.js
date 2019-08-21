@@ -63,7 +63,7 @@ function world_addPlane(startX, endX, startY, endY, startZ, endZ, texture) {
   for (let x=startX; x<=endX; x++) {
     for (let y=startY; y<=endY; y++) {
       for (let z=startZ; z<=endZ; z++) {
-        world_addBlock(x*2, y*2, z*2, texture);
+        world_addBlock(x, y, z, texture);
       }
     }
   }
@@ -109,9 +109,9 @@ function world_buildBuffers() {
 
         // position buffer
         for (n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
-          lastBuffer.position.push(CUBE_BUFFERS.position[n] + parseInt(x) + randomOffset);
-          lastBuffer.position.push(CUBE_BUFFERS.position[n+1] + parseInt(y) + randomOffset);
-          lastBuffer.position.push(CUBE_BUFFERS.position[n+2] + parseInt(z) + randomOffset);
+          lastBuffer.position.push(CUBE_BUFFERS.position[n] + parseInt(x)*2 + randomOffset);
+          lastBuffer.position.push(CUBE_BUFFERS.position[n+1] + parseInt(y)*2 + randomOffset);
+          lastBuffer.position.push(CUBE_BUFFERS.position[n+2] + parseInt(z)*2 + randomOffset);
         }
 
         // normal buffer
@@ -159,3 +159,45 @@ function world_render() {
     });
   }  
 }
+
+function world_getBlock(x, y, z) {
+  let block = world[x] && world[x][y] && world[x][y][z];
+
+  if (block) {
+    return {
+      x: x,
+      y: y,
+      z: z,
+      type: block.type
+    };
+  }
+  else {
+    return null;
+  }
+}
+
+function world_getCameraBlock() {
+  return {
+    x: MATH_ROUND(camera.x/2),
+    y: MATH_ROUND(camera.y/2),
+    z: MATH_ROUND(camera.z/2)
+  }
+}
+
+function world_getBlockBelow() {
+  let cameraBlock = world_getCameraBlock();
+  let block = world_getBlock(cameraBlock.x, cameraBlock.y - MATH_ROUND(PLAYER_HEIGHT/2) - 1, cameraBlock.z);
+
+  return block;
+}
+
+// for debugging
+// function world_getNumBlocks() {
+//   let total = 0;
+//   for (let key in worldBuffers) {
+//     worldBuffers[key].forEach(function(buffer) {
+//       total += buffer.numBlocks;
+//     });
+//   }
+//   console.log(total);
+// }

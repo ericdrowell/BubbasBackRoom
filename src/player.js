@@ -2,7 +2,6 @@ function player_init() {
   player = {
     straightMovement: 0,
     sideMovement: 0,
-    isClimbing: false,
     health: 7
   };
 }
@@ -50,7 +49,44 @@ function player_update() {
     bobble = BOBBLE_AMPLITUDE * MATH_SIN((bobbleCounter/1000) * BOBBLE_FREQUENCEY);
   }
 
+  
+  let blockBelow = world_getBlockBelow();
+
+  
+  if (isAirborne) {
+    //console.log('nothing below');
+    console.log(blockBelow);
+    // handle gravity
+    upVelocity += GRAVITY * elapsedTime / 1000;
+    let distEachFrame = upVelocity * elapsedTime / 1000;
+    camera.y += distEachFrame;  
+  }
+
+  // if landing on block
+  if (isAirborne && upVelocity < 0 && blockBelow) {
+    //console.log('block below');
+
+    camera.y = blockBelow.y*2 + 2 + PLAYER_HEIGHT;
+    upVelocity = 0;
+    isAirborne = false;
+  
+  }
+
+  if (!blockBelow) {
+    isAirborne = true;
+  }
+ 
+
+
+
 };
+
+function player_jump() {
+  if (!isAirborne) {
+    isAirborne = true;
+    upVelocity = JUMP_SPEED;
+  }
+}
 
 function player_postUpdate() {
   if (isFiring) {
@@ -73,8 +109,10 @@ function player_fire() {
   // let pitch = camera.pitch+MATH_PI/2 + MATH_PI/2;
   // let yaw = camera.yaw;
 
-  isFiring = true;
-  soundEffects.play('shoot');
-
-  hud_gunRecoil();
+  if (numBullets > 0) {
+    isFiring = true;
+    numBullets -= 1;
+    soundEffects.play('shoot');
+    hud_gunRecoil();
+  }
 }

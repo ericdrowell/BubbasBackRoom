@@ -51,8 +51,11 @@ function userInputs_handleKeyDown(evt) {
       }
       break;
     case 32:
-      // space key
-      // jump
+      player_jump();
+      break;
+    case 82:
+      // r key (reload)
+      numBullets = 6;
       break;
   }
   
