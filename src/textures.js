@@ -22,8 +22,8 @@ function textures_createTile(colors) {
   canvas.height = 16;
   let context = canvas.getContext('2d');
 
-  for (let x=1; x<14; x++) {
-    for (let y=1; y<14; y++) {
+  for (let x=0; x<16; x++) {
+    for (let y=0; y<16; y++) {
       context.save();
       context.fillStyle = '#' + u_getRandomElement(colors);
       context.fillRect(x, y, 2, 2);
@@ -45,7 +45,7 @@ function textures_createTile(colors) {
 
 function textures_load(callback) {
   textures = {
-    'wood': {
+    'dirt': {
       encoding: textures_createTile([
         '3d3527', 
         '4a493b', 
@@ -73,20 +73,15 @@ function textures_load(callback) {
         '464339'
       ])
     },
-    'paper': {
-      encoding: textures_createRandom([
-        'ece8b9',
-        'e4dea2',
-        'e9e8b8',
-        'e3dea6'
-      ])
-    },
-    'gold': {
-      encoding: textures_createRandom([
-        'a36f35',
-        'b8872a',
-        'a17550',
-        'ac7f3e'
+    'burned-stone': {
+      encoding: textures_createTile([
+        '434343', 
+        '2f2f2f', 
+        '232323', 
+        '131313', 
+        '272727', 
+        '1b1b1b', 
+        '0b0b0b'
       ])
     },
     'stone': {
@@ -99,11 +94,16 @@ function textures_load(callback) {
         '292322'  
       ])
     },
-    'burned-brick': {
-      encoding: textures_createRandom([
-        '443f40',
-        '211c17',
-        '0a0605'
+    'rotting-wood': {
+      encoding: textures_createTile([
+        '4f4131',
+        '2c2822',
+        '353636',
+        '4a443a',
+        '2d2d2c',
+        '4a3c26',
+        '31271f',
+        '120c09'  
       ])
     },
     'red': {

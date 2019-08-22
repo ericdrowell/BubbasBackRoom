@@ -6,42 +6,83 @@ function player_init() {
   };
 }
 
-function player_update() {
-  // let lastPos = {
-  //   x: camera.x,
-  //   y: camera.y,
-  //   z: camera.z
-  // }
+function player_move(xChange, yChange, zChange) {
+  camera.x += xChange;
+  camera.y += yChange;
+  camera.z += zChange;
 
+  // if moving forward
+  if (zChange > 0) {
+    let blockFront = world_getBlockFront(world_getCameraBlock());
+    if (blockFront) {
+      player_move(0, 0, (2 * (blockFront.z - 1)) - camera.z);
+      //camera.z = 2 * (blockFront.z - 1);
+    }
+  }
+
+  // if moving backward
+  if (zChange < 0) {
+    let blockBack = world_getBlockBack(world_getCameraBlock());
+    if (blockBack) {
+      player_move(0, 0, (2 * (blockBack.z + 1)) - camera.z);
+      //camera.z = 2 * (blockBack.z + 1);
+    }
+  }
+
+  // if moving to the right
+  if (xChange > 0) {
+    let blockRight = world_getBlockRight(world_getCameraBlock());
+    if (blockRight) {
+      player_move((2 * (blockRight.x - 1)) - camera.x, 0, 0);
+      //camera.x = 2 * (blockRight.x - 1);
+    }
+  }
+
+  // if moving to the left
+  if (xChange < 0) {
+    let blockLeft = world_getBlockLeft(world_getCameraBlock());
+    if (blockLeft) {
+      player_move((2 * (blockLeft.x + 1)) - camera.x, 0, 0)
+      //camera.x = 2 * (blockLeft.x + 1);
+    }
+  }
+
+  // if moving downwards and hit a block
+  if (isAirborne && yChange < 0) {
+    let blockBelow = world_getBlockBelow(world_getCameraBlock());
+    if (blockBelow) {
+      player_move(0,  (2 * (blockBelow.y + 1) + PLAYER_HEIGHT) - camera.y, 0);
+      //camera.y = 2 * (blockBelow.y + 1) + PLAYER_HEIGHT;
+      upVelocity = 0;
+      isAirborne = false;
+    }
+  }
+
+  // if moving upwards and hit a block
+  if (isAirborne && yChange > 0) {
+    let blockAbove = world_getBlockAbove(world_getCameraBlock());
+    if (blockAbove) {
+      player_move(0,  (2 * (blockAbove.y - 1)) - camera.y, 0);
+      //camera.y = 2 * (blockBelow.y + 1) + PLAYER_HEIGHT;
+      upVelocity = 0;
+      isAirborne = false;
+    }
+  }
+}
+
+function player_update() {
   // handle moving forward and backward
   if (player.straightMovement !== 0) {
     let direction = player.straightMovement === 1 ? -1 : 1;
-    
-    if (player.isClimbing && camera.pitch < -0) {
-      direction *= -1;
-    }
-
     let distEachFrame = direction * PLAYER_SPEED * elapsedTime / 1000;
-
-    if (player.isClimbing) {
-      camera.y += distEachFrame * -1;
-
-      if (camera.y < PLAYER_HEIGHT) {
-        camera.y = PLAYER_HEIGHT;
-      }
-    }
-    else {
-      camera.z += distEachFrame * Math.cos(camera.yaw);
-      camera.x += distEachFrame * Math.sin(camera.yaw);
-    }
+    player_move(distEachFrame * Math.sin(camera.yaw), 0, distEachFrame * Math.cos(camera.yaw));
   }
   
    // handle strafe
   if (player.sideMovement !== 0) {
     let direction = player.sideMovement === 1 ? 1 : -1;
     let distEachFrame = direction * PLAYER_SPEED * elapsedTime / 1000;
-    camera.z += distEachFrame * Math.cos(camera.yaw + Math.PI / 2);
-    camera.x += distEachFrame * Math.sin(camera.yaw + Math.PI / 2);
+    player_move(distEachFrame * Math.sin(camera.yaw + Math.PI / 2), 0, distEachFrame * Math.cos(camera.yaw + Math.PI / 2));
   }
 
   if (player.straightMovement || player.sideMovement) {
@@ -50,31 +91,20 @@ function player_update() {
   }
 
   
-  let blockBelow = world_getBlockBelow();
+  let blockBelow = world_getBlockBelow(world_getCameraBlock());
 
-  
   if (isAirborne) {
-    //console.log('nothing below');
-    console.log(blockBelow);
     // handle gravity
     upVelocity += GRAVITY * elapsedTime / 1000;
     let distEachFrame = upVelocity * elapsedTime / 1000;
-    camera.y += distEachFrame;  
-  }
-
-  // if landing on block
-  if (isAirborne && upVelocity < 0 && blockBelow) {
-    //console.log('block below');
-
-    camera.y = blockBelow.y*2 + 2 + PLAYER_HEIGHT;
-    upVelocity = 0;
-    isAirborne = false;
-  
+    player_move(0, distEachFrame, 0);
   }
 
   if (!blockBelow) {
-    isAirborne = true;
+    isAirborne = true; 
   }
+
+  //console.log(isAirborne, camera);
  
 
 
@@ -106,9 +136,6 @@ function player_hurt() {
 }
 
 function player_fire() {
-  // let pitch = camera.pitch+MATH_PI/2 + MATH_PI/2;
-  // let yaw = camera.yaw;
-
   if (numBullets > 0) {
     isFiring = true;
     numBullets -= 1;

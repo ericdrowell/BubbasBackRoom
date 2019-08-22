@@ -4,7 +4,32 @@ function world_init() {
 }
 
 function world_buildModel() {
-  // -------------------- ROOM 1 --------------------
+
+  // -------------------- SHORT TUNNEL --------------------
+
+  // floor
+  world_addPlane(-50, -31, 10, 10, -2, 2, 'mossy-stone');
+
+  // walls
+  world_addPlane(-50, -16, 11, 18, 3, 3, 'mossy-stone');
+  world_addPlane(-50, -16, 11, 18, -3, -3, 'mossy-stone');
+
+  // ceiling
+  world_addPlane(-50, -15, 18, 18, -2, 2, 'rotting-wood');
+
+  // -------------------- STAIRS --------------------
+
+  // walls
+  world_addPlane(-20, -20, 0, 9, -20, -3, 'mossy-stone');
+  world_addPlane(-20, -20, 0, 9, 3, 20, 'mossy-stone');
+
+  // steps
+  world_addSlope(-30, -20, 0, 10, -2, 2, 'dirt');
+
+  // sloped ceiling
+  world_addSlope(-22, -14, 12, 18, -2, 2, 'dirt');
+
+  // -------------------- FOUR COLUMN ROOM  --------------------
 
   // floor
   world_addPlane(-20, 20, -1, -1, -20, 20, 'mossy-stone');
@@ -31,32 +56,35 @@ function world_buildModel() {
   // walls
   world_addPlane(-20, 20, 0, 10, -20, -20, 'mossy-stone');
   world_addPlane(-20, 20, 0, 10, 20, 20, 'mossy-stone');
-  world_addPlane(-30, -20, 0, 20, -3, -3, 'mossy-stone');
-  world_addPlane(-30, -20, 0, 20, 3, 3, 'mossy-stone');
+  world_addPlane(-30, -20, 0, 10, -3, -3, 'mossy-stone');
+  world_addPlane(-30, -20, 0, 10, 3, 3, 'mossy-stone');
   world_addPlane(20, 20, 0, 10, -20, 20, 'mossy-stone');
 
   // celing
-  world_addPlane(-20, 20, 10, 10, -20, 20, 'mossy-stone');
+  world_addPlane(-13, 20, 10, 10, -20, 20, 'rotting-wood');
+  world_addPlane(-20, -14, 10, 10, -20, -3, 'rotting-wood');
+  world_addPlane(-20, -14, 10, 10, 3, 20, 'rotting-wood');
 
-  // -------------------- STAIRS --------------------
 
-  // walls
-  world_addPlane(-20, -20, 0, 10, -20, -3, 'mossy-stone');
-  world_addPlane(-20, -20, 0, 10, 3, 20, 'mossy-stone');
+}
 
-  // steps
-  world_addPlane(-20, -20, 0, 0, -2, 2, 'wood');
-  world_addPlane(-21, -21, 1, 1, -2, 2, 'wood');
-  world_addPlane(-22, -22, 2, 2, -2, 2, 'wood');
-  world_addPlane(-23, -23, 3, 3, -2, 2, 'wood');
-  world_addPlane(-24, -24, 4, 4, -2, 2, 'wood');
-  world_addPlane(-25, -25, 5, 5, -2, 2, 'wood');
-  world_addPlane(-26, -26, 6, 6, -2, 2, 'wood');
-  world_addPlane(-27, -27, 7, 7, -2, 2, 'wood');
-  world_addPlane(-28, -28, 8, 8, -2, 2, 'wood');
-  world_addPlane(-29, -29, 9, 9, -2, 2, 'wood');
-  world_addPlane(-30, -30, 10, 10, -2, 2, 'wood');
-
+function world_addSlope(startX, endX, startY, endY, startZ, endZ, type) {
+  let y = endY;
+  for (let x = startX; x <= endX; x++) {
+    world_addPlane(x, x, y, y, startZ, endZ, type); 
+    y--;
+  }
+  // world_addPlane(-20, -20, 0, 0, -2, 2, 'dirt');
+  // world_addPlane(-21, -21, 1, 1, -2, 2, 'dirt');
+  // world_addPlane(-22, -22, 2, 2, -2, 2, 'dirt');
+  // world_addPlane(-23, -23, 3, 3, -2, 2, 'dirt');
+  // world_addPlane(-24, -24, 4, 4, -2, 2, 'dirt');
+  // world_addPlane(-25, -25, 5, 5, -2, 2, 'dirt');
+  // world_addPlane(-26, -26, 6, 6, -2, 2, 'dirt');
+  // world_addPlane(-27, -27, 7, 7, -2, 2, 'dirt');
+  // world_addPlane(-28, -28, 8, 8, -2, 2, 'dirt');
+  // world_addPlane(-29, -29, 9, 9, -2, 2, 'dirt');
+  // world_addPlane(-30, -30, 10, 10, -2, 2, 'dirt');
 }
 
 function world_addPlane(startX, endX, startY, endY, startZ, endZ, texture) {
@@ -184,12 +212,36 @@ function world_getCameraBlock() {
   }
 }
 
-function world_getBlockBelow() {
-  let cameraBlock = world_getCameraBlock();
-  let block = world_getBlock(cameraBlock.x, cameraBlock.y - MATH_ROUND(PLAYER_HEIGHT/2) - 1, cameraBlock.z);
-
-  return block;
+function world_getBlockBelow(block) {
+  return world_getBlock(block.x, block.y - MATH_ROUND(PLAYER_HEIGHT/2) - 1, block.z);
 }
+
+function world_getBlockAbove(block) {
+  return world_getBlock(block.x, block.y - MATH_ROUND(PLAYER_HEIGHT/2) + 1, block.z);
+}
+
+function world_getBlockLeft(block) {
+  return world_getBlock(block.x - 1, block.y - MATH_ROUND(PLAYER_HEIGHT/2), block.z);
+}
+
+function world_getBlockRight(block) {
+  return world_getBlock(block.x + 1, block.y - MATH_ROUND(PLAYER_HEIGHT/2), block.z);
+}
+
+function world_getBlockFront(block) {
+  return world_getBlock(block.x, block.y - MATH_ROUND(PLAYER_HEIGHT/2), block.z + 1);
+}
+
+function world_getBlockBack(block) {
+  return world_getBlock(block.x, block.y - MATH_ROUND(PLAYER_HEIGHT/2), block.z - 1);
+}
+
+function world_getBlockAbove(block) {
+  return world_getBlock(block.x, block.y + 1, block.z);
+}
+
+
+
 
 // for debugging
 // function world_getNumBlocks() {

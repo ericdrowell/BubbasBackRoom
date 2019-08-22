@@ -23,11 +23,11 @@ function game_init() {
 
 function game_reset() {
   camera = {
-    x: 0,
-    y: PLAYER_HEIGHT,
+    x: -87,
+    y: 30,
     z: 0,
     pitch: 0,
-    yaw: 0
+    yaw: -1.6
   };
 
   world_init();
