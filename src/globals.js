@@ -65,3 +65,6 @@ let upVelocity = 0;
 let isAirborne = false;
 let hudRatio;
 let flashTimeRemaining;
+let music_audio;
+let music_ready = false;
+let music_playing = false;
