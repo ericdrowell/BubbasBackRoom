@@ -4,6 +4,8 @@ function player_init() {
     sideMovement: 0,
     health: 7
   };
+
+  flashTimeRemaining = 0;
 }
 
 function player_move(xChange, yChange, zChange) {
@@ -106,7 +108,13 @@ function player_update() {
 
   //console.log(isAirborne, camera);
  
+  if (flashTimeRemaining !== 0) {
+    flashTimeRemaining -= elapsedTime;
 
+    if (flashTimeRemaining < 0) {
+      flashTimeRemaining = 0;
+    }
+  }
 
 
 };
@@ -115,12 +123,6 @@ function player_jump() {
   if (!isAirborne) {
     isAirborne = true;
     upVelocity = JUMP_SPEED;
-  }
-}
-
-function player_postUpdate() {
-  if (isFiring) {
-    isFiring = false;
   }
 }
 
@@ -137,7 +139,7 @@ function player_hurt() {
 
 function player_fire() {
   if (numBullets > 0) {
-    isFiring = true;
+    flashTimeRemaining = FLASH_COOLDOWN;
     numBullets -= 1;
     soundEffects.play('shoot');
     hud_gunRecoil();

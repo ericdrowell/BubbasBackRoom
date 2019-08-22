@@ -56,7 +56,7 @@ function webgl_initUniforms() {
   webglContext.enableVertexAttribArray(shaderProgram.vertexNormalAttribute);
   shaderProgram.nMatrixUniform = webglContext.getUniformLocation(shaderProgram, 'uNMatrix');
 
-  shaderProgram.isFiring = webglContext.getUniformLocation(shaderProgram, 'isFiring');
+  shaderProgram.isFlashing = webglContext.getUniformLocation(shaderProgram, 'isFlashing');
 };
 
 function webgl_createArrayBuffer(vertices) {
@@ -86,7 +86,7 @@ function webgl_setUniforms() {
   mat3.transpose(normalMatrix);
   webglContext.uniformMatrix3fv(shaderProgram.nMatrixUniform, false, normalMatrix);
 
-  webglContext.uniform1i(shaderProgram.isFiring, isFiring);
+  webglContext.uniform1i(shaderProgram.isFlashing, flashTimeRemaining > 0);
 };
 
 function webgl_clear() {

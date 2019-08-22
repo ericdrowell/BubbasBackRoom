@@ -102,8 +102,6 @@ function game_loop() {
 
     game_render();
     hasRendered = true;
-
-    player_postUpdate();
   }
 
   lastTime = now;

@@ -58,7 +58,7 @@ function textures_load(callback) {
     },
     'mossy-stone': {
       encoding: textures_createTile([
-        '2c2e20',
+        '464339',
         '282e26',
         '303e1a',
         '444b31',
@@ -70,7 +70,7 @@ function textures_load(callback) {
         '3d3a30',
         '514938',
         '6a6554',
-        '464339'
+        '2c2e20'
       ])
     },
     'burned-stone': {

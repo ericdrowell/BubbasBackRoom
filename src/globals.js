@@ -25,6 +25,7 @@ const BOBBLE_AMPLITUDE = 1;
 const BOBBLE_FREQUENCEY = 10;
 const GRAVITY = -200; // units / second^2
 const JUMP_SPEED = 60;
+const FLASH_COOLDOWN = 100;
 
 let world = [];
 let worldBuffers = {};
@@ -44,7 +45,6 @@ let viewportWidth = 0;
 let viewportHeight = 0;
 let player = {};
 let isHurting = false;
-let isFiring = false;
 let soundEffects;
 let textures = {};
 let webglCanvas;
@@ -64,3 +64,4 @@ let health = 5;
 let upVelocity = 0;
 let isAirborne = false;
 let hudRatio;
+let flashTimeRemaining;
