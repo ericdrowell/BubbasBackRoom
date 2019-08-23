@@ -101,16 +101,16 @@ function userInputs_handleMouseMove(evt) {
   if (gameStarted) {
     if (userInputs_isPointerLocked()) {
       // pitch (up and down)
-      camera.pitch += evt.movementY * MATH_PI * 0.001 * -1;
-      if (camera.pitch > MATH_PI/2) {
-        camera.pitch = MATH_PI/2;
+      player.pitch += evt.movementY * MATH_PI * 0.001 * -1;
+      if (player.pitch > MATH_PI/2) {
+        player.pitch = MATH_PI/2;
       }
-      if (camera.pitch < -1 * MATH_PI/2) {
-        camera.pitch = -1 * MATH_PI/2;
+      if (player.pitch < -1 * MATH_PI/2) {
+        player.pitch = -1 * MATH_PI/2;
       }
 
       // yaw (side to side)
-      camera.yaw += evt.movementX * MATH_PI * 0.001 * -1;
+      player.yaw += evt.movementX * MATH_PI * 0.001 * -1;
     }
   }
 }

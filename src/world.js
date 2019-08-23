@@ -204,40 +204,40 @@ function world_getBlock(x, y, z) {
   }
 }
 
-function world_getCameraBlock() {
+function world_getPlayerBlock() {
   return {
-    x: MATH_ROUND(camera.x/2),
-    y: MATH_ROUND(camera.y/2),
-    z: MATH_ROUND(camera.z/2)
+    x: MATH_ROUND(player.x),
+    y: MATH_ROUND(player.y),
+    z: MATH_ROUND(player.z)
   }
 }
 
 function world_getBlockBelow(block) {
-  return world_getBlock(block.x, block.y - MATH_ROUND(PLAYER_HEIGHT/2) - 1, block.z);
-}
-
-function world_getBlockAbove(block) {
-  return world_getBlock(block.x, block.y - MATH_ROUND(PLAYER_HEIGHT/2) + 1, block.z);
-}
-
-function world_getBlockLeft(block) {
-  return world_getBlock(block.x - 1, block.y - MATH_ROUND(PLAYER_HEIGHT/2), block.z);
-}
-
-function world_getBlockRight(block) {
-  return world_getBlock(block.x + 1, block.y - MATH_ROUND(PLAYER_HEIGHT/2), block.z);
-}
-
-function world_getBlockFront(block) {
-  return world_getBlock(block.x, block.y - MATH_ROUND(PLAYER_HEIGHT/2), block.z + 1);
-}
-
-function world_getBlockBack(block) {
-  return world_getBlock(block.x, block.y - MATH_ROUND(PLAYER_HEIGHT/2), block.z - 1);
+  return world_getBlock(block.x, block.y - 1, block.z);
 }
 
 function world_getBlockAbove(block) {
   return world_getBlock(block.x, block.y + 1, block.z);
+}
+
+function world_getBlockLeft(block) {
+  return world_getBlock(block.x - 1, block.y, block.z);
+}
+
+function world_getBlockRight(block) {
+  return world_getBlock(block.x + 1, block.y, block.z);
+}
+
+function world_getBlockFront(block) {
+  return world_getBlock(block.x, block.y, block.z + 1);
+}
+
+function world_getBlockBack(block) {
+  return world_getBlock(block.x, block.y, block.z - 1);
+}
+
+function world_getBlockAbove(block) {
+  return world_getBlock(block.x, block.y + PLAYER_HEIGHT + 1, block.z);
 }
 
 

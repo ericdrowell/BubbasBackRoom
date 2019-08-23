@@ -45,14 +45,6 @@ function game_setReady() {
 }
 
 function game_reset() {
-  camera = {
-    x: -87,
-    y: 30,
-    z: 0,
-    pitch: 0,
-    yaw: -1.6
-  };
-
   world_init();
   player_init();
   gameState = 'menu';
@@ -64,9 +56,9 @@ function game_render() {
   let maxDist = 100;
   mat4.perspective(viewAngle, webglCanvas.width / webglCanvas.height, minDist, maxDist, pMatrix);
   mat4.identity(mvMatrix);
-  mat4.rotate(mvMatrix, -camera.pitch, [1, 0, 0]);
-  mat4.rotate(mvMatrix, -camera.yaw, [0, 1, 0]);
-  mat4.translate(mvMatrix, [-camera.x, -camera.y, -camera.z]);
+  mat4.rotate(mvMatrix, -player.pitch, [1, 0, 0]);
+  mat4.rotate(mvMatrix, -player.yaw, [0, 1, 0]);
+  mat4.translate(mvMatrix, [-2 * player.x, -2 * (player.y + PLAYER_HEIGHT), -2 * player.z]);
   mat4.translate(mvMatrix, [0, bobble, 0]);
 
   // webgl rendering

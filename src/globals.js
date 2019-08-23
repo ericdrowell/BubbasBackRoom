@@ -1,11 +1,10 @@
 const MONSTER_COOLDOWN_TIME = 1; // s
 const MONSTER_SPEED = 10; // units / s
 const MONSTER_JUMP_SPEED = 25; // units / s
-const PLAYER_SPEED = 40; // units / s
-const PLAYER_HEIGHT = 8;
+const PLAYER_SPEED = 20; // units / s
+const PLAYER_HEIGHT = 4;
 const PAIN_FLASH_DURATION = 100; // ms
 const MENU_COOLDOWN = 0.5; // s
-const BLOCK_SIZE = 100; //100;
 const BLOCK_NUM_VERTICES = 24;
 const MATH_PI = Math.PI;
 const MATH_ROUND = Math.round;
@@ -23,8 +22,8 @@ const BLOCKS_PER_BUFFER = 2666;
 const OPTIMAL_VIEWPORT_HEIGHT = 730;
 const BOBBLE_AMPLITUDE = 1;
 const BOBBLE_FREQUENCEY = 10;
-const GRAVITY = -200; // units / second^2
-const JUMP_SPEED = 60;
+const GRAVITY = -100; // units / second^2
+const JUMP_SPEED = 30;
 const FLASH_COOLDOWN = 100;
 
 let world = [];
@@ -34,7 +33,6 @@ let hudContext;
 let gun;
 let sceneCanvas;
 let sceneContext;
-let camera = {};
 let openMenuTime = 0;
 let elapsedTime = 0;
 let lastTime = 0;
