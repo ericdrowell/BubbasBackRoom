@@ -47,6 +47,7 @@ function game_setReady() {
 function game_reset() {
   world_init();
   player_init();
+  monsters_init();
   gameState = 'menu';
 }
 
@@ -64,10 +65,10 @@ function game_render() {
   // webgl rendering
   webgl_clear();
   world_render();
+  monsters_render();
 
   // canvas2d rendering
   hud_render();
-
   // composite
   canvas2d_clear(compositeContext);
   compositeContext.drawImage(webglCanvas, 0, 0, viewportWidth, viewportHeight);
@@ -112,6 +113,7 @@ function game_loop() {
 
   if (gameState === 'playing' || !hasRendered) {
     player_update();
+    monsters_update();
     hud_update();
 
     game_render();
