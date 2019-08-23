@@ -43,7 +43,7 @@ function textures_createTile(colors) {
   return canvas.toDataURL();
 }
 
-function textures_load(callback) {
+function textures_init(callback) {
   textures = {
     'dirt': {
       encoding: textures_createTile([

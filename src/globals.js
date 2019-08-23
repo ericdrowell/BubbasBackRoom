@@ -68,3 +68,8 @@ let flashTimeRemaining;
 let music_audio;
 let music_ready = false;
 let music_playing = false;
+let texturesReady = false;
+let musicReady = false;
+let gameReady = false;
+let gameStarted = false;
+let audio = null;

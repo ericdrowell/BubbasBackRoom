@@ -1,5 +1,6 @@
 # TODOS
 
+* wrap all JS so that globals get minified too
 * flashing light effects from light bulbts not working, with sound effects
 * fix stairs bug where you fall through cracks
 * auto ascend stairs

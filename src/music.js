@@ -1,13 +1,17 @@
 let songGen;
 
-function music_init() {
+function music_init(callback) {
   songGen = new MusicGenerator(song);
 
   songGen.getAudioGenerator(function(audioGenerator) {
-    var audio = audioGenerator.getAudio();
+    audio = audioGenerator.getAudio();
     audio.loop = true;
-    audio.play();
+    
+    callback();
   });
-  
 };
+
+function music_start() {
+  audio.play();
+}
 

@@ -1,3 +1,8 @@
+// start game - have to do it this way because I need the compressor to convert game_init() to the right variable name
+setTimeout(function() {
+  game_init();
+}, 50);
+
 function game_init() {
   viewportWidth = window.innerWidth;
   viewportHeight = window.innerHeight;
@@ -16,9 +21,21 @@ function game_init() {
 
   game_reset();
 
-  textures_load(function() {
-    game_loop();
+  textures_init(function() {
+    texturesReady = true;
+    game_setReady();
   });
+
+  music_init(function() {
+    musicReady = true;
+    game_setReady();
+  });
+}
+
+function game_setReady() {
+  if (texturesReady && musicReady) {
+    gameReady = true;
+  }
 }
 
 function game_reset() {
@@ -34,7 +51,6 @@ function game_reset() {
   player_init();
   gameState = 'menu';
 }
-
 
 function game_render() {
   let viewAngle = 45;
