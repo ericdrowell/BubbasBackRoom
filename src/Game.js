@@ -26,15 +26,21 @@ function game_init() {
     game_setReady();
   });
 
-  music_init(function() {
-    musicReady = true;
-    game_setReady();
-  });
+  // music_init(function() {
+  //   musicReady = true;
+  //   game_setReady();
+  // });
 }
 
 function game_setReady() {
-  if (texturesReady && musicReady) {
+  // if (texturesReady && musicReady) {
+  //   gameReady = true;
+  // }
+
+  if (texturesReady) {
     gameReady = true;
+    gameStarted = true;
+    game_loop();
   }
 }
 
