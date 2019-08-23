@@ -236,10 +236,6 @@ function world_getBlockBack(block) {
   return world_getBlock(block.x, block.y, block.z - 1);
 }
 
-function world_getBlockAbove(block) {
-  return world_getBlock(block.x, block.y + PLAYER_HEIGHT + 1, block.z);
-}
-
 
 
 

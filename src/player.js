@@ -18,9 +18,11 @@ function player_move(xChange, yChange, zChange) {
   player.y += yChange;
   player.z += zChange;
 
+  let playerBlock = world_getPlayerBlock();
+
   // if moving forward
   if (zChange > 0) {
-    let blockFront = world_getBlockFront(world_getPlayerBlock());
+    let blockFront = world_getBlockFront(playerBlock);
     if (blockFront) {
       player_move(0, 0, blockFront.z - 1 - player.z);
     }
@@ -28,7 +30,7 @@ function player_move(xChange, yChange, zChange) {
 
   // if moving backward
   if (zChange < 0) {
-    let blockBack = world_getBlockBack(world_getPlayerBlock());
+    let blockBack = world_getBlockBack(playerBlock);
     if (blockBack) {
       player_move(0, 0, blockBack.z + 1 - player.z);
     }
@@ -36,7 +38,7 @@ function player_move(xChange, yChange, zChange) {
 
   // if moving to the right
   if (xChange > 0) {
-    let blockRight = world_getBlockRight(world_getPlayerBlock());
+    let blockRight = world_getBlockRight(playerBlock);
     if (blockRight) {
       player_move(blockRight.x - 1 - player.x, 0, 0);
     }
@@ -44,7 +46,7 @@ function player_move(xChange, yChange, zChange) {
 
   // if moving to the left
   if (xChange < 0) {
-    let blockLeft = world_getBlockLeft(world_getPlayerBlock());
+    let blockLeft = world_getBlockLeft(playerBlock);
     if (blockLeft) {
       player_move(blockLeft.x + 1 - player.x, 0, 0)
     }
@@ -52,7 +54,7 @@ function player_move(xChange, yChange, zChange) {
 
   // if moving downwards and hit a block
   if (isAirborne && yChange < 0) {
-    let blockBelow = world_getBlockBelow(world_getPlayerBlock());
+    let blockBelow = world_getBlockBelow(playerBlock);
     if (blockBelow) {
       player_move(0, blockBelow.y + 1 - player.y, 0);
       upVelocity = 0;
@@ -62,9 +64,15 @@ function player_move(xChange, yChange, zChange) {
 
   // if moving upwards and hit a block
   if (isAirborne && yChange > 0) {
-    let blockAbove = world_getBlockAbove(world_getPlayerBlock());
+
+    let blockAbove = world_getBlockAbove({
+      x: playerBlock.x,
+      y: playerBlock.y + PLAYER_HEIGHT,
+      z: playerBlock.z
+    });
+
     if (blockAbove) {
-      player_move(0,  blockAbove.y - 1 - player.y, 0);
+      player_move(0,  blockAbove.y - 1 - PLAYER_HEIGHT - player.y, 0);
       upVelocity = 0;
       isAirborne = false;
     }
