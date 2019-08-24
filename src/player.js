@@ -146,6 +146,12 @@ function player_fire() {
   if (numBullets > 0) {
     flashTimeRemaining = FLASH_COOLDOWN;
     numBullets -= 1;
+
+    let hitMonster = monsters_getHit();
+    if (hitMonster >= 0) {
+      monsters_hurt(hitMonster);
+    }
+
     soundEffects.play('shoot');
     hud_gunRecoil();
   }

@@ -2,21 +2,71 @@ function monsters_init() {
   monsters_buildModel();
 }
 
+function monsters_hurt(groupId) {
+  monsters.forEach(function(monster) {
+    if (monster.group === groupId) {
+      monster.type = 'white';
+      monster.painFlash = PAIN_FLASH_DURATION;
+      monster.health -= 1;
+    }
+  }); 
+}
+
+function monsters_restore() {
+  monsters.forEach(function(monster) {
+    if (monster.painFlash > 0) {
+      monster.painFlash -= elapsedTime;
+      if (monster.painFlash <= 0) {
+        monster.painFlash = 0;
+        monster.type = monster.originalType;
+
+        if (monster.health === 0) {
+          console.log('monster dead');
+        }
+      }
+    }
+  }); 
+}
+
+
+
 function monsters_buildModel() {
+  let groupId = utils_generateId();
+
   monsters = [
     {
       x: 0,
       y: 0,
       z: 0,
-      type: 'burned-stone'
+      originalType:  'burned-stone',
+      type: 'burned-stone',
+      group: groupId,
+      painFlash: 0,
+      health: 3
+    },
+    {
+      x: 0,
+      y: 1,
+      z: 0,
+      originalType:  'burned-stone',
+      type: 'burned-stone',
+      group: groupId,
+      painFlash: 0,
+      health: 3
     }
   ];
+}
+
+function monsters_getHit() {
+  return 0;
 }
 
 function monsters_update() {
   let distEachFrame = MONSTER_SPEED * elapsedTime / 1000;
 
-  monsters[0].x += distEachFrame;
+  //monsters[0].x += distEachFrame;
+
+  monsters_restore();
 
   // now have to rebuild and bind buffers...
   monsters_buildBuffers();
@@ -25,8 +75,7 @@ function monsters_update() {
 function monsters_buildBuffers() {
   monsterBuffers = {};
 
-  for (let n=0; n<monsters.length; n++) {
-    let monster = monsters[n];
+  monsters.forEach(function(monster) {
     let type = monster.type;
 
     if (monsterBuffers[type] === undefined) {
@@ -62,7 +111,7 @@ function monsters_buildBuffers() {
     }
 
     lastBuffer.numBlocks++;
-  }
+  })
 
   // convert regular arrays to webgl buffers
   for (let type in monsterBuffers) {

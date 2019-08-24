@@ -73,3 +73,4 @@ let gameStarted = false;
 let audio = null;
 let monsterBuffers = [];
 let monsters = [];
+let idGenerator = 0;

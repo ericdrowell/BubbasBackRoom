@@ -15,3 +15,7 @@ function u_getRandomElement(arr) {
 function utils_concat(a, b) {
   a.push.apply(a, b);
 }
+
+function utils_generateId() {
+  return idGenerator++;
+}
