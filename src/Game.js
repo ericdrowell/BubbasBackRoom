@@ -31,24 +31,23 @@ function game_init() {
     game_setReady();
   });
 
-  music_init(function() {
+  if (INCLUDE_MUSIC) {
+    music_init(function() {
+      musicReady = true;
+      game_setReady();
+    });
+  }
+  else {
     musicReady = true;
-    game_setReady();
-  });
-
+  }
 
   game_loop();
 }
 
 function game_setReady() {
-
-  if (texturesReady && musicReady) {
+  if (texturesReady && (!INCLUDE_MUSIC || musicReady)) {
     gameState = GAME_STATE_START_SCREEN;
   }
-
-  // if (texturesReady) {
-  //   gameState = GAME_STATE_START_SCREEN;
-  // }
 }
 
 
@@ -91,7 +90,9 @@ function game_start() {
   webglCanvas.requestPointerLock();
   soundEffects.play('start');
   
-  music_start();
+  if (INCLUDE_MUSIC) {
+    music_start();
+  }
 }
 
 

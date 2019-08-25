@@ -34,29 +34,29 @@ function monsters_buildModel() {
   let groupId = utils_generateId();
 
   // right leg
-  monsters_add(0, 0, 0.3, 0.5, 3, 0.5, groupId, 'burned-stone');
+  monsters_add(0, 0, 0.3, 0.5, 3, 0.5, groupId, TEXTURES_BURNED_STONE);
   // right foot
-  monsters_add(-0.4, -0.4, 0.3, 0.5, 0.3, 0.5, groupId, 'burned-stone');
+  monsters_add(-0.4, -0.4, 0.3, 0.5, 0.3, 0.5, groupId, TEXTURES_BURNED_STONE);
 
   // left leg
-  monsters_add(0, 0, -0.3, 0.5, 3, 0.5, groupId, 'burned-stone');
+  monsters_add(0, 0, -0.3, 0.5, 3, 0.5, groupId, TEXTURES_BURNED_STONE);
   // left foot
-  monsters_add(-0.4, -0.4, -0.3, 0.5, 0.3, 0.5, groupId, 'burned-stone');
+  monsters_add(-0.4, -0.4, -0.3, 0.5, 0.3, 0.5, groupId, TEXTURES_BURNED_STONE);
 
   // body
-  monsters_add(0, 2, 0, 0.8, 1.5, 1, groupId, 'burned-stone');
+  monsters_add(0, 2, 0, 0.8, 1.5, 1, groupId, TEXTURES_BURNED_STONE);
 
   // neck
-  monsters_add(0, 2.8, 0, 0.4, 0.4, 0.4, groupId, 'burned-stone');
+  monsters_add(0, 2.8, 0, 0.4, 0.4, 0.4, groupId, TEXTURES_BURNED_STONE);
 
   // head
-  monsters_add(0, 3.4, 0, 0.8, 0.8, 0.8, groupId, 'burned-stone');
+  monsters_add(0, 3.4, 0, 0.8, 0.8, 0.8, groupId, TEXTURES_BURNED_STONE);
 
   // right arm
-  monsters_add(-0.8, 2.5, 0.65, 2, 0.3, 0.3, groupId, 'burned-stone');
+  monsters_add(-0.8, 2.5, 0.65, 2, 0.3, 0.3, groupId, TEXTURES_BURNED_STONE);
 
   // left arm
-  monsters_add(-0.8, 2.5, -0.65, 2, 0.3, 0.3, groupId, 'burned-stone');
+  monsters_add(-0.8, 2.5, -0.65, 2, 0.3, 0.3, groupId, TEXTURES_BURNED_STONE);
 
 }
 

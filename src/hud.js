@@ -197,7 +197,7 @@ function hud_renderDialogFrame() {
   hudContext.lineTo(x, y + height);
   hudContext.save();
   hudContext.scale(10, 10);
-  hudContext.fillStyle = hudContext.createPattern(textures['burned-stone'].image, 'repeat');
+  hudContext.fillStyle = hudContext.createPattern(textures[TEXTURES_BURNED_STONE].image, 'repeat');
   hudContext.globalAlpha = 0.7;
   hudContext.fill();
   hudContext.restore();

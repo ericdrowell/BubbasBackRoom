@@ -1,3 +1,4 @@
+const INCLUDE_MUSIC = true;
 const MONSTER_COOLDOWN_TIME = 1; // s
 const MONSTER_SPEED = 1; // units / s
 const MONSTER_JUMP_SPEED = 25; // units / s
@@ -30,6 +31,11 @@ const GAME_STATE_START_SCREEN = 'start-screen';
 const GAME_STATE_PLAYING = 'playing';
 const GAME_STATE_PAUSED = 'paused';
 const CHAR_SPACING = 2;
+const TEXTURES_STONE = 'stone';
+const TEXTURES_MOSSY_STONE = 'mossy-stone';
+const TEXTURES_ROTTING_WOOD = 'rotting-wood';
+const TEXTURES_DIRT = 'dirt';
+const TEXTURES_BURNED_STONE = 'burned-stone';
 
 let world = [];
 let worldBuffers = {};

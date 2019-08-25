@@ -7,68 +7,77 @@ function world_buildModel() {
 
   // dirt tunnel
   // floor
-  world_addPlane(-53, -51, 10, 10, -2, 2, 'dirt');
-  world_addPlane(-54, -54, 10, 10, -1, 3, 'dirt');
+  // world_addPlane(-53, -51, 10, 10, -2, 2, TEXTURES_DIRT);
+  // world_addPlane(-54, -54, 10, 10, -1, 3, TEXTURES_DIRT);
+
+  world_addTunnel(-60, -51, 9, 9, 0, 0, TEXTURES_DIRT);
+  world_addTunnel(-81, -61, 19, 9, 5, 0, TEXTURES_DIRT);
+  world_addTunnel(-100, -82, 11, 19, -5, 5, TEXTURES_DIRT);
+  world_addTunnel(-140, -101, 16, 11, 5, -5, TEXTURES_DIRT);
 
   // -------------------- SHORT TUNNEL --------------------
 
   // floor
-  world_addPlane(-50, -31, 10, 10, -2, 2, 'mossy-stone');
+  world_addPlane(-50, -31, 10, 10, -2, 2, TEXTURES_MOSSY_STONE);
 
   // walls
-  world_addPlane(-50, -16, 11, 18, 3, 3, 'mossy-stone');
-  world_addPlane(-50, -16, 11, 18, -3, -3, 'mossy-stone');
+  world_addPlane(-50, -16, 11, 18, 3, 3, TEXTURES_MOSSY_STONE);
+  world_addPlane(-50, -16, 11, 18, -3, -3, TEXTURES_MOSSY_STONE);
+
+  // sides
+  world_addPlane(-50, -50, 11, 18, -4, -4, TEXTURES_MOSSY_STONE);
+  world_addPlane(-50, -50, 11, 18, 4, 4, TEXTURES_MOSSY_STONE);
 
   // ceiling
-  world_addPlane(-50, -15, 18, 18, -2, 2, 'rotting-wood');
+  world_addPlane(-50, -15, 18, 18, -2, 2, TEXTURES_ROTTING_WOOD);
 
   // -------------------- STAIRS --------------------
 
   // walls
-  world_addPlane(-20, -20, 0, 9, -20, -3, 'mossy-stone');
-  world_addPlane(-20, -20, 0, 9, 3, 20, 'mossy-stone');
+  world_addPlane(-20, -20, 0, 9, -20, -3, TEXTURES_MOSSY_STONE);
+  world_addPlane(-20, -20, 0, 9, 3, 20, TEXTURES_MOSSY_STONE);
 
   // steps
-  world_addSlope(-30, -20, 0, 10, -2, 2, 'dirt');
+  world_addSlope(-30, -20, 0, 10, -2, 2, TEXTURES_DIRT);
 
   // sloped ceiling
-  world_addSlope(-22, -14, 12, 18, -2, 2, 'dirt');
+  world_addSlope(-22, -14, 12, 18, -2, 2, TEXTURES_DIRT);
 
   // -------------------- FOUR COLUMN ROOM  --------------------
 
   // floor
-  world_addPlane(-20, 20, -1, -1, -20, 20, 'mossy-stone');
+  world_addPlane(-20, 20, -1, -1, -20, 20, TEXTURES_MOSSY_STONE);
 
   // poles
-  world_addPlane(-11, -9, 0, 0, -11, -9, 'stone');
-  world_addPlane(-10, -10, 1, 10, -10, -10, 'stone');
-  world_addPlane(-11, -9, 9, 9, -11, -9, 'stone');
+  world_addPlane(-11, -9, 0, 0, -11, -9, TEXTURES_STONE);
+  world_addPlane(-10, -10, 1, 10, -10, -10, TEXTURES_STONE);
+  world_addPlane(-11, -9, 9, 9, -11, -9, TEXTURES_STONE);
 
-  world_addPlane(9, 11, 0, 0, -11, -9, 'stone');
-  world_addPlane(10, 10, 1, 10, -10, -10, 'stone');
-  world_addPlane(9, 11, 9, 9, -11, -9, 'stone');
+  world_addPlane(9, 11, 0, 0, -11, -9, TEXTURES_STONE);
+  world_addPlane(10, 10, 1, 10, -10, -10, TEXTURES_STONE);
+  world_addPlane(9, 11, 9, 9, -11, -9, TEXTURES_STONE);
 
-  world_addPlane(-11, -9, 0, 0, 9, 11, 'stone');
-  world_addPlane(-10, -10, 1, 10, 10, 10, 'stone');
-  world_addPlane(-11, -9, 9, 9, 9, 11, 'stone');
+  world_addPlane(-11, -9, 0, 0, 9, 11, TEXTURES_STONE);
+  world_addPlane(-10, -10, 1, 10, 10, 10, TEXTURES_STONE);
+  world_addPlane(-11, -9, 9, 9, 9, 11, TEXTURES_STONE);
 
   // broken pole
-  world_addPlane(9, 11, 0, 0, 9, 11, 'stone');
-  world_addPlane(10, 10, 1, 3, 10, 10, 'stone');
-  world_addPlane(7, 11, 0, 0, 5, 5, 'stone');
-  world_addPlane(9, 11, 9, 9, 9, 11, 'stone');
+  world_addPlane(9, 11, 0, 0, 9, 11, TEXTURES_STONE);
+  world_addPlane(10, 10, 1, 3, 10, 10, TEXTURES_STONE);
+  world_addPlane(7, 11, 0, 0, 5, 5, TEXTURES_STONE);
+  world_addPlane(9, 11, 9, 9, 9, 11, TEXTURES_STONE);
 
   // walls
-  world_addPlane(-20, 20, 0, 10, -20, -20, 'mossy-stone');
-  world_addPlane(-20, 20, 0, 10, 20, 20, 'mossy-stone');
-  world_addPlane(-30, -20, 0, 10, -3, -3, 'mossy-stone');
-  world_addPlane(-30, -20, 0, 10, 3, 3, 'mossy-stone');
-  world_addPlane(20, 20, 0, 10, -20, 20, 'mossy-stone');
+  world_addPlane(-20, 20, 0, 10, -20, -20, TEXTURES_MOSSY_STONE);
+  world_addPlane(-20, 20, 0, 10, 20, 20, TEXTURES_MOSSY_STONE);
+  world_addPlane(-30, -20, 0, 10, -3, -3, TEXTURES_MOSSY_STONE);
+  world_addPlane(-30, -20, 0, 10, 3, 3, TEXTURES_MOSSY_STONE);
+  world_addPlane(20, 20, 0, 10, -20, 20, TEXTURES_MOSSY_STONE);
 
   // celing
-  world_addPlane(-13, 20, 10, 10, -20, 20, 'rotting-wood');
-  world_addPlane(-20, -14, 10, 10, -20, -3, 'rotting-wood');
-  world_addPlane(-20, -14, 10, 10, 3, 20, 'rotting-wood');
+  world_addPlane(-13, 20, 10, 10, -20, 20, TEXTURES_ROTTING_WOOD);
+  world_addPlane(-20, -14, 10, 10, -20, -3, TEXTURES_ROTTING_WOOD);
+  world_addPlane(-20, -14, 10, 10, 3, 20, TEXTURES_ROTTING_WOOD);
 
 
 }
@@ -79,17 +88,47 @@ function world_addSlope(startX, endX, startY, endY, startZ, endZ, type) {
     world_addPlane(x, x, y, y, startZ, endZ, type); 
     y--;
   }
-  // world_addPlane(-20, -20, 0, 0, -2, 2, 'dirt');
-  // world_addPlane(-21, -21, 1, 1, -2, 2, 'dirt');
-  // world_addPlane(-22, -22, 2, 2, -2, 2, 'dirt');
-  // world_addPlane(-23, -23, 3, 3, -2, 2, 'dirt');
-  // world_addPlane(-24, -24, 4, 4, -2, 2, 'dirt');
-  // world_addPlane(-25, -25, 5, 5, -2, 2, 'dirt');
-  // world_addPlane(-26, -26, 6, 6, -2, 2, 'dirt');
-  // world_addPlane(-27, -27, 7, 7, -2, 2, 'dirt');
-  // world_addPlane(-28, -28, 8, 8, -2, 2, 'dirt');
-  // world_addPlane(-29, -29, 9, 9, -2, 2, 'dirt');
-  // world_addPlane(-30, -30, 10, 10, -2, 2, 'dirt');
+}
+
+function world_addRing(x, y, z, texture) {
+
+  // bottom of ring
+  world_addPlane(x, x, y, y, z-2, z+2, texture);
+
+  // far side
+  world_addPlane(x, x, y+3, y+7, z-5, z-5, texture);
+
+  // top of ring
+  world_addPlane(x, x, y+10, y+10, z-2, z+2, texture);
+
+  // near side
+  world_addPlane(x, x, y+3, y+7, z+5, z+5, texture);
+
+  // fillers
+  world_addBlock(x, y+1, z-3, texture);
+  world_addBlock(x, y+2, z-4, texture);
+
+  world_addBlock(x, y+1, z+3, texture);
+  world_addBlock(x, y+2, z+4, texture);
+
+  world_addBlock(x, y+8, z-4, texture);
+  world_addBlock(x, y+9, z-3, texture);
+
+  world_addBlock(x, y+8, z+4, texture);
+  world_addBlock(x, y+9, z+3, texture);
+}
+
+function world_addTunnel(startX, endX, startY, endY, startZ, endZ, texture) {
+  let diffX = endX - startX;
+  let diffY = endY - startY;
+  let diffZ = endZ - startZ;
+
+  for (let x=startX; x<=endX; x++) {
+    let y = MATH_ROUND(startY + (((x - startX) / diffX) * diffY));
+    let z = MATH_ROUND(startZ + (((x - startX) / diffX) * diffZ));
+
+    world_addRing(x, y, z, texture);
+  }
 }
 
 function world_addPlane(startX, endX, startY, endY, startZ, endZ, texture) {
