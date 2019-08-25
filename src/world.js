@@ -248,16 +248,25 @@ function world_getBlock(x, y, z) {
   }
 }
 
-function world_getPlayerBlock() {
+function world_getBlockPos(x, y, z) {
   return {
-    x: MATH_ROUND(player.x),
-    y: MATH_ROUND(player.y),
-    z: MATH_ROUND(player.z)
+    x: MATH_ROUND(x),
+    y: MATH_ROUND(y),
+    z: MATH_ROUND(z)
   }
 }
 
 function world_getBlockBelow(block) {
-  return world_getBlock(block.x, block.y - 1, block.z);
+  let blockBelow = world_getBlock(block.x, block.y - 1, block.z);
+
+  if (blockBelow) {
+    return blockBelow;
+  }
+
+  // now try current block
+  let currentBlock = world_getBlock(block.x, block.y, block.z);
+
+  return currentBlock;
 }
 
 function world_getBlockAbove(block) {

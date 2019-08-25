@@ -29,7 +29,7 @@ function player_move(xChange, yChange, zChange) {
   player.y += yChange;
   player.z += zChange;
 
-  let playerBlock = world_getPlayerBlock();
+  let playerBlock = world_getBlockPos(player.x, player.y, player.z);
 
   // if moving forward
   if (zChange > 0) {
@@ -111,7 +111,7 @@ function player_update() {
   }
 
   
-  let blockBelow = world_getBlockBelow(world_getPlayerBlock());
+  let blockBelow = world_getBlockBelow(world_getBlockPos(player.x, player.y, player.z));
 
   if (isAirborne) {
     // handle gravity
