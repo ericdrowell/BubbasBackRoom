@@ -168,28 +168,15 @@ function hud_gunRecoil() {
 function hud_renderDialog() {
   if (gameState === GAME_STATE_LOADING) {
     hud_renderDialogFrame();
-    let text = 'loading...';
-
-    hudContext.fillStyle = 'red';
-    hudContext.fillText(text, viewportWidth/2, viewportHeight/2);
+    hud_renderLine(viewportWidth/2, viewportHeight/2, 30, 'loading...');
   }
   else if(gameState === GAME_STATE_START_SCREEN) {
     hud_renderDialogFrame();
-    // 'abcdefghijklmnopqrstuvwxyz'
-    hud_renderLine(viewportWidth/2, viewportHeight/2, 50, 'aaaaaa');
-
-
-    // let text = 'press enter to continue...';
-
-    // hudContext.fillStyle = 'red';
-    // hudContext.fillText(text, viewportWidth/2, viewportHeight/2);
+    hud_renderLine(viewportWidth/2, viewportHeight/2, 30, 'press enter to start');
   }
   else if(gameState === GAME_STATE_PAUSED) {
     hud_renderDialogFrame();
-    let text = 'press enter to continue...';
-
-    hudContext.fillStyle = 'red';
-    hudContext.fillText(text, viewportWidth/2, viewportHeight/2);
+    hud_renderLine(viewportWidth/2, viewportHeight/2, 30, 'press enter to resume');
   }
 
 }
@@ -249,6 +236,7 @@ function hud_renderDialogFrame() {
 function hud_renderLine(startX, y, height, str) {
   let pixelsPerLetter = 9;
   let scale = height / pixelsPerLetter;
+  let textColor = '#958e78';
 
 
   let x = startX;
@@ -257,16 +245,21 @@ function hud_renderLine(startX, y, height, str) {
   for (let n=0; n<str.length; n++) {
     let char = str[n];
     let charObj = ALPHABET_MAP[char];
-    let charX = charObj[0];
-    let charWidth = charObj[1];
-    
 
-   
-    hudContext.drawImage(alphabetCanvas, charX * PIXEL_RATIO, 0, charWidth * PIXEL_RATIO, charHeight * PIXEL_RATIO, x, y, charWidth*scale, charHeight*scale);
+    if (char === ' ') {
+      x += 4 * scale;
+    }
+    else if (char === '.') {
+      hudContext.fillStyle = textColor;
+      hudContext.fillRect(x, y+6*scale, scale, scale);
+      x += (1 + CHAR_SPACING) * scale;
+    }
+    else if (charObj) {
+      let charX = charObj[0];
+      let charWidth = charObj[1];
+      hudContext.drawImage(alphabetCanvas, charX * PIXEL_RATIO, 0, charWidth * PIXEL_RATIO, charHeight * PIXEL_RATIO, x, y, charWidth*scale, charHeight*scale);
+      x += (charWidth + CHAR_SPACING) * scale;
+    }
 
-    //console.log(alphabetCanvas, charX, 0, charWidth, charHeight, x, y, charWidth, charHeight)
-
-    x += (charWidth + CHAR_SPACING) * scale;
   }
-
 }
