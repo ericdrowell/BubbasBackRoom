@@ -1,13 +1,13 @@
 function player_init() {
   player = {
-    x: -44,
-    y: 11,
-    z: 0,
-    pitch: 0,
-    yaw: -1.6,
-    straightMovement: 0,
-    sideMovement: 0,
-    health: 7
+health: 7,
+pitch: -0.06283185307179555,
+sideMovement: 0,
+straightMovement: 0,
+x: -37.03350517035815,
+y: 11,
+yaw: 7.84676910934451,
+z: 0.05602293866959278
   };
 
   flashTimeRemaining = 0;
@@ -147,10 +147,10 @@ function player_fire() {
     flashTimeRemaining = FLASH_COOLDOWN;
     numBullets -= 1;
 
-    let hitMonster = monsters_getHit();
-    if (hitMonster >= 0) {
-      monsters_hurt(hitMonster);
-    }
+    // let hitMonster = monsters_getHit();
+    // if (hitMonster >= 0) {
+    //   monsters_hurt(hitMonster);
+    // }
 
     soundEffects.play('shoot');
     hud_gunRecoil();

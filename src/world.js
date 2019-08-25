@@ -5,6 +5,11 @@ function world_init() {
 
 function world_buildModel() {
 
+  // dirt tunnel
+  // floor
+  world_addPlane(-53, -51, 10, 10, -2, 2, 'dirt');
+  world_addPlane(-54, -54, 10, 10, -1, 3, 'dirt');
+
   // -------------------- SHORT TUNNEL --------------------
 
   // floor

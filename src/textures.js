@@ -74,7 +74,7 @@ function textures_init(callback) {
       ])
     },
     'burned-stone': {
-      encoding: textures_createTile([
+      encoding: textures_createRandom([
         '434343', 
         '2f2f2f', 
         '232323', 

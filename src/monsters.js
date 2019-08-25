@@ -33,28 +33,47 @@ function monsters_restore() {
 function monsters_buildModel() {
   let groupId = utils_generateId();
 
-  monsters = [
-    {
-      x: 0,
-      y: 0,
-      z: 0,
-      originalType:  'burned-stone',
-      type: 'burned-stone',
-      group: groupId,
-      painFlash: 0,
-      health: 3
-    },
-    {
-      x: 0,
-      y: 1,
-      z: 0,
-      originalType:  'burned-stone',
-      type: 'burned-stone',
-      group: groupId,
-      painFlash: 0,
-      health: 3
-    }
-  ];
+  // right leg
+  monsters_add(0, 0, 0.3, 0.5, 3, 0.5, groupId, 'burned-stone');
+  // right foot
+  monsters_add(-0.4, -0.4, 0.3, 0.5, 0.3, 0.5, groupId, 'burned-stone');
+
+  // left leg
+  monsters_add(0, 0, -0.3, 0.5, 3, 0.5, groupId, 'burned-stone');
+  // left foot
+  monsters_add(-0.4, -0.4, -0.3, 0.5, 0.3, 0.5, groupId, 'burned-stone');
+
+  // body
+  monsters_add(0, 2, 0, 0.8, 1.5, 1, groupId, 'burned-stone');
+
+  // neck
+  monsters_add(0, 2.8, 0, 0.4, 0.4, 0.4, groupId, 'burned-stone');
+
+  // head
+  monsters_add(0, 3.4, 0, 0.8, 0.8, 0.8, groupId, 'burned-stone');
+
+  // right arm
+  monsters_add(-0.8, 2.5, 0.65, 2, 0.3, 0.3, groupId, 'burned-stone');
+
+  // left arm
+  monsters_add(-0.8, 2.5, -0.65, 2, 0.3, 0.3, groupId, 'burned-stone');
+
+}
+
+function monsters_add(x, y, z, xSize, ySize, zSize, groupId, type) {
+  monsters.push({
+    x: x,
+    y: y,
+    z: z,
+    originalType:  type,
+    type: type,
+    group: groupId,
+    painFlash: 0,
+    health: 3,
+    xSize: xSize,
+    ySize: ySize,
+    zSize: zSize
+  }); 
 }
 
 function monsters_getHit() {
@@ -94,9 +113,9 @@ function monsters_buildBuffers() {
 
     // position buffer
     for (n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
-      lastBuffer.position.push(CUBE_BUFFERS.position[n] + monster.x*2);
-      lastBuffer.position.push(CUBE_BUFFERS.position[n+1] + monster.y*2);
-      lastBuffer.position.push(CUBE_BUFFERS.position[n+2] + monster.z*2);
+      lastBuffer.position.push(CUBE_BUFFERS.position[n]*monster.xSize + monster.x*2);
+      lastBuffer.position.push(CUBE_BUFFERS.position[n+1]*monster.ySize + monster.y*2);
+      lastBuffer.position.push(CUBE_BUFFERS.position[n+2]*monster.zSize + monster.z*2);
     }
 
     // normal buffer

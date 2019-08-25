@@ -1,5 +1,5 @@
 function webgl_init() {
-  webglCanvas = document.createElement('canvas');;
+  webglCanvas = document.getElementById('webglCanvas');;
   webglContext = webglCanvas.getContext('webgl');
   webglCanvas.width = viewportWidth;
   webglCanvas.height = viewportHeight;

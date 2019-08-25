@@ -25,6 +25,11 @@ const BOBBLE_FREQUENCEY = 10;
 const GRAVITY = -100; // units / second^2
 const JUMP_SPEED = 30;
 const FLASH_COOLDOWN = 100;
+const GAME_STATE_LOADING = 'loading';
+const GAME_STATE_START_SCREEN = 'start-screen';
+const GAME_STATE_PLAYING = 'playing';
+const GAME_STATE_PAUSED = 'paused';
+const CHAR_SPACING = 2;
 
 let world = [];
 let worldBuffers = {};
@@ -74,3 +79,5 @@ let audio = null;
 let monsterBuffers = [];
 let monsters = [];
 let idGenerator = 0;
+let alplhabetCanvas;
+let alphabetContext;

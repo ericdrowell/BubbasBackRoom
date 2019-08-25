@@ -12,6 +12,7 @@ function hud_render() {
   hud_renderGun();
   hud_renderCrossHair();
   hud_renderBullets();
+  hud_renderDialog();
 }
 
 function hud_update() {
@@ -77,18 +78,20 @@ function hud_renderGun() {
 }
 
 function hud_renderCrossHair() {
-
+  let barLength = hudRatio * 14;
+  let barThickness = hudRatio * 2;
+  let halfBarThickness = barThickness/2;
   if (numBullets <= 0) {
     // TODO: show "Press R to Reload"
   }
   else {
     hudContext.fillStyle = 'rgba(255, 255, 255, 0.3)';
     // horizontal bar
-    hudContext.fillRect(viewportWidth/2 - 15, viewportHeight/2 - 1, 14, 2);
-    hudContext.fillRect(viewportWidth/2 + 1, viewportHeight/2 - 1, 14, 2);
+    hudContext.fillRect(viewportWidth/2 - barLength - halfBarThickness, viewportHeight/2 - halfBarThickness, barLength, barThickness);
+    hudContext.fillRect(viewportWidth/2 + halfBarThickness, viewportHeight/2 - halfBarThickness, barLength, barThickness);
     // vertical bar
-    hudContext.fillRect(viewportWidth/2 - 1, viewportHeight/2 - 15, 2, 14);
-    hudContext.fillRect(viewportWidth/2 - 1, viewportHeight/2 + 1, 2, 14);
+    hudContext.fillRect(viewportWidth/2 - halfBarThickness, viewportHeight/2 - barLength - halfBarThickness, barThickness, barLength);
+    hudContext.fillRect(viewportWidth/2 - halfBarThickness, viewportHeight/2 + halfBarThickness, barThickness, barLength);
   }
 
 }
@@ -158,70 +161,112 @@ function hud_renderBullets() {
   hudContext.restore();
 }
 
-// function hud_renderCompass() {
-//   // main body
-//   hudContext.save();
-//   hudContext.beginPath();
-//   hudContext.translate(viewportWidth - 70, 90);
-//   hudContext.arc(0, 0, 50, MATH_PI * 2, false);
-
-  
-//   hudContext.save();
-//   hudContext.scale(3, 3);
-//   hudContext.fillStyle = hudContext.createPattern(textures.paper.image, 'repeat');
-//   hudContext.fill();
-//   hudContext.restore();
-
-//   hudContext.strokeStyle = '#a16d3d';
-//   hudContext.lineWidth = 5;
-//   hudContext.stroke();
-//   hudContext.restore();
-
-//   // top
-//   hudContext.save();
-//   hudContext.beginPath();
-//   hudContext.translate(viewportWidth - 40, 40);
-//   hudContext.arc(0, 0, 10, MATH_PI * 2, false);
-  
-//   hudContext.fillStyle = '#a16d3d';
-//   hudContext.fill();
-//   hudContext.restore();
-
-//   // needle
-//   hudContext.save();
-//   hudContext.beginPath();
-//   hudContext.translate(viewportWidth - 70, 90);
-//   hudContext.rotate(camera.yaw * -1);
-//   hudContext.arc(0, 0, 5, MATH_PI * 2, false);
-//   hudContext.fillStyle = '#3f212b';
-//   hudContext.fill();
-
-//   hudContext.fillRect(-2, -30, 4, 60);
-
-//   hudContext.beginPath();
-
-//   hudContext.moveTo(-5, -25);
-//   hudContext.lineTo(0, -40);
-//   hudContext.lineTo(5, -25);
-//   hudContext.closePath();
-//   hudContext.fill();
-  
-
-//   hudContext.moveTo(0, 18);
-//   hudContext.lineTo(-4, 28);
-//   hudContext.lineTo(-4, 38);
-//   hudContext.lineTo(4, 38);
-//   hudContext.lineTo(4, 28);
-//   hudContext.closePath();
-//   hudContext.fill();
-
-//   hudContext.restore();
-
-  
-
-
-// }
-
 function hud_gunRecoil() {
   gun.y = viewportHeight + GUN_RECOIL;
+}
+
+function hud_renderDialog() {
+  if (gameState === GAME_STATE_LOADING) {
+    hud_renderDialogFrame();
+    let text = 'loading...';
+
+    hudContext.fillStyle = 'red';
+    hudContext.fillText(text, viewportWidth/2, viewportHeight/2);
+  }
+  else if(gameState === GAME_STATE_START_SCREEN) {
+    hud_renderDialogFrame();
+    // 'abcdefghijklmnopqrstuvwxyz'
+    hud_renderLine(viewportWidth/2, viewportHeight/2, 50, 'aaaaaa');
+
+
+    // let text = 'press enter to continue...';
+
+    // hudContext.fillStyle = 'red';
+    // hudContext.fillText(text, viewportWidth/2, viewportHeight/2);
+  }
+  else if(gameState === GAME_STATE_PAUSED) {
+    hud_renderDialogFrame();
+    let text = 'press enter to continue...';
+
+    hudContext.fillStyle = 'red';
+    hudContext.fillText(text, viewportWidth/2, viewportHeight/2);
+  }
+
+}
+
+function hud_renderDialogFrame() {
+  let borderColor = '#958e77';
+  let x = viewportWidth*0.1;
+  let y = viewportHeight*0.1;
+  let width = viewportWidth*0.8;
+  let height = viewportHeight*0.8;
+
+
+  // background
+  hudContext.beginPath();
+  hudContext.moveTo(x, y);
+  hudContext.lineTo(x + width, y);
+  hudContext.lineTo(x + width, y + height);
+  hudContext.lineTo(x, y + height);
+  hudContext.save();
+  hudContext.scale(10, 10);
+  hudContext.fillStyle = hudContext.createPattern(textures['burned-stone'].image, 'repeat');
+  hudContext.globalAlpha = 0.7;
+  hudContext.fill();
+  hudContext.restore();
+
+  // border
+  hudContext.lineWidth = 5;
+  hudContext.strokeStyle = borderColor;
+  hudContext.strokeRect(x, y, width, height);
+
+  // fancy corners
+  let corderRadius = 40;
+  hudContext.beginPath();
+  hudContext.strokeStyle = borderColor;
+
+  // top left
+  hudContext.moveTo(x, y);
+  hudContext.bezierCurveTo(x, y - corderRadius, x - corderRadius, y, x, y);
+  hudContext.stroke();
+
+  // top right
+  hudContext.moveTo(x+width, y);
+  hudContext.bezierCurveTo(x+width, y - corderRadius, x+width + corderRadius, y, x+width, y);
+  hudContext.stroke();
+
+  // bottom right
+  hudContext.moveTo(x+width, y+height);
+  hudContext.bezierCurveTo(x+width, y+height + corderRadius, x+width + corderRadius, y+height, x+width, y+height);
+  hudContext.stroke();
+
+  // bottom left
+  hudContext.moveTo(x, y+height);
+  hudContext.bezierCurveTo(x, y+height + corderRadius, x - corderRadius, y+height, x, y+height);
+  hudContext.stroke();
+}
+
+function hud_renderLine(startX, y, height, str) {
+  let pixelsPerLetter = 9;
+  let scale = height / pixelsPerLetter;
+
+
+  let x = startX;
+  let charHeight = 9;
+
+  for (let n=0; n<str.length; n++) {
+    let char = str[n];
+    let charObj = ALPHABET_MAP[char];
+    let charX = charObj[0];
+    let charWidth = charObj[1];
+    
+
+   
+    hudContext.drawImage(alphabetCanvas, charX * PIXEL_RATIO, 0, charWidth * PIXEL_RATIO, charHeight * PIXEL_RATIO, x, y, charWidth*scale, charHeight*scale);
+
+    //console.log(alphabetCanvas, charX, 0, charWidth, charHeight, x, y, charWidth, charHeight)
+
+    x += (charWidth + CHAR_SPACING) * scale;
+  }
+
 }
