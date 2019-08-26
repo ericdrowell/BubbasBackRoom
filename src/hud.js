@@ -232,20 +232,6 @@ function hud_renderDialogHorn(angle) {
   hudContext.fillRect(-barLength/2, -barSize/2 - barSpacing, barLength, barSize);
   hudContext.restore();
 
-
-
-
-
-  // hudContext.save();
-  // hudContext.scale(flip, 1); // used for flipping
-  // hudContext.rotate(angle)
-  // hudContext.beginPath();
-  // hudContext.moveTo(-halfLineWidth, -halfLineWidth);
-  // hudContext.quadraticCurveTo(-halfLineWidth, -halfLineWidth-hornRadius, -halfLineWidth+hornRadius, -halfLineWidth-hornRadius);
-  // hudContext.quadraticCurveTo(halfLineWidth, -halfLineWidth-hornRadius, halfLineWidth, halfLineWidth);
-
-  // hudContext.fill();
-  // hudContext.restore();
 }
 
 function hud_renderCorner(x, y, rotation) {
@@ -257,9 +243,6 @@ function hud_renderCorner(x, y, rotation) {
   hud_renderDialogHorn();
   hud_renderDialogHorn(-1 * MATH_PI * 0.5);
 
-  // hud_renderDialogHorn(1, MATH_PI*-0.5);
-  // hud_renderDialogHorn(-1, MATH_PI*0.5);
-  // hud_renderDialogHorn(-1, 0);
 
   hudContext.restore();
 }
