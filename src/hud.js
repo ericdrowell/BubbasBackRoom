@@ -28,11 +28,11 @@ function hud_update() {
     }
   }
 
-  // bobble
+  // bobble as a half circle motion
   if (player.straightMovement || player.sideMovement) {
     gunBobbleCounter += elapsedTime;
-    gunBobbleX = GUN_BOBBLE_AMPLITUDE * -1 * MATH_SIN((gunBobbleCounter/1000) * GUN_BOBBLE_FREQUENCEY/2);
-    gunBobbleY = GUN_BOBBLE_AMPLITUDE * MATH_SIN((gunBobbleCounter/1000) * GUN_BOBBLE_FREQUENCEY);
+    gunBobbleX = GUN_BOBBLE_AMPLITUDE * MATH_COS((gunBobbleCounter/1000) * GUN_BOBBLE_FREQUENCEY);
+    gunBobbleY = MATH_ABS(GUN_BOBBLE_AMPLITUDE * MATH_SIN((gunBobbleCounter/1000) * GUN_BOBBLE_FREQUENCEY));
   }
   else {
     gunBobbleX = 0;

@@ -14,6 +14,7 @@ const MATH_COS = Math.cos;
 const MATH_FLOOR = Math.floor;
 const MATH_CEIL = Math.floor;
 const MATH_SIGN = Math.sign;
+const MATH_ABS = Math.abs;
 const GUN_RECOIL = 100;
 const GUN_RECOIL_RECOVER_SPEED= 400; // units per second
 const PIXEL_RATIO = (window && window.devicePixelRatio) || 1;
