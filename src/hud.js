@@ -2,6 +2,7 @@
 function hud_init() {
   hudRatio = viewportHeight / OPTIMAL_VIEWPORT_HEIGHT;
   gun = {
+    x: viewportWidth / 2,
     y: viewportHeight
   };
 }
@@ -16,6 +17,7 @@ function hud_render() {
 }
 
 function hud_update() {
+  // recoil
   if (gun.y >= viewportHeight) {
     let distEachFrame = GUN_RECOIL_RECOVER_SPEED * elapsedTime / 1000;
 
@@ -26,25 +28,37 @@ function hud_update() {
     }
   }
 
+  // bobble
+  if (player.straightMovement || player.sideMovement) {
+    gunBobbleCounter += elapsedTime;
+    gunBobbleX = GUN_BOBBLE_AMPLITUDE * -1 * MATH_SIN((gunBobbleCounter/1000) * GUN_BOBBLE_FREQUENCEY/2);
+    gunBobbleY = GUN_BOBBLE_AMPLITUDE * MATH_SIN((gunBobbleCounter/1000) * GUN_BOBBLE_FREQUENCEY);
+  }
+  else {
+    gunBobbleX = 0;
+    gunBobbleY = 0;
+  }
+
   
 }
 
 function hud_renderGun() {
   let gradient;
 
-  
+  let height = 230;
   
   // left barrel
   hudContext.save();
   hudContext.beginPath();
-  hudContext.translate(viewportWidth / 2, gun.y);
+  hudContext.translate(gun.x + gunBobbleX, gun.y + gunBobbleY + GUN_BOBBLE_AMPLITUDE);
   hudContext.scale(hudRatio, hudRatio);
   hudContext.moveTo(-80, 0);
-  hudContext.lineTo(-30, -200);
-  hudContext.quadraticCurveTo(-15, -210, 0, -200);
+  hudContext.lineTo(-30, -1 * height);
+  hudContext.quadraticCurveTo(-15, -1*height - 10, 0, -1*height);
   hudContext.lineTo(0, 0);
 
-  gradient = hudContext.createLinearGradient(-70, -100, 5, -90);
+  //gradient = hudContext.createLinearGradient(-70, -100, 5, -90);
+  gradient = hudContext.createLinearGradient(-70, -1*height/2, 5, -1*height/2+8);
   gradient.addColorStop(0, '#535c57');
   gradient.addColorStop(0.3, '#555d5f');
   gradient.addColorStop(0.5, '#8a918a');
@@ -58,14 +72,15 @@ function hud_renderGun() {
   // right barrel
   hudContext.save();
   hudContext.beginPath();
-  hudContext.translate(viewportWidth / 2, gun.y);
+  hudContext.translate(gun.x + gunBobbleX, gun.y + gunBobbleY + GUN_BOBBLE_AMPLITUDE);
   hudContext.scale(hudRatio, hudRatio);
   hudContext.moveTo(0, 0);
-  hudContext.lineTo(0, -200);
-  hudContext.quadraticCurveTo(15, -210, 30, -200);
+  hudContext.lineTo(0, -1 * height);
+  hudContext.quadraticCurveTo(15, -1*height-10, 30, -1*height);
   hudContext.lineTo(80, 0);
 
-  gradient = hudContext.createLinearGradient(-10, -90, 60, -99);
+  gradient = hudContext.createLinearGradient(-10, -1*height/2+10, 60, -1*height/2+5);
+  //gradient = hudContext.createLinearGradient(-10, -90, 60, -99);
   gradient.addColorStop(0, '#535c57');
   gradient.addColorStop(0.3, '#555d5f');
   gradient.addColorStop(0.5, '#8a918a');
@@ -168,15 +183,27 @@ function hud_gunRecoil() {
 function hud_renderDialog() {
   if (gameState === GAME_STATE_LOADING) {
     hud_renderDialogFrame();
-    hud_renderLine(viewportWidth/2, viewportHeight/2, 30, 'loading...');
+
+    let str = 'loading...';
+    let height = 30;
+    let width = text_getWidth(str, height);
+    text_renderLine(str, viewportWidth/2 - width/2, viewportHeight/2, height, hudContext);
   }
   else if(gameState === GAME_STATE_START_SCREEN) {
     hud_renderDialogFrame();
-    hud_renderLine(viewportWidth/2, viewportHeight/2, 30, 'press enter to start');
+
+    let str = 'press enter to start';
+    let height = 30;
+    let width = text_getWidth(str, height);
+    text_renderLine(str, viewportWidth/2 - width/2, viewportHeight/2, height, hudContext);
   }
   else if(gameState === GAME_STATE_PAUSED) {
     hud_renderDialogFrame();
-    hud_renderLine(viewportWidth/2, viewportHeight/2, 30, 'press enter to resume');
+
+    let str = 'press enter to resume';
+    let height = 30;
+    let width = text_getWidth(str, height);
+    text_renderLine(str, viewportWidth/2 - width/2, viewportHeight/2, height, hudContext);
   }
 
 }
@@ -231,35 +258,4 @@ function hud_renderDialogFrame() {
   hudContext.moveTo(x, y+height);
   hudContext.bezierCurveTo(x, y+height + corderRadius, x - corderRadius, y+height, x, y+height);
   hudContext.stroke();
-}
-
-function hud_renderLine(startX, y, height, str) {
-  let pixelsPerLetter = 9;
-  let scale = height / pixelsPerLetter;
-  let textColor = '#958e78';
-
-
-  let x = startX;
-  let charHeight = 9;
-
-  for (let n=0; n<str.length; n++) {
-    let char = str[n];
-    let charObj = ALPHABET_MAP[char];
-
-    if (char === ' ') {
-      x += 4 * scale;
-    }
-    else if (char === '.') {
-      hudContext.fillStyle = textColor;
-      hudContext.fillRect(x, y+6*scale, scale, scale);
-      x += (1 + CHAR_SPACING) * scale;
-    }
-    else if (charObj) {
-      let charX = charObj[0];
-      let charWidth = charObj[1];
-      hudContext.drawImage(alphabetCanvas, charX * PIXEL_RATIO, 0, charWidth * PIXEL_RATIO, charHeight * PIXEL_RATIO, x, y, charWidth*scale, charHeight*scale);
-      x += (charWidth + CHAR_SPACING) * scale;
-    }
-
-  }
 }

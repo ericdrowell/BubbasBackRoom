@@ -18,7 +18,7 @@ function game_init() {
   hud_init();
   soundEffects_init();
   userInputs_init();
-  alphabet_init();
+  text_init();
 
   world_init();
   player_init();

@@ -155,6 +155,8 @@ function player_hurt() {
 
 function player_fire() {
   if (numBullets > 0) {
+    gunBobbleX = 0;
+    gunBobbleY = 0;
     flashTimeRemaining = FLASH_COOLDOWN;
     numBullets -= 1;
 

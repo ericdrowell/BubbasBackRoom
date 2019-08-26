@@ -11,6 +11,7 @@ const MATH_PI = Math.PI;
 const MATH_ROUND = Math.round;
 const MATH_RANDOM = Math.random;
 const MATH_SIN = Math.sin;
+const MATH_COS = Math.cos;
 const MATH_FLOOR = Math.floor;
 const MATH_CEIL = Math.floor;
 const MATH_SIGN = Math.sign;
@@ -21,7 +22,7 @@ const PIXEL_RATIO = (window && window.devicePixelRatio) || 1;
 // render 2,666 blocks for each drawElements call.  Exceeding this number will result in skipping of call draws for individual blocks
 const BLOCKS_PER_BUFFER = 2666;
 const OPTIMAL_VIEWPORT_HEIGHT = 730;
-const BOBBLE_AMPLITUDE = 1;
+const BOBBLE_AMPLITUDE = 1; // webgl space
 const BOBBLE_FREQUENCEY = 10;
 const GRAVITY = -100; // units / second^2
 const JUMP_SPEED = 30;
@@ -36,6 +37,9 @@ const TEXTURES_MOSSY_STONE = 'mossy-stone';
 const TEXTURES_ROTTING_WOOD = 'rotting-wood';
 const TEXTURES_DIRT = 'dirt';
 const TEXTURES_BURNED_STONE = 'burned-stone';
+const TEXT_HEIGHT = 9;
+const GUN_BOBBLE_AMPLITUDE = 30; // pixels
+const GUN_BOBBLE_FREQUENCEY = 10;
 
 let world = [];
 let worldBuffers = {};
@@ -68,6 +72,9 @@ let compositeCanvas;
 let compositeContext;
 let bobble = 0;
 let bobbleCounter = 0;
+let gunBobbleX = 0;
+let gunBobbleY = 0;
+let gunBobbleCounter = 0;
 let numBullets = 6;
 let health = 5;
 let upVelocity = 0;

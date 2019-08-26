@@ -2,8 +2,8 @@ function canvas2d_init() {
   hudCanvas = document.getElementById('hudCanvas');
   hudContext = canvas2d_initCanvas(hudCanvas, viewportWidth, viewportHeight, PIXEL_RATIO);
 
-  alphabetCanvas = document.createElement('canvas');
-  alphabetContext = canvas2d_initCanvas(alphabetCanvas, 129, 9, PIXEL_RATIO);
+  textCanvas = document.createElement('canvas');
+  textContext = canvas2d_initCanvas(textCanvas, 129, 9, PIXEL_RATIO);
 };
 
 function canvas2d_initCanvas(canvas, width, height, pixelRatio) {
