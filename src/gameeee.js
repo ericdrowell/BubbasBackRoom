@@ -31,21 +31,18 @@ function game_init() {
     game_setReady();
   });
 
-  if (INCLUDE_MUSIC) {
-    music_init(function() {
-      musicReady = true;
-      game_setReady();
-    });
-  }
-  else {
+
+  music_init(function() {
     musicReady = true;
-  }
+    game_setReady();
+  });
+
 
   game_loop();
 }
 
 function game_setReady() {
-  if (texturesReady && (!INCLUDE_MUSIC || musicReady)) {
+  if (texturesReady && musicReady) {
     gameState = GAME_STATE_START_SCREEN;
   }
 }
@@ -89,10 +86,8 @@ function game_start() {
   gameState = GAME_STATE_PLAYING;
   webglCanvas.requestPointerLock();
   soundEffects.play('start');
-  
-  if (INCLUDE_MUSIC) {
-    music_start();
-  }
+ 
+  music_start();
 }
 
 

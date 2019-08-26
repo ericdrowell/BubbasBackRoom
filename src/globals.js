@@ -1,4 +1,3 @@
-const INCLUDE_MUSIC = false;
 const MONSTER_COOLDOWN_TIME = 1; // s
 const MONSTER_SPEED = 1; // units / s
 const MONSTER_JUMP_SPEED = 25; // units / s

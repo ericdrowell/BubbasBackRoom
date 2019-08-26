@@ -257,16 +257,18 @@ function world_getBlockPos(x, y, z) {
 }
 
 function world_getBlockBelow(block) {
-  let blockBelow = world_getBlock(block.x, block.y - 1, block.z);
+  return world_getBlock(block.x, block.y - 1, block.z);
+  
+  // let blockBelow = world_getBlock(block.x, block.y - 1, block.z);
 
-  if (blockBelow) {
-    return blockBelow;
-  }
+  // if (blockBelow) {
+  //   return blockBelow;
+  // }
 
-  // now try current block
-  let currentBlock = world_getBlock(block.x, block.y, block.z);
+  // // now try current block
+  // let currentBlock = world_getBlock(block.x, block.y, block.z);
 
-  return currentBlock;
+  // return currentBlock;
 }
 
 function world_getBlockAbove(block) {
