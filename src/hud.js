@@ -208,6 +208,37 @@ function hud_renderDialog() {
 
 }
 
+function hud_renderDialogHorn(flip, angle) {
+  let lineWidth = 5;
+  let hornRadius = 40;
+  let halfLineWidth = lineWidth/2;
+
+  hudContext.save();
+  hudContext.scale(flip, 1); // used for flipping
+  hudContext.rotate(angle)
+  hudContext.beginPath();
+  hudContext.moveTo(-halfLineWidth, -halfLineWidth);
+  hudContext.quadraticCurveTo(-halfLineWidth, -halfLineWidth-hornRadius, -halfLineWidth+hornRadius, -halfLineWidth-hornRadius);
+  hudContext.quadraticCurveTo(halfLineWidth, -halfLineWidth-hornRadius, halfLineWidth, halfLineWidth);
+
+  hudContext.fill();
+  hudContext.restore();
+}
+
+function hud_renderCorner(x, y, rotation) {
+  hudContext.save();
+
+  hudContext.translate(x, y);
+  hudContext.rotate(rotation);
+
+  hud_renderDialogHorn(1, 0);
+  hud_renderDialogHorn(1, MATH_PI*-0.5);
+  hud_renderDialogHorn(-1, MATH_PI*0.5);
+  hud_renderDialogHorn(-1, 0);
+
+  hudContext.restore();
+}
+
 function hud_renderDialogFrame() {
   let borderColor = '#958e77';
   let x = viewportWidth*0.1;
@@ -230,32 +261,19 @@ function hud_renderDialogFrame() {
   hudContext.restore();
 
   // border
-  hudContext.lineWidth = 5;
+  let lineWidth = 5;
+  hudContext.lineWidth = lineWidth;
   hudContext.strokeStyle = borderColor;
   hudContext.strokeRect(x, y, width, height);
 
-  // fancy corners
-  let corderRadius = 40;
-  hudContext.beginPath();
-  hudContext.strokeStyle = borderColor;
+  // horn corners
+  hudContext.fillStyle = borderColor;
 
-  // top left
-  hudContext.moveTo(x, y);
-  hudContext.bezierCurveTo(x, y - corderRadius, x - corderRadius, y, x, y);
-  hudContext.stroke();
+  hud_renderCorner(x, y, 0);
+  hud_renderCorner(x+width, y, MATH_PI*0.5);
+  hud_renderCorner(x+width, y+height, MATH_PI);
+  hud_renderCorner(x, y+height, MATH_PI*-0.5);
 
-  // top right
-  hudContext.moveTo(x+width, y);
-  hudContext.bezierCurveTo(x+width, y - corderRadius, x+width + corderRadius, y, x+width, y);
-  hudContext.stroke();
 
-  // bottom right
-  hudContext.moveTo(x+width, y+height);
-  hudContext.bezierCurveTo(x+width, y+height + corderRadius, x+width + corderRadius, y+height, x+width, y+height);
-  hudContext.stroke();
 
-  // bottom left
-  hudContext.moveTo(x, y+height);
-  hudContext.bezierCurveTo(x, y+height + corderRadius, x - corderRadius, y+height, x, y+height);
-  hudContext.stroke();
 }
