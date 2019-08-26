@@ -208,21 +208,44 @@ function hud_renderDialog() {
 
 }
 
-function hud_renderDialogHorn(flip, angle) {
+function hud_renderDialogHorn(angle) {
   let lineWidth = 5;
-  let hornRadius = 40;
+  let hornLength = 40;
   let halfLineWidth = lineWidth/2;
+  let barLength = 15;
+  let barSize = 5;
+  let barSpacing = 15;
 
+  
   hudContext.save();
-  hudContext.scale(flip, 1); // used for flipping
   hudContext.rotate(angle)
+
+  // spike
   hudContext.beginPath();
   hudContext.moveTo(-halfLineWidth, -halfLineWidth);
-  hudContext.quadraticCurveTo(-halfLineWidth, -halfLineWidth-hornRadius, -halfLineWidth+hornRadius, -halfLineWidth-hornRadius);
-  hudContext.quadraticCurveTo(halfLineWidth, -halfLineWidth-hornRadius, halfLineWidth, halfLineWidth);
-
+  hudContext.lineTo(0, -halfLineWidth - hornLength);
+  hudContext.lineTo(halfLineWidth, -halfLineWidth);
   hudContext.fill();
+
+  // bar
+  hudContext.beginPath();
+  hudContext.fillRect(-barLength/2, -barSize/2 - barSpacing, barLength, barSize);
   hudContext.restore();
+
+
+
+
+
+  // hudContext.save();
+  // hudContext.scale(flip, 1); // used for flipping
+  // hudContext.rotate(angle)
+  // hudContext.beginPath();
+  // hudContext.moveTo(-halfLineWidth, -halfLineWidth);
+  // hudContext.quadraticCurveTo(-halfLineWidth, -halfLineWidth-hornRadius, -halfLineWidth+hornRadius, -halfLineWidth-hornRadius);
+  // hudContext.quadraticCurveTo(halfLineWidth, -halfLineWidth-hornRadius, halfLineWidth, halfLineWidth);
+
+  // hudContext.fill();
+  // hudContext.restore();
 }
 
 function hud_renderCorner(x, y, rotation) {
@@ -231,10 +254,12 @@ function hud_renderCorner(x, y, rotation) {
   hudContext.translate(x, y);
   hudContext.rotate(rotation);
 
-  hud_renderDialogHorn(1, 0);
-  hud_renderDialogHorn(1, MATH_PI*-0.5);
-  hud_renderDialogHorn(-1, MATH_PI*0.5);
-  hud_renderDialogHorn(-1, 0);
+  hud_renderDialogHorn();
+  hud_renderDialogHorn(-1 * MATH_PI * 0.5);
+
+  // hud_renderDialogHorn(1, MATH_PI*-0.5);
+  // hud_renderDialogHorn(-1, MATH_PI*0.5);
+  // hud_renderDialogHorn(-1, 0);
 
   hudContext.restore();
 }
@@ -268,6 +293,7 @@ function hud_renderDialogFrame() {
 
   // horn corners
   hudContext.fillStyle = borderColor;
+
 
   hud_renderCorner(x, y, 0);
   hud_renderCorner(x+width, y, MATH_PI*0.5);

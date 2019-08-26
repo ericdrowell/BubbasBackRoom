@@ -40,6 +40,7 @@ const TEXTURES_BURNED_STONE = 'burned-stone';
 const TEXT_HEIGHT = 9;
 const GUN_BOBBLE_AMPLITUDE = 30; // pixels
 const GUN_BOBBLE_FREQUENCEY = 10;
+const GAME_ASPECT_RATIO = 16/9; // width/height
 
 let world = [];
 let worldBuffers = {};

@@ -19,7 +19,7 @@ function world_buildModel() {
 
   // floor
   world_addPlane(-50, -31, 10, 10, -2, 2, TEXTURES_MOSSY_STONE);
-  world_addPlane(-55, -51, 10, 10, -2, 2, TEXTURES_DIRT);
+  world_addPlane(-61, -51, 10, 10, -2, 2, TEXTURES_DIRT);
 
   // walls
   world_addPlane(-50, -16, 11, 18, 3, 3, TEXTURES_MOSSY_STONE);
