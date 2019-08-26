@@ -46,7 +46,7 @@ function textures_createTile(colors) {
 function textures_init(callback) {
   textures = {
     'dirt': {
-      encoding: textures_createTile([
+      encoding: textures_createRandom([
         '3d3527', 
         '4a493b', 
         '534e3e', 

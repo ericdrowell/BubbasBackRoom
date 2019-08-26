@@ -19,6 +19,7 @@ function world_buildModel() {
 
   // floor
   world_addPlane(-50, -31, 10, 10, -2, 2, TEXTURES_MOSSY_STONE);
+  world_addPlane(-55, -51, 10, 10, -2, 2, TEXTURES_DIRT);
 
   // walls
   world_addPlane(-50, -16, 11, 18, 3, 3, TEXTURES_MOSSY_STONE);
@@ -38,10 +39,10 @@ function world_buildModel() {
   world_addPlane(-20, -20, 0, 9, 3, 20, TEXTURES_MOSSY_STONE);
 
   // steps
-  world_addSlope(-30, -20, 0, 10, -2, 2, TEXTURES_DIRT);
+  world_addSlope(-30, -20, 0, 10, -2, 2, TEXTURES_ROTTING_WOOD);
 
   // sloped ceiling
-  world_addSlope(-22, -14, 12, 18, -2, 2, TEXTURES_DIRT);
+  world_addSlope(-22, -14, 12, 18, -2, 2, TEXTURES_ROTTING_WOOD);
 
   // -------------------- FOUR COLUMN ROOM  --------------------
 
@@ -258,7 +259,7 @@ function world_getBlockPos(x, y, z) {
 
 function world_getBlockBelow(block) {
   return world_getBlock(block.x, block.y - 1, block.z);
-  
+
   // let blockBelow = world_getBlock(block.x, block.y - 1, block.z);
 
   // if (blockBelow) {
