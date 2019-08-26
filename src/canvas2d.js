@@ -2,6 +2,17 @@ function canvas2d_init() {
   hudCanvas = document.getElementById('hudCanvas');
   hudContext = canvas2d_initCanvas(hudCanvas, viewportWidth, viewportHeight, PIXEL_RATIO);
 
+  // very wide screen
+  if (windowRatio > GAME_ASPECT_RATIO) {
+    hudCanvas.style.left = '50%';
+    hudCanvas.style.marginLeft = '-' + (viewportWidth/2) + 'px'
+  }
+  // very tall screen
+  else {
+    hudCanvas.style.top = '50%';
+    hudCanvas.style.marginTop = '-' + (viewportHeight/2) + 'px'
+  }
+
   textCanvas = document.createElement('canvas');
   textContext = canvas2d_initCanvas(textCanvas, 129, 9, PIXEL_RATIO);
 };

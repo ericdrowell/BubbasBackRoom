@@ -1,30 +1,34 @@
 // hud = "heads up display"
 function hud_init() {
-  hudRatio = viewportHeight / OPTIMAL_VIEWPORT_HEIGHT;
   gun = {
-    x: viewportWidth / 2,
-    y: viewportHeight
+    x: OPTIMAL_VIEWPORT_WIDTH / 2,
+    y: OPTIMAL_VIEWPORT_HEIGHT
   };
 }
 
 function hud_render() {
-  hudContext.clearRect(0, 0, viewportWidth, viewportHeight);
+  hudContext.clearRect(0, 0, OPTIMAL_VIEWPORT_WIDTH, OPTIMAL_VIEWPORT_HEIGHT);
+
+  hudContext.save();
+  hudContext.scale(viewportScale, viewportScale);
 
   hud_renderGun();
   hud_renderCrossHair();
   hud_renderBullets();
   hud_renderDialog();
+
+  hudContext.restore();
 }
 
 function hud_update() {
   // recoil
-  if (gun.y >= viewportHeight) {
+  if (gun.y >= OPTIMAL_VIEWPORT_HEIGHT) {
     let distEachFrame = GUN_RECOIL_RECOVER_SPEED * elapsedTime / 1000;
 
     gun.y -= distEachFrame;
 
-    if (gun.y < viewportHeight) {
-      gun.y = viewportHeight;
+    if (gun.y < OPTIMAL_VIEWPORT_HEIGHT) {
+      gun.y = OPTIMAL_VIEWPORT_HEIGHT;
     }
   }
 
@@ -51,7 +55,6 @@ function hud_renderGun() {
   hudContext.save();
   hudContext.beginPath();
   hudContext.translate(gun.x + gunBobbleX, gun.y + gunBobbleY + GUN_BOBBLE_AMPLITUDE);
-  hudContext.scale(hudRatio, hudRatio);
   hudContext.moveTo(-80, 0);
   hudContext.lineTo(-30, -1 * height);
   hudContext.quadraticCurveTo(-15, -1*height - 10, 0, -1*height);
@@ -73,7 +76,6 @@ function hud_renderGun() {
   hudContext.save();
   hudContext.beginPath();
   hudContext.translate(gun.x + gunBobbleX, gun.y + gunBobbleY + GUN_BOBBLE_AMPLITUDE);
-  hudContext.scale(hudRatio, hudRatio);
   hudContext.moveTo(0, 0);
   hudContext.lineTo(0, -1 * height);
   hudContext.quadraticCurveTo(15, -1*height-10, 30, -1*height);
@@ -93,8 +95,8 @@ function hud_renderGun() {
 }
 
 function hud_renderCrossHair() {
-  let barLength = hudRatio * 14;
-  let barThickness = hudRatio * 2;
+  let barLength = 14;
+  let barThickness = 2;
   let halfBarThickness = barThickness/2;
   if (numBullets <= 0) {
     // TODO: show "Press R to Reload"
@@ -102,18 +104,18 @@ function hud_renderCrossHair() {
   else {
     hudContext.fillStyle = 'rgba(255, 255, 255, 0.3)';
     // horizontal bar
-    hudContext.fillRect(viewportWidth/2 - barLength - halfBarThickness, viewportHeight/2 - halfBarThickness, barLength, barThickness);
-    hudContext.fillRect(viewportWidth/2 + halfBarThickness, viewportHeight/2 - halfBarThickness, barLength, barThickness);
+    hudContext.fillRect(OPTIMAL_VIEWPORT_WIDTH/2 - barLength - halfBarThickness, OPTIMAL_VIEWPORT_HEIGHT/2 - halfBarThickness, barLength, barThickness);
+    hudContext.fillRect(OPTIMAL_VIEWPORT_WIDTH/2 + halfBarThickness, OPTIMAL_VIEWPORT_HEIGHT/2 - halfBarThickness, barLength, barThickness);
     // vertical bar
-    hudContext.fillRect(viewportWidth/2 - halfBarThickness, viewportHeight/2 - barLength - halfBarThickness, barThickness, barLength);
-    hudContext.fillRect(viewportWidth/2 - halfBarThickness, viewportHeight/2 + halfBarThickness, barThickness, barLength);
+    hudContext.fillRect(OPTIMAL_VIEWPORT_WIDTH/2 - halfBarThickness, OPTIMAL_VIEWPORT_HEIGHT/2 - barLength - halfBarThickness, barThickness, barLength);
+    hudContext.fillRect(OPTIMAL_VIEWPORT_WIDTH/2 - halfBarThickness, OPTIMAL_VIEWPORT_HEIGHT/2 + halfBarThickness, barThickness, barLength);
   }
 
 }
 
 function hud_renderBullets() {
   hudContext.save();
-  hudContext.translate(viewportWidth - 10, viewportHeight - 10);
+  hudContext.translate(OPTIMAL_VIEWPORT_WIDTH - 10, OPTIMAL_VIEWPORT_HEIGHT - 10);
   
 
   let x = -20;
@@ -124,8 +126,6 @@ function hud_renderBullets() {
     hudContext.moveTo(0, 0);
 
     let gradient;
-
-    hudContext.scale(hudRatio, hudRatio);
 
     gradient = hudContext.createLinearGradient(x, 0, x + 20, 0);
     gradient.addColorStop(0, '#9d170e');
@@ -177,7 +177,7 @@ function hud_renderBullets() {
 }
 
 function hud_gunRecoil() {
-  gun.y = viewportHeight + GUN_RECOIL;
+  gun.y = OPTIMAL_VIEWPORT_HEIGHT + GUN_RECOIL;
 }
 
 function hud_renderDialog() {
@@ -187,7 +187,7 @@ function hud_renderDialog() {
     let str = 'loading...';
     let height = 30;
     let width = text_getWidth(str, height);
-    text_renderLine(str, viewportWidth/2 - width/2, viewportHeight/2, height, hudContext);
+    text_renderLine(str, OPTIMAL_VIEWPORT_WIDTH/2 - width/2, OPTIMAL_VIEWPORT_HEIGHT/2, height, hudContext);
   }
   else if(gameState === GAME_STATE_START_SCREEN) {
     hud_renderDialogFrame();
@@ -195,7 +195,7 @@ function hud_renderDialog() {
     let str = 'press enter to start';
     let height = 30;
     let width = text_getWidth(str, height);
-    text_renderLine(str, viewportWidth/2 - width/2, viewportHeight/2, height, hudContext);
+    text_renderLine(str, OPTIMAL_VIEWPORT_WIDTH/2 - width/2, OPTIMAL_VIEWPORT_HEIGHT/2, height, hudContext);
   }
   else if(gameState === GAME_STATE_PAUSED) {
     hud_renderDialogFrame();
@@ -203,7 +203,7 @@ function hud_renderDialog() {
     let str = 'press enter to resume';
     let height = 30;
     let width = text_getWidth(str, height);
-    text_renderLine(str, viewportWidth/2 - width/2, viewportHeight/2, height, hudContext);
+    text_renderLine(str, OPTIMAL_VIEWPORT_WIDTH/2 - width/2, OPTIMAL_VIEWPORT_HEIGHT/2, height, hudContext);
   }
 
 }
@@ -266,10 +266,10 @@ function hud_renderCorner(x, y, rotation) {
 
 function hud_renderDialogFrame() {
   let borderColor = '#958e77';
-  let x = viewportWidth*0.1;
-  let y = viewportHeight*0.1;
-  let width = viewportWidth*0.8;
-  let height = viewportHeight*0.8;
+  let x = 100;
+  let y = 100;
+  let width = OPTIMAL_VIEWPORT_WIDTH-200;
+  let height = OPTIMAL_VIEWPORT_HEIGHT-200;
 
 
   // background

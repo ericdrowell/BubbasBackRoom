@@ -21,7 +21,6 @@ const PIXEL_RATIO = (window && window.devicePixelRatio) || 1;
 // gl drawElements can only handle 64k vertices.  Each block is defined by exactly 24 vertices.  Thus we can at most
 // render 2,666 blocks for each drawElements call.  Exceeding this number will result in skipping of call draws for individual blocks
 const BLOCKS_PER_BUFFER = 2666;
-const OPTIMAL_VIEWPORT_HEIGHT = 730;
 const BOBBLE_AMPLITUDE = 1; // webgl space
 const BOBBLE_FREQUENCEY = 10;
 const GRAVITY = -100; // units / second^2
@@ -41,6 +40,8 @@ const TEXT_HEIGHT = 9;
 const GUN_BOBBLE_AMPLITUDE = 30; // pixels
 const GUN_BOBBLE_FREQUENCEY = 10;
 const GAME_ASPECT_RATIO = 16/9; // width/height
+const OPTIMAL_VIEWPORT_WIDTH = 1300;
+const OPTIMAL_VIEWPORT_HEIGHT = OPTIMAL_VIEWPORT_WIDTH / GAME_ASPECT_RATIO;
 
 let world = [];
 let worldBuffers = {};
@@ -95,3 +96,5 @@ let monsters = [];
 let idGenerator = 0;
 let alplhabetCanvas;
 let alphabetContext;
+let windowRatio;
+let viewportScale;

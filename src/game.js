@@ -4,8 +4,7 @@ setTimeout(function() {
 }, 50);
 
 function game_init() {
-  viewportWidth = window.innerWidth;
-  viewportHeight = window.innerHeight;
+  game_setViewportSize();
 
   let body = document.querySelector('body');
   body.style.overflow = 'hidden';
@@ -32,17 +31,40 @@ function game_init() {
   });
 
 
-  music_init(function() {
-    musicReady = true;
-    game_setReady();
-  });
+  // music_init(function() {
+  //   musicReady = true;
+  //   game_setReady();
+  // });
 
 
   game_loop();
 }
 
+function game_setViewportSize() {
+  let windowWidth =  window.innerWidth;
+  let windowHeight = window.innerHeight;
+
+  windowRatio = windowWidth / windowHeight;
+  
+
+  if (windowRatio > GAME_ASPECT_RATIO) {
+    viewportHeight = windowHeight;
+    viewportWidth = windowHeight * GAME_ASPECT_RATIO;
+  }
+  else {
+    viewportWidth = windowWidth;
+    viewportHeight = windowWidth / GAME_ASPECT_RATIO;
+  }
+
+  viewportScale = viewportWidth / OPTIMAL_VIEWPORT_WIDTH;
+}
+
 function game_setReady() {
-  if (texturesReady && musicReady) {
+  // if (texturesReady && musicReady) {
+  //   gameState = GAME_STATE_START_SCREEN;
+  // }
+
+  if (texturesReady) {
     gameState = GAME_STATE_START_SCREEN;
   }
 }
@@ -87,7 +109,7 @@ function game_start() {
   webglCanvas.requestPointerLock();
   soundEffects.play('start');
  
-  music_start();
+  //music_start();
 }
 
 

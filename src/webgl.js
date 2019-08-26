@@ -7,6 +7,17 @@ function webgl_init() {
   webglCanvas.style.top = 0;
   webglCanvas.style.left = 0;
 
+  // very wide screen
+  if (windowRatio > GAME_ASPECT_RATIO) {
+    webglCanvas.style.left = '50%';
+    webglCanvas.style.marginLeft = '-' + (viewportWidth/2) + 'px'
+  }
+  // very tall screen
+  else {
+    webglCanvas.style.top = '50%';
+    webglCanvas.style.marginTop = '-' + (viewportHeight/2) + 'px'
+  }
+
   mvMatrix = mat4.create(); 
   pMatrix = mat4.create();
   mvMatrixStack = [];
