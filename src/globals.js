@@ -80,7 +80,6 @@ let gunBobbleCounter = 0;
 let numBullets = 6;
 let health = 5;
 let upVelocity = 0;
-let isAirborne = false;
 let hudRatio;
 let flashTimeRemaining;
 let music_audio;
