@@ -36,8 +36,12 @@ function game_init() {
   //   game_setReady();
   // });
 
-
-  game_loop();
+  // HACK: sometimes on start, the player just falls through the floor.  Adding this to hopefully
+  // stop it from happening
+  setTimeout(function() {
+    game_loop();
+  }, 100);
+  
 }
 
 function game_setViewportSize() {

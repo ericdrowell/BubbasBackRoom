@@ -1,24 +1,15 @@
 function player_init() {
-//   player = {
-// health: 7,
-// pitch: -0.06283185307179555,
-// sideMovement: 0,
-// straightMovement: 0,
-// x: -37.03350517035815,
-// y: 11,
-// yaw: 7.84676910934451,
-// z: 0.05602293866959278
-//   };
+
 
   player = {
-    health: 7,
-pitch: -0.14137166941154058,
+health: 7,
+pitch: 0.009424777960769388,
 sideMovement: 0,
 straightMovement: 0,
-x: -136.33354378378095,
-y: 16.9,
-yaw: 4.943937497427535,
-z: 4.0402653612746935
+x: -228.81460839357902,
+y: 26,
+yaw: 7.761946107697599,
+z: -1.3492335535591031
   };
 
   flashTimeRemaining = 0;
