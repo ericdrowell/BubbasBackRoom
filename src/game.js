@@ -32,10 +32,10 @@ function game_init() {
   });
 
 
-  music_init(function() {
-    musicReady = true;
-    game_setReady();
-  });
+  // music_init(function() {
+  //   musicReady = true;
+  //   game_setReady();
+  // });
 
 
   game_loop();
@@ -63,13 +63,13 @@ function game_setViewportSize() {
 }
 
 function game_setReady() {
-  if (texturesReady && musicReady) {
-    gameState = GAME_STATE_START_SCREEN;
-  }
-
-  // if (texturesReady) {
+  // if (texturesReady && musicReady) {
   //   gameState = GAME_STATE_START_SCREEN;
   // }
+
+  if (texturesReady) {
+    gameState = GAME_STATE_START_SCREEN;
+  }
 }
 
 
