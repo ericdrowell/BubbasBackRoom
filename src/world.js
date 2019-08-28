@@ -250,16 +250,16 @@ function world_buildBuffers() {
 
     rawBuffers[texture].forEach(function(buffer) {
       worldBuffers[texture].push({
-        position: webgl_createArrayBuffer(buffer.position),
-        normal: webgl_createArrayBuffer(buffer.normal),
-        texture: webgl_createArrayBuffer(buffer.texture),
-        index: webgl_createElementArrayBuffer(buffer.index)
+        position: webgl_createArrayBuffer(sceneContext, buffer.position),
+        normal: webgl_createArrayBuffer(sceneContext, buffer.normal),
+        texture: webgl_createArrayBuffer(sceneContext, buffer.texture),
+        index: webgl_createElementArrayBuffer(sceneContext, buffer.index)
       });
 
       worldHitBuffers[texture].push({
-        position: hit_createArrayBuffer(buffer.position),
-        color: hit_createArrayBuffer(buffer.color),
-        index: hit_createElementArrayBuffer(buffer.index)
+        position: webgl_createArrayBuffer(hitContext, buffer.position),
+        color: webgl_createArrayBuffer(hitContext, buffer.color),
+        index: webgl_createElementArrayBuffer(hitContext, buffer.index)
       });
     });
   }
@@ -268,7 +268,7 @@ function world_buildBuffers() {
 function world_render() {
   for (let texture in worldBuffers) {
     worldBuffers[texture].forEach(function(buffer) {
-      webgl_render(buffer, textures[texture].glTexture);
+      scene_render(buffer, textures[texture].glTexture);
     });
   }  
 

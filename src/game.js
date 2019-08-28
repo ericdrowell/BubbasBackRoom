@@ -13,8 +13,7 @@ function game_init() {
   body.style.backgroundColor = 'black';
 
   canvas2d_init()
-  webgl_init(); 
-  hit_init();
+  webgl_init();
   hud_init();
   soundEffects_init();
   userInputs_init();
@@ -32,10 +31,10 @@ function game_init() {
   });
 
 
-  // music_init(function() {
-  //   musicReady = true;
-  //   game_setReady();
-  // });
+  music_init(function() {
+    musicReady = true;
+    game_setReady();
+  });
 
 
   game_loop();
@@ -63,13 +62,13 @@ function game_setViewportSize() {
 }
 
 function game_setReady() {
-  // if (texturesReady && musicReady) {
-  //   gameState = GAME_STATE_START_SCREEN;
-  // }
-
-  if (texturesReady) {
+  if (texturesReady && musicReady) {
     gameState = GAME_STATE_START_SCREEN;
   }
+
+  // if (texturesReady) {
+  //   gameState = GAME_STATE_START_SCREEN;
+  // }
 }
 
 
@@ -78,15 +77,15 @@ function game_render() {
     let viewAngle = 45;
     let minDist = 0.1;
     let maxDist = 100;
-    mat4.perspective(viewAngle, webglCanvas.width / webglCanvas.height, minDist, maxDist, pMatrix);
+    mat4.perspective(viewAngle, sceneCanvas.width / sceneCanvas.height, minDist, maxDist, pMatrix);
     mat4.identity(mvMatrix);
     mat4.rotate(mvMatrix, -player.pitch, [1, 0, 0]);
     mat4.rotate(mvMatrix, -player.yaw, [0, 1, 0]);
     mat4.translate(mvMatrix, [-2 * player.x, -2 * (player.y + PLAYER_HEIGHT), -2 * player.z]);
     mat4.translate(mvMatrix, [0, bobble, 0]);
 
-    webgl_clear();
-    hit_clear();
+    webgl_clear(sceneCanvas, sceneContext);
+    webgl_clear(hitCanvas, hitContext);
 
     world_render();
     monsters_render();    
@@ -94,22 +93,11 @@ function game_render() {
 
   // canvas2d rendering
   hud_render();
-  // composite
-  // canvas2d_clear(compositeContext);
-  // compositeContext.drawImage(webglCanvas, 0, 0, viewportWidth, viewportHeight);
-  // //canvas2d_pixelate(compositeCanvas, compositeContext, 3);
-  // compositeContext.drawImage(hudCanvas, 0, 0, viewportWidth, viewportHeight);
-
- 
-  // // copy final result onto scene
-  // canvas2d_clear(sceneContext);
-  // sceneContext.drawImage(compositeCanvas, 0, 0, viewportWidth, viewportHeight);
-  
 };
 
 function game_start() {
   gameState = GAME_STATE_PLAYING;
-  webglCanvas.requestPointerLock();
+  sceneCanvas.requestPointerLock();
   soundEffects.play('start');
  
   music_start();
@@ -123,7 +111,7 @@ function game_pause() {
 
 function game_resume() {
   gameState = GAME_STATE_PLAYING;
-  webglCanvas.requestPointerLock();
+  sceneCanvas.requestPointerLock();
   soundEffects.play('start');
 }
 

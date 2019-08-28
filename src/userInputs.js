@@ -121,5 +121,5 @@ function userInputs_handleMouseDown(evt) {
 }
 
 function userInputs_isPointerLocked() {
-  return document.pointerLockElement === webglCanvas;
+  return document.pointerLockElement === sceneCanvas;
 }

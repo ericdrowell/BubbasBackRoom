@@ -1,142 +1,78 @@
 function webgl_init() {
-  webglCanvas = document.getElementById('webglCanvas');
-  webglContext = webglCanvas.getContext('webgl');
-  webglCanvas.width = viewportWidth;
-  webglCanvas.height = viewportHeight;
-  webglCanvas.style.position = 'fixed';
-  webglCanvas.style.top = 0;
-  webglCanvas.style.left = 0;
-
-  // very wide screen
-  if (windowRatio > GAME_ASPECT_RATIO) {
-    webglCanvas.style.left = '50%';
-    webglCanvas.style.marginLeft = '-' + (viewportWidth/2) + 'px'
-  }
-  // very tall screen
-  else {
-    webglCanvas.style.top = '50%';
-    webglCanvas.style.marginTop = '-' + (viewportHeight/2) + 'px'
-  }
-
   mvMatrix = mat4.create(); 
   pMatrix = mat4.create();
 
-  webgl_setShaderProgram();
-  webgl_initUniforms();
+  scene_init();
+  hit_init();
+}
 
-  // init depth test
-  webglContext.enable(webglContext.DEPTH_TEST);
-};
+function webgl_setSize(canvas) {
+  canvas.width = viewportWidth;
+  canvas.height = viewportHeight;
+  canvas.style.position = 'fixed';
+  canvas.style.top = 0;
+  canvas.style.left = 0;
 
-function webgl_setShaderProgram() {
+  // very wide screen
+  if (windowRatio > GAME_ASPECT_RATIO) {
+    canvas.style.left = '50%';
+    canvas.style.marginLeft = '-' + (viewportWidth/2) + 'px'
+  }
+  // very tall screen
+  else {
+    canvas.style.top = '50%';
+    canvas.style.marginTop = '-' + (viewportHeight/2) + 'px'
+  }
+}
+
+function webgl_setShaderProgram(program, context, fragShader, vertShader) {
   let shader;
 
-  shaderProgram = webglContext.createProgram();
+  shader = context.createShader(context.FRAGMENT_SHADER);
+  context.shaderSource(shader, fragShader);
+  context.compileShader(shader);
+  context.attachShader(program, shader);
   
-  shader = webglContext.createShader(webglContext.FRAGMENT_SHADER);
-  webglContext.shaderSource(shader, fragmentShader);
-  webglContext.compileShader(shader);
-  webglContext.attachShader(shaderProgram, shader);
-  
-  shader = webglContext.createShader(webglContext.VERTEX_SHADER);
-  webglContext.shaderSource(shader, vertexShader);
-  webglContext.compileShader(shader);
-  webglContext.attachShader(shaderProgram, shader);
+  shader = context.createShader(context.VERTEX_SHADER);
+  context.shaderSource(shader, vertShader);
+  context.compileShader(shader);
+  context.attachShader(program, shader);
 
-  webglContext.linkProgram(shaderProgram);
+  context.linkProgram(program);
   
-  if (!webglContext.getProgramParameter(shaderProgram, webglContext.LINK_STATUS)) {
+  if (!context.getProgramParameter(program, context.LINK_STATUS)) {
     alert('Could not initialize shaders');
   }
   
-  webglContext.useProgram(shaderProgram);
+  context.useProgram(program);
 };
 
-function webgl_initUniforms() {
-  shaderProgram.vertexPositionAttribute = webglContext.getAttribLocation(shaderProgram, 'aVertexPosition');
-  webglContext.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
-  shaderProgram.pMatrixUniform = webglContext.getUniformLocation(shaderProgram, 'uPMatrix');
-  shaderProgram.mvMatrixUniform = webglContext.getUniformLocation(shaderProgram, 'uMVMatrix');
-
-  shaderProgram.textureCoordAttribute = webglContext.getAttribLocation(shaderProgram, 'aTextureCoord');
-  webglContext.enableVertexAttribArray(shaderProgram.textureCoordAttribute);
-  shaderProgram.samplerUniform = webglContext.getUniformLocation(shaderProgram, 'uSampler');
-
-  shaderProgram.vertexNormalAttribute = webglContext.getAttribLocation(shaderProgram, 'aVertexNormal');
-  webglContext.enableVertexAttribArray(shaderProgram.vertexNormalAttribute);
-  shaderProgram.nMatrixUniform = webglContext.getUniformLocation(shaderProgram, 'uNMatrix');
-
-  shaderProgram.isFlashing = webglContext.getUniformLocation(shaderProgram, 'isFlashing');
-};
-
-function webgl_createArrayBuffer(vertices) {
-  let buffer = webglContext.createBuffer();
+function webgl_createArrayBuffer(context, vertices) {
+  let buffer = context.createBuffer();
   buffer.numElements = vertices.length;
-  webglContext.bindBuffer(webglContext.ARRAY_BUFFER, buffer);
-  webglContext.bufferData(webglContext.ARRAY_BUFFER, new Float32Array(vertices), webglContext.STATIC_DRAW);
+  context.bindBuffer(context.ARRAY_BUFFER, buffer);
+  context.bufferData(context.ARRAY_BUFFER, new Float32Array(vertices), context.STATIC_DRAW);
   return buffer;
 };
 
-function webgl_createElementArrayBuffer(vertices) {
-  let buffer = webglContext.createBuffer();
+function webgl_createElementArrayBuffer(context, vertices) {
+  let buffer = context.createBuffer();
   buffer.numElements = vertices.length;
-  webglContext.bindBuffer(webglContext.ELEMENT_ARRAY_BUFFER, buffer);
-  webglContext.bufferData(webglContext.ELEMENT_ARRAY_BUFFER, new Uint16Array(vertices), webglContext.STATIC_DRAW);
+  context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, buffer);
+  context.bufferData(context.ELEMENT_ARRAY_BUFFER, new Uint16Array(vertices), context.STATIC_DRAW);
   return buffer;
 };
 
-
-function webgl_setUniforms() {
-  webglContext.uniform1i(shaderProgram.samplerUniform, 0);
-  webglContext.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
-  webglContext.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
-  
-  let normalMatrix = mat3.create();
-  mat4.toInverseMat3(mvMatrix, normalMatrix);
-  mat3.transpose(normalMatrix);
-  webglContext.uniformMatrix3fv(shaderProgram.nMatrixUniform, false, normalMatrix);
-
-  webglContext.uniform1i(shaderProgram.isFlashing, flashTimeRemaining > 0);
-};
-
-function webgl_clear() {
-  webglContext.viewport(0, 0, webglCanvas.width, webglCanvas.height);
-  webglContext.clear(webglContext.COLOR_BUFFER_BIT | webglContext.DEPTH_BUFFER_BIT);
+function webgl_clear(canvas, context) {
+  context.viewport(0, 0, canvas.width, canvas.height);
+  context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT);
 }
 
-function webgl_render(buffers, texture) {
-  // position buffers
-  webglContext.bindBuffer(webglContext.ARRAY_BUFFER, buffers.position);
-  webglContext.vertexAttribPointer(shaderProgram.vertexPositionAttribute, 3, webglContext.FLOAT, false, 0, 0);
+function webgl_setUniformLocation(program, context, key) {
+  program[key] = context.getUniformLocation(program, key);
+}
 
-  // texture buffers
-  webglContext.bindBuffer(webglContext.ARRAY_BUFFER, buffers.texture);
-  webglContext.vertexAttribPointer(shaderProgram.textureCoordAttribute, 2, webglContext.FLOAT, false, 0, 0);
-  webglContext.activeTexture(webglContext.TEXTURE0);
-  webglContext.bindTexture(webglContext.TEXTURE_2D, texture);
-
-  // index buffers
-  webglContext.bindBuffer(webglContext.ELEMENT_ARRAY_BUFFER, buffers.index);
-
-  // normal buffers
-  webglContext.bindBuffer(webglContext.ARRAY_BUFFER, buffers.normal);
-  webglContext.vertexAttribPointer(shaderProgram.vertexNormalAttribute, 3, webglContext.FLOAT, false, 0, 0);
-
-  // set uniforms
-  webgl_setUniforms();
-
-  // draw elements
-  webglContext.drawElements(webglContext.TRIANGLES, buffers.index.numElements, webglContext.UNSIGNED_SHORT, 0);
-};
-
-function webgl_initTexture(glTexture, image) {
-  webglContext.pixelStorei(webglContext.UNPACK_FLIP_Y_WEBGL, true);
-  webglContext.bindTexture(webglContext.TEXTURE_2D, glTexture);
-  webglContext.texImage2D(webglContext.TEXTURE_2D, 0, webglContext.RGBA, webglContext.RGBA, webglContext.UNSIGNED_BYTE, image);
-  webglContext.texParameteri(webglContext.TEXTURE_2D, webglContext.TEXTURE_MAG_FILTER, webglContext.NEAREST);
-  webglContext.texParameteri(webglContext.TEXTURE_2D, webglContext.TEXTURE_MIN_FILTER, webglContext.LINEAR_MIPMAP_NEAREST);
-  webglContext.generateMipmap(webglContext.TEXTURE_2D);
-  webglContext.bindTexture(webglContext.TEXTURE_2D, null);
-};
-
-
+function webgl_setAttribLocation(program, context, key) {
+  program[key] = context.getAttribLocation(program, key);
+  context.enableVertexAttribArray(program[key]);
+}
