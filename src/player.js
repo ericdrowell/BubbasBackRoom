@@ -1,18 +1,32 @@
 function player_init() {
 
 
-  player = {
+// start at beginning of tunnel
+player = {
 health: 7,
-pitch: 0.009424777960769388,
+pitch: -0.13823007675794918,
 sideMovement: 0,
 straightMovement: 0,
-x: 0,
-y: 0,
-yaw: 7.761946107697599,
-z: 0
-  };
+x: -230,
+y: 26,
+yaw: -1.640840704496659,
+z: -2
+};
+
+// center
+// player = {
+// health: 7,
+// pitch: -0.13823007675794918,
+// sideMovement: 0,
+// straightMovement: 0,
+// x: 0,
+// y: 0,
+// yaw: -1.640840704496659,
+// z: 0
+// };
 
   flashTimeRemaining = 0;
+  isAirborne = false;
 }
 
 function player_move(xChange, yChange, zChange) {
@@ -28,6 +42,7 @@ function player_move(xChange, yChange, zChange) {
   if (newPlayerBlock) {
     newY = player.y;
     upVelocity = 0;
+    isAirborne = false;
   }
   else {
     newPlayerBlockPos = world_getBlockPos(player.x, newY+PLAYER_HEIGHT, player.z);
@@ -172,11 +187,30 @@ function player_update() {
     }
   }
 
+  // reloading
+  if (isReloading) {
+    reloadTimeRemaining -= elapsedTime;
+
+    if (reloadTimeRemaining < 0) {
+      if (numBullets < 6) {
+        numBullets++;
+        soundEffects.play('reload');
+        reloadTimeRemaining = RELOAD_SPEED;
+      }
+      else {
+        isReloading = false;
+      }
+    }
+  }
+
 
 };
 
 function player_jump() {
-  upVelocity = JUMP_SPEED;
+  if (!isAirborne) {
+    upVelocity = JUMP_SPEED;
+    isAirborne = true;
+  }
 }
 
 function player_hurt() {
@@ -191,7 +225,7 @@ function player_hurt() {
 }
 
 function player_fire() {
-  if (numBullets > 0) {
+  if (numBullets > 0 && !isReloading) {
     gunBobbleX = 0;
     gunBobbleY = 0;
     flashTimeRemaining = FLASH_COOLDOWN;
@@ -202,7 +236,31 @@ function player_fire() {
     //   monsters_hurt(hitMonster);
     // }
 
+    let pixel = hit_getPixel(viewportWidth/2, viewportHeight/2);
+
     soundEffects.play('shoot');
+
+    // monsters are in the red channel
+    if (pixel[0] === 255) {
+      // monster id is in the green channel
+      let monsterId = pixel[1];
+
+      monsters_hurt(monsterId);
+
+      soundEffects.play('hit-monster');
+    }
+    else {
+      //soundEffects.play('hit-object');
+    }
+
+    
     hud_gunRecoil();
+  }
+}
+
+function player_reload() {
+  if (numBullets < 6) {
+    isReloading = true;
+    reloadTimeRemaining = -1;
   }
 }

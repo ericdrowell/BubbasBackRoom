@@ -84,6 +84,17 @@ function textures_init(callback) {
         '0b0b0b'
       ])
     },
+    'blood-stone': {
+      encoding: textures_createRandom([
+        'f6a675', 
+        '170503', 
+        'a41800', 
+        'ac300e', 
+        'dbbaa7', 
+        '7d1e18', 
+        '621a0e'
+      ])
+    },
     'stone': {
       encoding: textures_createTile([
         '6c6a69',

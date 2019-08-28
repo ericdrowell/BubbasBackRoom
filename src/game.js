@@ -14,6 +14,7 @@ function game_init() {
 
   canvas2d_init()
   webgl_init(); 
+  hit_init();
   hud_init();
   soundEffects_init();
   userInputs_init();
@@ -31,17 +32,15 @@ function game_init() {
   });
 
 
-  // music_init(function() {
-  //   musicReady = true;
-  //   game_setReady();
-  // });
+  music_init(function() {
+    musicReady = true;
+    game_setReady();
+  });
 
-  // HACK: sometimes on start, the player just falls through the floor.  Adding this to hopefully
-  // stop it from happening
-  setTimeout(function() {
-    game_loop();
-  }, 100);
-  
+
+  game_loop();
+
+
 }
 
 function game_setViewportSize() {
@@ -64,13 +63,13 @@ function game_setViewportSize() {
 }
 
 function game_setReady() {
-  // if (texturesReady && musicReady) {
-  //   gameState = GAME_STATE_START_SCREEN;
-  // }
-
-  if (texturesReady) {
+  if (texturesReady && musicReady) {
     gameState = GAME_STATE_START_SCREEN;
   }
+
+  // if (texturesReady) {
+  //   gameState = GAME_STATE_START_SCREEN;
+  // }
 }
 
 
@@ -86,11 +85,11 @@ function game_render() {
     mat4.translate(mvMatrix, [-2 * player.x, -2 * (player.y + PLAYER_HEIGHT), -2 * player.z]);
     mat4.translate(mvMatrix, [0, bobble, 0]);
 
-    // webgl rendering
-    
     webgl_clear();
+    hit_clear();
+
     world_render();
-    monsters_render();
+    monsters_render();    
   }
 
   // canvas2d rendering
@@ -113,7 +112,7 @@ function game_start() {
   webglCanvas.requestPointerLock();
   soundEffects.play('start');
  
-  //music_start();
+  music_start();
 }
 
 
@@ -141,8 +140,10 @@ function game_die() {
 }
 
 function game_update() {
-  player_update();
-  monsters_update();
+  if (gameState === GAME_STATE_PLAYING) {
+    player_update();
+    monsters_update();
+  }
   hud_update();
 }
 function game_loop() {

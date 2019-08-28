@@ -5,7 +5,7 @@ function monsters_init() {
 function monsters_hurt(groupId) {
   monsters.forEach(function(monster) {
     if (monster.group === groupId) {
-      monster.type = 'white';
+      monster.texture = 'blood-stone';
       monster.painFlash = PAIN_FLASH_DURATION;
       monster.health -= 1;
     }
@@ -18,10 +18,10 @@ function monsters_restore() {
       monster.painFlash -= elapsedTime;
       if (monster.painFlash <= 0) {
         monster.painFlash = 0;
-        monster.type = monster.originalType;
+        monster.texture = monster.originalTexture;
 
         if (monster.health === 0) {
-          console.log('monster dead');
+          soundEffects.play('monster-die');
         }
       }
     }
@@ -53,23 +53,23 @@ function monsters_buildModel() {
   monsters_add(0, 3.4, 0, 0.8, 0.8, 0.8, groupId, TEXTURES_BURNED_STONE);
 
   // right arm
-  monsters_add(-0.8, 2.5, 0.65, 2, 0.3, 0.3, groupId, TEXTURES_BURNED_STONE);
+  monsters_add(-0.8, 2.5, 0.65, 2, 0.35, 0.35, groupId, TEXTURES_BURNED_STONE);
 
   // left arm
-  monsters_add(-0.8, 2.5, -0.65, 2, 0.3, 0.3, groupId, TEXTURES_BURNED_STONE);
+  monsters_add(-0.8, 2.5, -0.65, 2, 0.35, 0.35, groupId, TEXTURES_BURNED_STONE);
 
 }
 
-function monsters_add(x, y, z, xSize, ySize, zSize, groupId, type) {
+function monsters_add(x, y, z, xSize, ySize, zSize, groupId, texture) {
   monsters.push({
     x: x,
     y: y,
     z: z,
-    originalType:  type,
-    type: type,
+    originalTexture: texture,
+    texture: texture,
     group: groupId,
     painFlash: 0,
-    health: 3,
+    health: 6,
     xSize: xSize,
     ySize: ySize,
     zSize: zSize
@@ -92,15 +92,16 @@ function monsters_update() {
 }
 
 function monsters_buildBuffers() {
-  monsterBuffers = {};
+  rawBuffers = {};
 
   monsters.forEach(function(monster) {
-    let type = monster.type;
+    let texture = monster.texture;
 
-    if (monsterBuffers[type] === undefined) {
-      monsterBuffers[type] = [
+    if (rawBuffers[texture] === undefined) {
+      rawBuffers[texture] = [
         {
           position: [],
+          color: [],
           normal: [],
           texture: [],
           index: [],
@@ -109,13 +110,20 @@ function monsters_buildBuffers() {
       ];
     }
 
-    let lastBuffer = monsterBuffers[type][monsterBuffers[type].length-1];
+    let lastBuffer = rawBuffers[texture][rawBuffers[texture].length-1];
 
     // position buffer
     for (n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
       lastBuffer.position.push(CUBE_BUFFERS.position[n]*monster.xSize + monster.x*2);
       lastBuffer.position.push(CUBE_BUFFERS.position[n+1]*monster.ySize + monster.y*2);
       lastBuffer.position.push(CUBE_BUFFERS.position[n+2]*monster.zSize + monster.z*2);
+    }
+
+    // color buffer
+    for (n = 0; n < CUBE_BUFFERS.index.length; n++) {
+      lastBuffer.color.push(1);
+      lastBuffer.color.push(0);
+      lastBuffer.color.push(0);
     }
 
     // normal buffer
@@ -130,24 +138,43 @@ function monsters_buildBuffers() {
     }
 
     lastBuffer.numBlocks++;
-  })
+  });
 
   // convert regular arrays to webgl buffers
-  for (let type in monsterBuffers) {
-    monsterBuffers[type].forEach(function(buffer) {
-      buffer.position = webgl_createArrayBuffer(buffer.position);
-      buffer.normal = webgl_createArrayBuffer(buffer.normal);
-      buffer.texture = webgl_createArrayBuffer(buffer.texture);
-      buffer.index = webgl_createElementArrayBuffer(buffer.index);
+  monsterBuffers = {};
+  monsterHitBuffers = {};
+  for (let texture in rawBuffers) {
+    monsterBuffers[texture] = [];
+    monsterHitBuffers[texture] = [];
+
+    rawBuffers[texture].forEach(function(buffer) {
+      monsterBuffers[texture].push({
+        position: webgl_createArrayBuffer(buffer.position),
+        normal: webgl_createArrayBuffer(buffer.normal),
+        texture: webgl_createArrayBuffer(buffer.texture),
+        index: webgl_createElementArrayBuffer(buffer.index)
+      });
+
+      monsterHitBuffers[texture].push({
+        position: hit_createArrayBuffer(buffer.position),
+        color: hit_createArrayBuffer(buffer.color),
+        index: hit_createElementArrayBuffer(buffer.index)
+      });
     });
   }
   
 }
 
 function monsters_render() {
-  for (let type in monsterBuffers) {
-    monsterBuffers[type].forEach(function(buffer) {
-      webgl_render(buffer, textures[type].glTexture);
+  for (let texture in monsterBuffers) {
+    monsterBuffers[texture].forEach(function(buffer) {
+      webgl_render(buffer, textures[texture].glTexture);
     });
   }  
+
+  for (let texture in monsterHitBuffers) {
+    monsterHitBuffers[texture].forEach(function(buffer) {
+      hit_render(buffer);
+    });
+  } 
 }

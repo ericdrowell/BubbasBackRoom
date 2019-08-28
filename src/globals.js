@@ -3,7 +3,7 @@ const MONSTER_SPEED = 1; // units / s
 const MONSTER_JUMP_SPEED = 25; // units / s
 const PLAYER_SPEED = 20; // units / s
 const PLAYER_HEIGHT = 4;
-const PAIN_FLASH_DURATION = 100; // ms
+const PAIN_FLASH_DURATION = 200; // ms
 const MENU_COOLDOWN = 0.5; // s
 const BLOCK_NUM_VERTICES = 24;
 const MATH_PI = Math.PI;
@@ -42,9 +42,11 @@ const GUN_BOBBLE_FREQUENCEY = 10;
 const GAME_ASPECT_RATIO = 16/9; // width/height
 const OPTIMAL_VIEWPORT_WIDTH = 1300;
 const OPTIMAL_VIEWPORT_HEIGHT = OPTIMAL_VIEWPORT_WIDTH / GAME_ASPECT_RATIO;
+const RELOAD_SPEED = 500; // once per ms
 
 let world = [];
 let worldBuffers = {};
+let worldHitBuffers = {};
 let hudCanvas;
 let hudContext;
 let gun;
@@ -68,6 +70,7 @@ let mvMatrix;
 let pMatrix;
 let mvMatrixStack;
 let shaderProgram;
+let hitShaderProgram;
 let pixelateCanvas;
 let pixelateContext;
 let compositeCanvas;
@@ -91,9 +94,13 @@ let gameReady = false;
 let gameStarted = false;
 let audio = null;
 let monsterBuffers = [];
+let monsterHitBuffers = [];
 let monsters = [];
 let idGenerator = 0;
 let alplhabetCanvas;
 let alphabetContext;
 let windowRatio;
 let viewportScale;
+let isAirborne;
+let reloadTimeRemaining = 0;
+let isReloading = false;

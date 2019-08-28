@@ -98,10 +98,10 @@ function hud_renderCrossHair() {
   let barLength = 14;
   let barThickness = 2;
   let halfBarThickness = barThickness/2;
-  if (numBullets <= 0) {
+  if (!isReloading && numBullets <= 0) {
     // TODO: show "Press R to Reload"
   }
-  else {
+  else if (!isReloading) {
     hudContext.fillStyle = 'rgba(255, 255, 255, 0.3)';
     // horizontal bar
     hudContext.fillRect(OPTIMAL_VIEWPORT_WIDTH/2 - barLength - halfBarThickness, OPTIMAL_VIEWPORT_HEIGHT/2 - halfBarThickness, barLength, barThickness);
@@ -210,11 +210,11 @@ function hud_renderDialog() {
 
 function hud_renderDialogHorn(angle) {
   let lineWidth = 5;
-  let hornLength = 40;
+  let hornLength = 80;
   let halfLineWidth = lineWidth/2;
-  let barLength = 15;
+  let barLength = 30;
   let barSize = 5;
-  let barSpacing = 15;
+  let barSpacing = 30;
 
   
   hudContext.save();

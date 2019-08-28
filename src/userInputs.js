@@ -65,7 +65,7 @@ function userInputs_handleKeyDown(evt) {
       break;
     case 82:
       // r key (reload)
-      numBullets = 6;
+      player_reload();
       break;
   }
 };

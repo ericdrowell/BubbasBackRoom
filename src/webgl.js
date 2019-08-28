@@ -1,5 +1,5 @@
 function webgl_init() {
-  webglCanvas = document.getElementById('webglCanvas');;
+  webglCanvas = document.getElementById('webglCanvas');
   webglContext = webglCanvas.getContext('webgl');
   webglCanvas.width = viewportWidth;
   webglCanvas.height = viewportHeight;
@@ -20,7 +20,6 @@ function webgl_init() {
 
   mvMatrix = mat4.create(); 
   pMatrix = mat4.create();
-  mvMatrixStack = [];
 
   webgl_setShaderProgram();
   webgl_initUniforms();
