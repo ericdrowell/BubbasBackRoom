@@ -22,14 +22,22 @@ function hud_render() {
 
 function hud_update() {
   // recoil
-  if (gun.y >= OPTIMAL_VIEWPORT_HEIGHT) {
+  if (isRecoiling) {
     let distEachFrame = GUN_RECOIL_RECOVER_SPEED * elapsedTime / 1000;
 
     gun.y -= distEachFrame;
 
     if (gun.y < OPTIMAL_VIEWPORT_HEIGHT) {
       gun.y = OPTIMAL_VIEWPORT_HEIGHT;
+      isRecoiling = false;
     }
+  }
+
+  else if (isReloading) {
+    gun.y = OPTIMAL_VIEWPORT_HEIGHT + GUN_RELOAD_DIST;
+  }
+  else {
+    gun.y = OPTIMAL_VIEWPORT_HEIGHT;
   }
 
   // bobble as a half circle motion
@@ -178,6 +186,7 @@ function hud_renderBullets() {
 
 function hud_gunRecoil() {
   gun.y = OPTIMAL_VIEWPORT_HEIGHT + GUN_RECOIL;
+  isRecoiling = true;
 }
 
 function hud_renderDialog() {

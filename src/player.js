@@ -199,6 +199,7 @@ function player_update() {
       }
       else {
         isReloading = false;
+        isRecoiling = true;
       }
     }
   }
@@ -259,7 +260,7 @@ function player_fire() {
 }
 
 function player_reload() {
-  if (numBullets < 6) {
+  if (numBullets < 6 && !isReloading) {
     isReloading = true;
     reloadTimeRemaining = -1;
   }

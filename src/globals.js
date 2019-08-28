@@ -15,7 +15,7 @@ const MATH_FLOOR = Math.floor;
 const MATH_CEIL = Math.floor;
 const MATH_SIGN = Math.sign;
 const MATH_ABS = Math.abs;
-const GUN_RECOIL = 100;
+const GUN_RECOIL = 200;
 const GUN_RECOIL_RECOVER_SPEED= 400; // units per second
 const PIXEL_RATIO = (window && window.devicePixelRatio) || 1;
 // gl drawElements can only handle 64k vertices.  Each block is defined by exactly 24 vertices.  Thus we can at most
@@ -43,6 +43,7 @@ const GAME_ASPECT_RATIO = 16/9; // width/height
 const OPTIMAL_VIEWPORT_WIDTH = 1300;
 const OPTIMAL_VIEWPORT_HEIGHT = OPTIMAL_VIEWPORT_WIDTH / GAME_ASPECT_RATIO;
 const RELOAD_SPEED = 500; // once per ms
+const GUN_RELOAD_DIST = 150;
 
 let world = [];
 let worldBuffers = {};
@@ -104,3 +105,4 @@ let viewportScale;
 let isAirborne;
 let reloadTimeRemaining = 0;
 let isReloading = false;
+let isRecoiling = false;
