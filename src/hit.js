@@ -66,7 +66,7 @@ function hit_getPixel(x, y) {
     return -1;
   }
 
-  data = new Uint8Array(4);
+  let data = new Uint8Array(4);
   hitContext.readPixels(x, (viewportHeight - y - 1), 1, 1, hitContext.RGBA, hitContext.UNSIGNED_BYTE, data);
 
   return data;

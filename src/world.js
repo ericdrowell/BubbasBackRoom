@@ -202,14 +202,14 @@ function world_buildBuffers() {
         let randomOffset = (MATH_RANDOM() - 0.5) * 0.1;
 
         // position buffer
-        for (n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
+        for (let n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
           lastBuffer.position.push(CUBE_BUFFERS.position[n] + parseInt(x)*2 + randomOffset);
           lastBuffer.position.push(CUBE_BUFFERS.position[n+1] + parseInt(y)*2 + randomOffset);
           lastBuffer.position.push(CUBE_BUFFERS.position[n+2] + parseInt(z)*2 + randomOffset);
         }
 
         // hit color buffer
-        for (n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
+        for (let n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
           lastBuffer.color.push(0);
           lastBuffer.color.push(0);
           lastBuffer.color.push(1);
@@ -222,7 +222,7 @@ function world_buildBuffers() {
         utils_concat(lastBuffer.texture, CUBE_BUFFERS.texture);
 
         // index buffer
-        for (n = 0; n < CUBE_BUFFERS.index.length; n++) {
+        for (let n = 0; n < CUBE_BUFFERS.index.length; n++) {
           lastBuffer.index.push(CUBE_BUFFERS.index[n] + (24 * lastBuffer.numBlocks));
         }
 

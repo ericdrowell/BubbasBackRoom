@@ -92,7 +92,7 @@ function monsters_update() {
 }
 
 function monsters_buildBuffers() {
-  rawBuffers = {};
+  let rawBuffers = {};
 
   monsters.forEach(function(monster) {
     let texture = monster.texture;
@@ -113,14 +113,14 @@ function monsters_buildBuffers() {
     let lastBuffer = rawBuffers[texture][rawBuffers[texture].length-1];
 
     // position buffer
-    for (n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
+    for (let n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
       lastBuffer.position.push(CUBE_BUFFERS.position[n]*monster.xSize + monster.x*2);
       lastBuffer.position.push(CUBE_BUFFERS.position[n+1]*monster.ySize + monster.y*2);
       lastBuffer.position.push(CUBE_BUFFERS.position[n+2]*monster.zSize + monster.z*2);
     }
 
     // color buffer
-    for (n = 0; n < CUBE_BUFFERS.index.length; n++) {
+    for (let n = 0; n < CUBE_BUFFERS.index.length; n++) {
       lastBuffer.color.push(1);
       lastBuffer.color.push(0);
       lastBuffer.color.push(0);
@@ -133,7 +133,7 @@ function monsters_buildBuffers() {
     utils_concat(lastBuffer.texture, CUBE_BUFFERS.texture);
 
     // index buffer
-    for (n = 0; n < CUBE_BUFFERS.index.length; n++) {
+    for (let n = 0; n < CUBE_BUFFERS.index.length; n++) {
       lastBuffer.index.push(CUBE_BUFFERS.index[n] + (24 * lastBuffer.numBlocks));
     }
 
