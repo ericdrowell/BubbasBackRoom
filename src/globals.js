@@ -46,6 +46,7 @@ const OPTIMAL_VIEWPORT_WIDTH = 1300;
 const OPTIMAL_VIEWPORT_HEIGHT = OPTIMAL_VIEWPORT_WIDTH / GAME_ASPECT_RATIO;
 const RELOAD_SPEED = 500; // once per ms
 const GUN_RELOAD_DIST = 150;
+const RAY_TRACE_INCREMENT = 0.3;
 
 let world = [];
 let worldBuffers = {};

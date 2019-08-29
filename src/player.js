@@ -29,47 +29,112 @@ z: -2
   isAirborne = false;
 }
 
+// use ray tracing to find collisions
 function player_move(xChange, yChange, zChange) {
-  let newX = player.x + xChange;
-  let newY = player.y + yChange;
-  let newZ = player.z + zChange;
+  
+  let newX = player.x;
+  let newY = player.y;
+  let newZ = player.z;
 
-  let newPlayerBlockPos, newPlayerBlock;
+  
 
-  // handle y movement
-  newPlayerBlockPos = world_getBlockPos(player.x, newY, player.z);
-  newPlayerBlock = world_getBlock(newPlayerBlockPos.x, newPlayerBlockPos.y, newPlayerBlockPos.z);
-  if (newPlayerBlock) {
-    newY = player.y;
-    upVelocity = 0;
-    isAirborne = false;
-  }
-  else {
-    newPlayerBlockPos = world_getBlockPos(player.x, newY+PLAYER_HEIGHT, player.z);
-    newPlayerBlock = world_getBlock(newPlayerBlockPos.x, newPlayerBlockPos.y, newPlayerBlockPos.z);
-    if (newPlayerBlock) {
-      newY = player.y;
+  // y movement
+  let yChangeAbs = MATH_ABS(yChange);
+  let ySign = MATH_SIGN(yChange);
+  for (let y=0; y<yChangeAbs+RAY_TRACE_INCREMENT; y+=RAY_TRACE_INCREMENT) {
+    if (y > yChangeAbs) {
+      y = yChangeAbs;
+    }
+    let block = world_getBlock(player.x, player.y + y*ySign, player.z);
+    if (block) {
       upVelocity = 0;
+      isAirborne = false;
+      break;
+    }
+    else {
+      newY = player.y + y*ySign;
     }
   }
 
-  // handle x movement
-  newPlayerBlockPos = world_getBlockPos(newX, newY, player.z);
-  newPlayerBlock = world_getBlock(newPlayerBlockPos.x, newPlayerBlockPos.y, newPlayerBlockPos.z);
-  if (newPlayerBlock) {
-    newX = player.x;
+  // x movement
+  let xChangeAbs = MATH_ABS(xChange);
+  let xSign = MATH_SIGN(xChange);
+  for (let x=0; x<xChangeAbs+RAY_TRACE_INCREMENT; x+=RAY_TRACE_INCREMENT) {
+    if (x > xChangeAbs) {
+      x = xChangeAbs;
+    }
+    let block = world_getBlock(player.x + x*xSign, newY, player.z);
+    if (block) {
+      break;
+    }
+    else {
+      newX = player.x + x*xSign;
+    }
   }
 
-  // handle z movement
-  newPlayerBlockPos = world_getBlockPos(newX, newY, newZ);
-  newPlayerBlock = world_getBlock(newPlayerBlockPos.x, newPlayerBlockPos.y, newPlayerBlockPos.z);
-  if (newPlayerBlock) {
-    newZ = player.z;
+  // z movement
+  let zChangeAbs = MATH_ABS(zChange);
+  let zSign = MATH_SIGN(zChange);
+  for (let z=0; z<zChangeAbs+RAY_TRACE_INCREMENT; z+=RAY_TRACE_INCREMENT) {
+    if (z > zChangeAbs) {
+      z = zChangeAbs;
+    }
+    let block = world_getBlock(newX, newY, player.z + z*zSign);
+    if (block) {
+      break;
+    }
+    else {
+      newZ = player.z + z*zSign;
+    }
   }
- 
+
   player.x = newX;
   player.y = newY;
   player.z = newZ;
+
+
+
+  // let newX = player.x + xChange;
+  // let newY = player.y + yChange;
+  // let newZ = player.z + zChange;
+
+  // let newPlayerBlockPos, newPlayerBlock;
+
+  // // handle y movement
+  // newPlayerBlockPos = world_getBlockPos(player.x, newY, player.z);
+  // newPlayerBlock = world_getBlock(newPlayerBlockPos.x, newPlayerBlockPos.y, newPlayerBlockPos.z);
+  // if (newPlayerBlock) {
+  //   newY = player.y;
+  //   upVelocity = 0;
+  //   isAirborne = false;
+  // }
+
+  // // else {
+  // //   newPlayerBlockPos = world_getBlockPos(player.x, newY+PLAYER_HEIGHT, player.z);
+  // //   newPlayerBlock = world_getBlock(newPlayerBlockPos.x, newPlayerBlockPos.y, newPlayerBlockPos.z);
+  // //   if (newPlayerBlock) {
+  // //     newY = player.y;
+  // //     upVelocity = 0;
+  // //   }
+  // // }
+
+  // // handle x movement
+  // newPlayerBlockPos = world_getBlockPos(newX, newY, player.z);
+  // newPlayerBlock = world_getBlock(newPlayerBlockPos.x, newPlayerBlockPos.y, newPlayerBlockPos.z);
+  // if (newPlayerBlock) {
+  //   newX = player.x;
+  // }
+
+  // // handle z movement
+  // newPlayerBlockPos = world_getBlockPos(newX, newY, newZ);
+  // newPlayerBlock = world_getBlock(newPlayerBlockPos.x, newPlayerBlockPos.y, newPlayerBlockPos.z);
+  // if (newPlayerBlock) {
+  //   newZ = player.z;
+  // }
+ 
+  // player.x = newX;
+  // player.y = newY;
+  // player.z = newZ;
   
 }
 

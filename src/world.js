@@ -271,6 +271,10 @@ function world_render() {
 }
 
 function world_getBlock(x, y, z) {
+  x = MATH_ROUND(x);
+  y = MATH_ROUND(y);
+  z = MATH_ROUND(z);
+
   let block = world[x] && world[x][y] && world[x][y][z];
 
   if (block) {
@@ -311,13 +315,13 @@ function world_getBlock(x, y, z) {
 
 // }
 
-function world_getBlockPos(x, y, z) {
-  return {
-    x: MATH_ROUND(x),
-    y: MATH_ROUND(y),
-    z: MATH_ROUND(z)
-  }
-}
+// function world_getBlockPos(x, y, z) {
+//   return {
+//     x: MATH_ROUND(x),
+//     y: MATH_ROUND(y),
+//     z: MATH_ROUND(z)
+//   }
+// }
 
 // for debugging
 // function world_getNumBlocks() {
