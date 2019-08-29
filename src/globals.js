@@ -37,6 +37,7 @@ const TEXTURES_MOSSY_STONE = 'mossy-stone';
 const TEXTURES_ROTTING_WOOD = 'rotting-wood';
 const TEXTURES_DIRT = 'dirt';
 const TEXTURES_BURNED_STONE = 'burned-stone';
+const TEXTURES_BLOOD_STONE = 'blood-stone';
 const TEXT_HEIGHT = 9;
 const GUN_BOBBLE_AMPLITUDE = 30; // pixels
 const GUN_BOBBLE_FREQUENCEY = 10;
@@ -89,8 +90,6 @@ let musicReady = false;
 let gameReady = false;
 let gameStarted = false;
 let audio = null;
-let monsterBuffers = [];
-let monsterHitBuffers = [];
 let monsters = [];
 let idGenerator = 0;
 let windowRatio;

@@ -112,12 +112,13 @@ function game_start() {
 
 function game_pause() {
   gameState = 'paused';
+  soundEffects.play('dialog');
 }
 
 function game_resume() {
   gameState = GAME_STATE_PLAYING;
   sceneCanvas.requestPointerLock();
-  soundEffects.play('start');
+  soundEffects.play('dismiss');
 }
 
 function game_win() {

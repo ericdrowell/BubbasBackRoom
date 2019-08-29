@@ -37,8 +37,8 @@ function hud_update() {
   //   gun.y = OPTIMAL_VIEWPORT_HEIGHT + GUN_RELOAD_DIST;
   // }
   // else {
-  //gun.y = OPTIMAL_VIEWPORT_HEIGHT;
-  //}
+  //   gun.y = OPTIMAL_VIEWPORT_HEIGHT;
+  // }
 
   // bobble as a half circle motion
   if (player.straightMovement || player.sideMovement) {

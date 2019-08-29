@@ -15,10 +15,11 @@ let songGen;
 //   audio.play();
 // }
 
-var audio_ctx = new (window.webkitAudioContext||window.AudioContext)();
+var audio_ctx;
 let musicBuffer
 
 function music_init(callback) {
+	audio_ctx = new (window.webkitAudioContext||window.AudioContext)();
   sonantxr_generate_song(audio_ctx, song, function(buffer){
     musicBuffer = buffer;
   	
