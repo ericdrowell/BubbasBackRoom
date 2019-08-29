@@ -1,3 +1,5 @@
+const ENABLE_MUSIC = true;
+
 // start game - have to do it this way because I need the compressor to convert game_init() to the right variable name
 setTimeout(function() {
   game_init();
@@ -30,11 +32,12 @@ function game_init() {
     game_setReady();
   });
 
-
-  music_init(function() {
-    musicReady = true;
-    game_setReady();
-  });
+  if (ENABLE_MUSIC) {
+    music_init(function() {
+      musicReady = true;
+      game_setReady();
+    });
+  }
 
 
   game_loop();
@@ -62,13 +65,13 @@ function game_setViewportSize() {
 }
 
 function game_setReady() {
-  if (texturesReady && musicReady) {
+  if (ENABLE_MUSIC && texturesReady && musicReady) {
     gameState = GAME_STATE_START_SCREEN;
   }
 
-  // if (texturesReady) {
-  //   gameState = GAME_STATE_START_SCREEN;
-  // }
+  if (!ENABLE_MUSIC && texturesReady) {
+    gameState = GAME_STATE_START_SCREEN;
+  }
 }
 
 
@@ -100,7 +103,9 @@ function game_start() {
   sceneCanvas.requestPointerLock();
   soundEffects.play('start');
  
-  music_start();
+  if (ENABLE_MUSIC) {
+    music_start();
+  }
 }
 
 

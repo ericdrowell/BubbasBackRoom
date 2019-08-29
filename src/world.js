@@ -5,17 +5,13 @@ function world_init() {
 
 function world_buildModel() {
 
-  // dirt tunnel
-  // floor
-  // world_addPlane(-53, -51, 10, 10, -2, 2, TEXTURES_DIRT);
-  // world_addPlane(-54, -54, 10, 10, -1, 3, TEXTURES_DIRT);
+  // -------------------- DIRT TUNNEL --------------------
 
-  world_addTunnel(-60, -51, 9, 9, 0, 0, TEXTURES_DIRT);
-  world_addTunnel(-81, -61, 19, 9, 5, 0, TEXTURES_DIRT);
-  world_addTunnel(-100, -82, 11, 19, -5, 5, TEXTURES_DIRT);
-  world_addTunnel(-140, -101, 16, 11, 5, -5, TEXTURES_DIRT);
-
-  world_addTunnel(-241, -141, 26, 16, -3, 5, TEXTURES_DIRT);
+  world_addTunnel(-60, -51, 9, 9, 0, 0);
+  world_addTunnel(-81, -61, 19, 9, 5, 0);
+  world_addTunnel(-100, -82, 11, 19, -5, 5);
+  world_addTunnel(-140, -101, 16, 11, 5, -5);
+  world_addTunnel(-241, -141, 26, 16, -3, 5);
 
   // -------------------- SHORT TUNNEL --------------------
 
@@ -37,79 +33,74 @@ function world_buildModel() {
 
   // -------------------- FOUR COLUMN ROOM  --------------------
 
-  // poles
-  world_addPlane(-11, -9, 0, 0, -11, -9, TEXTURES_STONE);
-  world_addPlane(-10, -10, 1, 10, -10, -10, TEXTURES_STONE);
-  world_addPlane(-11, -9, 9, 9, -11, -9, TEXTURES_STONE);
-
-  world_addPlane(9, 11, 0, 0, -11, -9, TEXTURES_STONE);
-  world_addPlane(10, 10, 1, 10, -10, -10, TEXTURES_STONE);
-  world_addPlane(9, 11, 9, 9, -11, -9, TEXTURES_STONE);
-
-  world_addPlane(-11, -9, 0, 0, 9, 11, TEXTURES_STONE);
-  world_addPlane(-10, -10, 1, 10, 10, 10, TEXTURES_STONE);
-  world_addPlane(-11, -9, 9, 9, 9, 11, TEXTURES_STONE);
-
+  world_addPole(-10, 1, -10, 10);
+  world_addPole(10, 1, -10, 10);
+  world_addPole(-10, 1, 10, 10);
+  
   // broken pole
   world_addPlane(9, 11, 0, 0, 9, 11, TEXTURES_STONE);
   world_addPlane(10, 10, 1, 3, 10, 10, TEXTURES_STONE);
   world_addPlane(7, 11, 0, 0, 5, 5, TEXTURES_STONE);
   world_addPlane(9, 11, 9, 9, 9, 11, TEXTURES_STONE);
 
-  world_addRoom(-20, 20, -1, 10, -20, 20, TEXTURES_MOSSY_STONE, TEXTURES_ROTTING_WOOD);
+  world_addRoom(-20, 20, -1, 10, -20, 20);
   // cut out step doorway
   world_removePlane(-20, -20, 0, 10, -2, 2);
   // cut out step top
   world_removePlane(-20, -15, 10, 10, -2, 2);
 
-
   // steps
-  world_addSlope(-30, -20, 0, 10, -2, 2, TEXTURES_ROTTING_WOOD);
+  world_addSlope(-30, -20, 0, 10, -2, 2);
   // sloped ceiling
-  world_addSlope(-22, -14, 12, 18, -2, 2, TEXTURES_ROTTING_WOOD);
+  world_addSlope(-22, -14, 12, 18, -2, 2);
   // steps walls
   world_addPlane(-30, -20, 0, 10, -3, -3, TEXTURES_MOSSY_STONE);
   world_addPlane(-30, -20, 0, 10, 3, 3, TEXTURES_MOSSY_STONE);
 
 }
 
-function world_addSlope(startX, endX, startY, endY, startZ, endZ, texture) {
+function world_addPole(x, y, z, height) {
+  world_addPlane(x-1, x+1, y-1, y-1, z-1, z+1, TEXTURES_STONE);
+  world_addPlane(x, x, y, y+height-1, z, z, TEXTURES_STONE);
+  world_addPlane(x-1, x+1, y+height-2, y+height-2, z-1, z+1, TEXTURES_STONE);
+}
+
+function world_addSlope(startX, endX, startY, endY, startZ, endZ) {
   let y = endY;
   for (let x = startX; x <= endX; x++) {
-    world_addPlane(x, x, y, y, startZ, endZ, texture); 
+    world_addPlane(x, x, y, y, startZ, endZ, TEXTURES_ROTTING_WOOD); 
     y--;
   }
 }
 
-function world_addRing(x, y, z, texture) {
-
+function world_addRing(x, y, z) {
   // bottom of ring
-  world_addPlane(x, x, y, y, z-2, z+2, texture);
+  world_addPlane(x, x, y, y, z-2, z+2, TEXTURES_DIRT);
 
   // far side
-  world_addPlane(x, x, y+3, y+7, z-5, z-5, texture);
+  world_addPlane(x, x, y+3, y+7, z-5, z-5, TEXTURES_DIRT);
 
   // top of ring
-  world_addPlane(x, x, y+10, y+10, z-2, z+2, texture);
+  world_addPlane(x, x, y+10, y+10, z-2, z+2, TEXTURES_DIRT);
 
   // near side
-  world_addPlane(x, x, y+3, y+7, z+5, z+5, texture);
+  world_addPlane(x, x, y+3, y+7, z+5, z+5, TEXTURES_DIRT);
 
   // fillers
-  world_addBlock(x, y+1, z-3, texture);
-  world_addBlock(x, y+2, z-4, texture);
+  world_addBlock(x, y+1, z-3, TEXTURES_DIRT);
+  world_addBlock(x, y+2, z-4, TEXTURES_DIRT);
 
-  world_addBlock(x, y+1, z+3, texture);
-  world_addBlock(x, y+2, z+4, texture);
+  world_addBlock(x, y+1, z+3, TEXTURES_DIRT);
+  world_addBlock(x, y+2, z+4, TEXTURES_DIRT);
 
-  world_addBlock(x, y+8, z-4, texture);
-  world_addBlock(x, y+9, z-3, texture);
+  world_addBlock(x, y+8, z-4, TEXTURES_DIRT);
+  world_addBlock(x, y+9, z-3, TEXTURES_DIRT);
 
-  world_addBlock(x, y+8, z+4, texture);
-  world_addBlock(x, y+9, z+3, texture);
+  world_addBlock(x, y+8, z+4, TEXTURES_DIRT);
+  world_addBlock(x, y+9, z+3, TEXTURES_DIRT);
 }
 
-function world_addTunnel(startX, endX, startY, endY, startZ, endZ, texture) {
+function world_addTunnel(startX, endX, startY, endY, startZ, endZ) {
   let diffX = endX - startX;
   let diffY = endY - startY;
   let diffZ = endZ - startZ;
@@ -118,22 +109,22 @@ function world_addTunnel(startX, endX, startY, endY, startZ, endZ, texture) {
     let y = MATH_ROUND(startY + (((x - startX) / diffX) * diffY));
     let z = MATH_ROUND(startZ + (((x - startX) / diffX) * diffZ));
 
-    world_addRing(x, y, z, texture);
+    world_addRing(x, y, z);
   }
 }
 
-function world_addRoom(startX, endX, startY, endY, startZ, endZ, wallTexture, ceilingTexture) {
+function world_addRoom(startX, endX, startY, endY, startZ, endZ) {
   // floor
-  world_addPlane(startX, endX, startY, startY, startZ, endZ, wallTexture);
+  world_addPlane(startX, endX, startY, startY, startZ, endZ, TEXTURES_MOSSY_STONE);
 
   // ceiling
-  world_addPlane(startX, endX, endY, endY, startZ, endZ, ceilingTexture);
+  world_addPlane(startX, endX, endY, endY, startZ, endZ, TEXTURES_ROTTING_WOOD);
 
   // walls
-  world_addPlane(startX, endX, startY, endY, endZ, endZ, wallTexture);
-  world_addPlane(startX, endX, startY, endY, startZ, startZ, wallTexture);
-  world_addPlane(startX, startX, startY, endY, startZ, endZ, wallTexture);
-  world_addPlane(endX, endX, startY, endY, startZ, endZ, wallTexture);
+  world_addPlane(startX, endX, startY, endY, endZ, endZ, TEXTURES_MOSSY_STONE);
+  world_addPlane(startX, endX, startY, endY, startZ, startZ, TEXTURES_MOSSY_STONE);
+  world_addPlane(startX, startX, startY, endY, startZ, endZ, TEXTURES_MOSSY_STONE);
+  world_addPlane(endX, endX, startY, endY, startZ, endZ, TEXTURES_MOSSY_STONE);
 }
 
 function world_addPlane(startX, endX, startY, endY, startZ, endZ, texture) {
@@ -159,7 +150,7 @@ function world_addBlock(x, y, z, texture) {
   };
 }
 
-function world_removePlane(startX, endX, startY, endY, startZ, endZ, texture) {
+function world_removePlane(startX, endX, startY, endY, startZ, endZ) {
   for (let x=startX; x<=endX; x++) {
     for (let y=startY; y<=endY; y++) {
       for (let z=startZ; z<=endZ; z++) {
@@ -302,44 +293,6 @@ function world_getBlockPos(x, y, z) {
     z: MATH_ROUND(z)
   }
 }
-
-function world_getBlockBelow(block) {
-  return world_getBlock(block.x, block.y - 1, block.z);
-
-  // let blockBelow = world_getBlock(block.x, block.y - 1, block.z);
-
-  // if (blockBelow) {
-  //   return blockBelow;
-  // }
-
-  // // now try current block
-  // let currentBlock = world_getBlock(block.x, block.y, block.z);
-
-  // return currentBlock;
-}
-
-function world_getBlockAbove(block) {
-  return world_getBlock(block.x, block.y + 1, block.z);
-}
-
-function world_getBlockLeft(block) {
-  return world_getBlock(block.x - 1, block.y, block.z);
-}
-
-function world_getBlockRight(block) {
-  return world_getBlock(block.x + 1, block.y, block.z);
-}
-
-function world_getBlockFront(block) {
-  return world_getBlock(block.x, block.y, block.z + 1);
-}
-
-function world_getBlockBack(block) {
-  return world_getBlock(block.x, block.y, block.z - 1);
-}
-
-
-
 
 // for debugging
 // function world_getNumBlocks() {

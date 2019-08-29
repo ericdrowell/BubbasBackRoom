@@ -116,18 +116,6 @@ function textures_init(callback) {
         '31271f',
         '120c09'  
       ])
-    },
-    'red': {
-      encoding: textures_createRandom(['ff0000'])
-    },
-    'black': {
-      encoding: textures_createRandom(['000000'])
-    },
-    'orange': {
-      encoding: textures_createRandom(['ffcc00'])
-    },
-    'white': {
-      encoding: textures_createRandom(['ffffff'])
     }
   };
 
