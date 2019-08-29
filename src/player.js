@@ -2,28 +2,28 @@ function player_init() {
 
 
 // start at beginning of tunnel
-// player = {
-// health: 7,
-// pitch: -0.13823007675794918,
-// sideMovement: 0,
-// straightMovement: 0,
-// x: -230,
-// y: 26,
-// yaw: -1.640840704496659,
-// z: -2
-// };
-
-// center
 player = {
 health: 7,
 pitch: -0.13823007675794918,
 sideMovement: 0,
 straightMovement: 0,
-x: 0,
-y: 0,
+x: -230,
+y: 26,
 yaw: -1.640840704496659,
-z: 0
+z: -2
 };
+
+// center
+// player = {
+// health: 7,
+// pitch: -0.13823007675794918,
+// sideMovement: 0,
+// straightMovement: 0,
+// x: 0,
+// y: 0,
+// yaw: -1.640840704496659,
+// z: 0
+// };
 
   flashTimeRemaining = 0;
   isAirborne = false;
@@ -95,10 +95,15 @@ function player_update() {
 
   
   // handle gravity
+  // let blockBelow = world_getBlockBelow(player);
+
+  // if (isAirborne || !blockBelow) {
   upVelocity += GRAVITY * elapsedTime / 1000;
   let distEachFrame = upVelocity * elapsedTime / 1000;
+  player_move(0, distEachFrame, 0);  
+  //}
 
-  player_move(0, distEachFrame, 0);
+
   
   if (flashTimeRemaining !== 0) {
     flashTimeRemaining -= elapsedTime;

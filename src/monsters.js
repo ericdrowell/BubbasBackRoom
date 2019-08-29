@@ -29,7 +29,7 @@ function monsters_restore() {
       monster.painFlash -= elapsedTime;
       if (monster.painFlash <= 0) {
         monster.painFlash = 0;
-        if (monster.health === 0) {
+        if (monster.health <= 0) {
           soundEffects.play('monster-die');
           monsters_remove(n);
         }

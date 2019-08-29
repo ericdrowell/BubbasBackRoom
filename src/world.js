@@ -286,6 +286,31 @@ function world_getBlock(x, y, z) {
   }
 }
 
+// function world_getBlockBelow(obj) {
+//   let x = MATH_ROUND(obj.x);
+//   let startY = MATH_ROUND(obj.y) - 1;
+//   let z = MATH_ROUND(obj.z);
+
+//   // num blocks below
+//   for (let n=0; n<1; n++) {
+//     let y = startY - 1 - n;
+
+//     let block = world[x] && world[x][y] && world[x][y][z];
+
+//     if (block) {
+//       return {
+//         x: x,
+//         y: y,
+//         z: z,
+//         texture: block.texture
+//       };
+//     }
+//   }
+
+//   return null;
+
+// }
+
 function world_getBlockPos(x, y, z) {
   return {
     x: MATH_ROUND(x),
