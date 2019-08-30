@@ -1,4 +1,4 @@
-const ENABLE_MUSIC = false;
+const ENABLE_MUSIC = true;
 
 // start game - have to do it this way because I need the compressor to convert game_init() to the right variable name
 setTimeout(function() {
@@ -101,14 +101,18 @@ function game_render() {
 function game_start() {
   gameState = GAME_STATE_PLAYING;
   sceneCanvas.requestPointerLock();
+  soundEffects.play('dismiss');
   soundEffects.play('start');
- 
+}
+
+function game_showControls() {
+  soundEffects.play('dialog');
+
   if (ENABLE_MUSIC) {
     music_start();
   }
+  gameState = GAME_STATE_CONTROLS;
 }
-
-
 
 function game_pause() {
   gameState = 'paused';

@@ -16,7 +16,7 @@ function userInputs_init() {
   }, false);
 
   document.addEventListener('pointerlockchange', function(evt) {
-    if (!userInputs_isPointerLocked() && gameState === 'playing') {
+    if (!userInputs_isPointerLocked() && gameState === GAME_STATE_PLAYING) {
       game_pause();
     }
   }, false);
@@ -29,34 +29,37 @@ function userInputs_handleKeyDown(evt) {
   switch (keycode) {
     // enter key
     case 13:
-      if (gameState === 'start-screen') {
+      if (gameState === GAME_STATE_START_SCREEN) {
+        game_showControls();
+      }
+      else if (gameState === GAME_STATE_CONTROLS) {
         game_start();
       }
-      else if (gameState === 'paused') {
+      else if (gameState === GAME_STATE_PAUSED) {
         game_resume();
       }
       break;
     case 65:
       // a key (strafe left)
-      if (gameState === 'playing') {
+      if (gameState === GAME_STATE_PLAYING) {
         player.sideMovement = -1;
       }
       break;
     case 87:
       // w key (move forward)
-      if (gameState === 'playing') {
+      if (gameState === GAME_STATE_PLAYING) {
         player.straightMovement = 1;
       }
       break;
     case 68:
       // d key (strafe right)
-      if (gameState === 'playing') {
+      if (gameState === GAME_STATE_PLAYING) {
         player.sideMovement = 1;
       }
       break;
     case 83: 
       // s key (move backwards)
-      if (gameState === 'playing') {
+      if (gameState === GAME_STATE_PLAYING) {
         player.straightMovement = -1;
       }
       break;
@@ -71,7 +74,7 @@ function userInputs_handleKeyDown(evt) {
 };
 
 function userInputs_handleKeyUp(evt) {
-  if (gameState === 'playing') {
+  if (gameState === GAME_STATE_PLAYING) {
     let keycode = ((evt.which) || (evt.keyCode));
 
     switch (keycode) {
@@ -97,7 +100,7 @@ function userInputs_handleKeyUp(evt) {
 };
 
 function userInputs_handleMouseMove(evt) {
-  if (gameState === 'playing') {
+  if (gameState === GAME_STATE_PLAYING) {
     if (userInputs_isPointerLocked()) {
       // pitch (up and down)
       player.pitch += evt.movementY * MATH_PI * 0.001 * -1;
@@ -115,7 +118,7 @@ function userInputs_handleMouseMove(evt) {
 }
 
 function userInputs_handleMouseDown(evt) {
-  if (gameState === 'playing') {
+  if (gameState === GAME_STATE_PLAYING) {
     player_fire();
   }
 }

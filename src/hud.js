@@ -192,18 +192,38 @@ function hud_gunRecoil() {
 function hud_renderDialog() {
   if (gameState === GAME_STATE_LOADING) {
     hud_renderDialogFrame();
-    text_renderLine('loading...', 30, OPTIMAL_VIEWPORT_HEIGHT/2, hudContext);
+    text_renderLine('loading...', 50, OPTIMAL_VIEWPORT_HEIGHT/2-25, hudContext, 0);
   }
   else if(gameState === GAME_STATE_START_SCREEN) {
     hud_renderDialogFrame();
-    text_renderLine('bubba*s back room', 80, 200, hudContext);
-    text_renderLine('created by eric rowell @ericdrowell', 30, 320, hudContext);
-    text_renderLine('[press enter to start]', 30, OPTIMAL_VIEWPORT_HEIGHT - 200 - 30, hudContext);
+    text_renderLine('bubba*s back room', 80, 200, hudContext, 0);
+    text_renderLine('created by eric rowell @ericdrowell', 30, 320, hudContext, 0);
+    text_renderLine('press enter to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 200 - 30, hudContext, 0);
+  }
+  else if(gameState === GAME_STATE_CONTROLS) {
+    hud_renderDialogFrame();
+    text_renderLine('controls', 80, 150, hudContext, 0);
+
+    text_renderLine('[wasd]', 30, 260, hudContext, -1);
+    text_renderLine('[mouse move]', 30, 300, hudContext, -1);
+    text_renderLine('[mouse click]', 30, 340, hudContext, -1);
+    text_renderLine('[r]', 30, 380, hudContext, -1);
+    text_renderLine('[space]', 30, 420, hudContext, -1);
+    text_renderLine('[esc]', 30, 460, hudContext, -1);
+
+    text_renderLine('move', 30, 260, hudContext, 1);
+    text_renderLine('look', 30, 300, hudContext, 1);
+    text_renderLine('shoot', 30, 340, hudContext, 1);
+    text_renderLine('reload', 30, 380, hudContext, 1);
+    text_renderLine('jump', 30, 420, hudContext, 1);
+    text_renderLine('pause', 30, 460, hudContext, 1);
+
+    text_renderLine('press enter to start', 30, OPTIMAL_VIEWPORT_HEIGHT - 150 - 30, hudContext, 0);
   }
   else if(gameState === GAME_STATE_PAUSED) {
     hud_renderDialogFrame();
-    text_renderLine('paused', 80, 200, hudContext);
-    text_renderLine('[press enter to resume]', 30, OPTIMAL_VIEWPORT_HEIGHT - 200 - 30, hudContext);
+    text_renderLine('paused', 80, 200, hudContext, 0);
+    text_renderLine('press enter to resume', 30, OPTIMAL_VIEWPORT_HEIGHT - 200 - 30, hudContext, 0);
   }
 }
 

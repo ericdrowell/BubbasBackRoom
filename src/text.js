@@ -42,10 +42,24 @@ function text_init() {
   image.src = TEXT_BASE64; 
 }
 
-function text_renderLine(str, height, y, context) {
+function text_renderLine(str, height, y, context, align) {
   let scale = height / TEXT_HEIGHT;
   let width = text_getWidth(str, height);
-  let startX = OPTIMAL_VIEWPORT_WIDTH/2 - width/2;
+  let startX;
+
+  // align left
+  if (align === -1) {
+    startX = OPTIMAL_VIEWPORT_WIDTH/2 - width - 5;
+  }
+  // align center
+  else if (align === 0) {
+    startX = OPTIMAL_VIEWPORT_WIDTH/2 - width/2;
+  }
+  // align right
+  if (align === 1) {
+    startX = OPTIMAL_VIEWPORT_WIDTH/2 + 5;
+  }
+
   let x = startX;
 
   context.save();
@@ -81,9 +95,6 @@ function text_getWidth(str, height) {
 
     if (char === ' ') {
       width += 4 * scale;
-    }
-    else if (char === '.') {
-      width += (1 + CHAR_SPACING) * scale;
     }
     else if (charObj) {
       let charX = charObj[0];

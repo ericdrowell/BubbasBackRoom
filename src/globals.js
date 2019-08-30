@@ -30,6 +30,7 @@ const FLASH_COOLDOWN = 100;
 const GAME_STATE_LOADING = 'loading';
 const GAME_STATE_START_SCREEN = 'start-screen';
 const GAME_STATE_PLAYING = 'playing';
+const GAME_STATE_CONTROLS = 'controls';
 const GAME_STATE_PAUSED = 'paused';
 const CHAR_SPACING = 2;
 const TEXTURES_STONE = 'stone';
