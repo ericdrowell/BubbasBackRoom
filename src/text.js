@@ -42,7 +42,7 @@ function text_init() {
   image.src = TEXT_BASE64; 
 }
 
-function text_renderLine(str, y, height, context) {
+function text_renderLine(str, height, y, context) {
   let scale = height / TEXT_HEIGHT;
   let width = text_getWidth(str, height);
   let startX = OPTIMAL_VIEWPORT_WIDTH/2 - width/2;

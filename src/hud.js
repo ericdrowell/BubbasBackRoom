@@ -192,26 +192,19 @@ function hud_gunRecoil() {
 function hud_renderDialog() {
   if (gameState === GAME_STATE_LOADING) {
     hud_renderDialogFrame();
-
-    let str = 'loading...';
-    text_renderLine(str, OPTIMAL_VIEWPORT_HEIGHT/2, 30, hudContext);
+    text_renderLine('loading...', 30, OPTIMAL_VIEWPORT_HEIGHT/2, hudContext);
   }
   else if(gameState === GAME_STATE_START_SCREEN) {
     hud_renderDialogFrame();
-
-    let str = 'bubba*s back room';
-    text_renderLine(str, 200, 80, hudContext);
-
-    str = '[press enter to start]';
-    text_renderLine(str, OPTIMAL_VIEWPORT_HEIGHT - 200 - 30, 30, hudContext);
+    text_renderLine('bubba*s back room', 80, 200, hudContext);
+    text_renderLine('created by eric rowell @ericdrowell', 30, 320, hudContext);
+    text_renderLine('[press enter to start]', 30, OPTIMAL_VIEWPORT_HEIGHT - 200 - 30, hudContext);
   }
   else if(gameState === GAME_STATE_PAUSED) {
     hud_renderDialogFrame();
-
-    let str = '[press enter to resume]';
-    text_renderLine(str, OPTIMAL_VIEWPORT_HEIGHT/2, 30, hudContext);
+    text_renderLine('paused', 80, 200, hudContext);
+    text_renderLine('[press enter to resume]', 30, OPTIMAL_VIEWPORT_HEIGHT - 200 - 30, hudContext);
   }
-
 }
 
 function hud_renderDialogHorn(angle) {
