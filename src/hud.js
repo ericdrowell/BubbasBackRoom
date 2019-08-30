@@ -189,6 +189,24 @@ function hud_gunRecoil() {
   isRecoiling = true;
 }
 
+function hud_renderControlsBottom() {
+  text_renderLine('[wasd]', 30, 260, hudContext, -1);
+  text_renderLine('[mouse move]', 30, 300, hudContext, -1);
+  text_renderLine('[mouse click]', 30, 340, hudContext, -1);
+  text_renderLine('[r]', 30, 380, hudContext, -1);
+  text_renderLine('[space]', 30, 420, hudContext, -1);
+  text_renderLine('[esc]', 30, 460, hudContext, -1);
+
+  text_renderLine('move', 30, 260, hudContext, 1);
+  text_renderLine('look', 30, 300, hudContext, 1);
+  text_renderLine('shoot', 30, 340, hudContext, 1);
+  text_renderLine('reload', 30, 380, hudContext, 1);
+  text_renderLine('jump', 30, 420, hudContext, 1);
+  text_renderLine('pause', 30, 460, hudContext, 1);
+
+  text_renderLine('press enter to start', 30, OPTIMAL_VIEWPORT_HEIGHT - 150 - 30, hudContext, 0);
+}
+
 function hud_renderDialog() {
   if (gameState === GAME_STATE_STORY) {
     if (gameStory === 0) {
@@ -204,7 +222,7 @@ function hud_renderDialog() {
     else if(gameStory === 2) {
       hud_renderDialogFrame();
  
-      text_renderLine('ring... ring... ring...', 30, 150, hudContext, 0);
+      text_renderLine('ring... ring... ring...', 30, 170, hudContext, 0);
       
       text_renderLine('welcome to your first day at bubbas gas station.', 30, 260, hudContext, 0);
       text_renderLine('i*m your new boss.  you can just call me bubba.', 30, 300, hudContext, 0);
@@ -216,28 +234,13 @@ function hud_renderDialog() {
     else if(gameStory === 3) {
       hud_renderDialogFrame();
       text_renderLine('controls', 80, 150, hudContext, 0);
-
-      text_renderLine('[wasd]', 30, 260, hudContext, -1);
-      text_renderLine('[mouse move]', 30, 300, hudContext, -1);
-      text_renderLine('[mouse click]', 30, 340, hudContext, -1);
-      text_renderLine('[r]', 30, 380, hudContext, -1);
-      text_renderLine('[space]', 30, 420, hudContext, -1);
-      text_renderLine('[esc]', 30, 460, hudContext, -1);
-
-      text_renderLine('move', 30, 260, hudContext, 1);
-      text_renderLine('look', 30, 300, hudContext, 1);
-      text_renderLine('shoot', 30, 340, hudContext, 1);
-      text_renderLine('reload', 30, 380, hudContext, 1);
-      text_renderLine('jump', 30, 420, hudContext, 1);
-      text_renderLine('pause', 30, 460, hudContext, 1);
-
-      text_renderLine('press enter to start', 30, OPTIMAL_VIEWPORT_HEIGHT - 150 - 30, hudContext, 0);
+      hud_renderControlsBottom();
     }
   }
   else if (gameState === GAME_STATE_PAUSED) {
     hud_renderDialogFrame();
-    text_renderLine('paused', 80, 200, hudContext, 0);
-    text_renderLine('press enter to resume', 30, OPTIMAL_VIEWPORT_HEIGHT - 200 - 30, hudContext, 0);
+    text_renderLine('paused', 80, 150, hudContext, 0);
+    hud_renderControlsBottom();
   }
 
 
