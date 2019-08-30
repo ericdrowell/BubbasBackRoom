@@ -25,7 +25,8 @@ function game_init() {
   player_init();
   monsters_init();
 
-  gameState = GAME_STATE_LOADING;
+  gameState = GAME_STATE_STORY;
+  gameStory = 0;
 
   textures_init(function() {
     texturesReady = true;
@@ -66,11 +67,11 @@ function game_setViewportSize() {
 
 function game_setReady() {
   if (ENABLE_MUSIC && texturesReady && musicReady) {
-    gameState = GAME_STATE_START_SCREEN;
+    game_storyNext();
   }
 
   if (!ENABLE_MUSIC && texturesReady) {
-    gameState = GAME_STATE_START_SCREEN;
+    game_storyNext();
   }
 }
 
@@ -99,19 +100,34 @@ function game_render() {
 };
 
 function game_start() {
-  gameState = GAME_STATE_PLAYING;
-  sceneCanvas.requestPointerLock();
-  soundEffects.play('dismiss');
+  game_resume();
   soundEffects.play('start');
 }
 
-function game_showControls() {
-  soundEffects.play('dialog');
+function game_storyNext() {
+  gameStory++;
 
-  if (ENABLE_MUSIC) {
-    music_start();
+  // now on loading
+  if (gameStory === 1) {
+    gameState = GAME_STATE_STORY;
   }
-  gameState = GAME_STATE_CONTROLS;
+  // now on ring ring
+  else if (gameStory  === 2) {
+    soundEffects.play('dialog');
+    if (ENABLE_MUSIC) {
+      music_start();
+    }
+    gameState = GAME_STATE_STORY;
+  }
+  // now on controls
+  else if (gameStory === 3) {
+    soundEffects.play('dialog');
+    gameState = GAME_STATE_STORY;
+  }
+  else if (gameStory === 4) {
+    game_start();
+  }
+  
 }
 
 function game_pause() {

@@ -25,6 +25,17 @@ z: -2
 // z: 0
 // };
 
+player = {
+health: 7,
+pitch: 0.015,
+sideMovement: 0,
+straightMovement: 0,
+x: 3.95,
+y: -0.49,
+yaw: 1.87,
+z: -7.8,
+};
+
   flashTimeRemaining = 0;
   isAirborne = false;
 }
@@ -153,10 +164,22 @@ function player_update() {
     player_move(distEachFrame * Math.sin(player.yaw + Math.PI / 2), 0, distEachFrame * Math.cos(player.yaw + Math.PI / 2));
   }
 
-  if (player.straightMovement || player.sideMovement) {
+  if (!isAirborne && (player.straightMovement || player.sideMovement)) {
+    // bobble
     bobbleCounter += elapsedTime;
+    let lastBobble = bobble;
     bobble = BOBBLE_AMPLITUDE * MATH_SIN((bobbleCounter/1000) * BOBBLE_FREQUENCEY);
+
+     // run sound
+    playerStep -= elapsedTime;
+    if (playerStep < 0) {
+      playerStep = PLAYER_STEP_SPEED;
+      soundEffects.play('run');
+    }
+
   }
+
+
 
   
   // handle gravity
@@ -187,7 +210,7 @@ function player_update() {
 
       if (numBullets < 6) {
         numBullets++;
-        soundEffects.play('reload');
+        soundEffects.play('reload', 0.5);
       }
 
       
@@ -207,6 +230,7 @@ function player_jump() {
   if (!isAirborne) {
     upVelocity = JUMP_SPEED;
     isAirborne = true;
+    //soundEffects.play('jump');
   }
 }
 
@@ -261,6 +285,7 @@ function player_fire() {
 
 function player_reload() {
   if (!isReloading && numBullets < 6) {
+    soundEffects.play('reload-start');
     isReloading = true;
     reloadTimeRemaining = RELOAD_SPEED;
   }

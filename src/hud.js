@@ -41,7 +41,7 @@ function hud_update() {
   // }
 
   // bobble as a half circle motion
-  if (player.straightMovement || player.sideMovement) {
+  if (!isAirborne && (player.straightMovement || player.sideMovement)) {
     gunBobbleCounter += elapsedTime;
     gunBobbleX = GUN_BOBBLE_AMPLITUDE * MATH_COS((gunBobbleCounter/1000) * GUN_BOBBLE_FREQUENCEY);
     gunBobbleY = MATH_ABS(GUN_BOBBLE_AMPLITUDE * MATH_SIN((gunBobbleCounter/1000) * GUN_BOBBLE_FREQUENCEY));
@@ -190,41 +190,59 @@ function hud_gunRecoil() {
 }
 
 function hud_renderDialog() {
-  if (gameState === GAME_STATE_LOADING) {
-    hud_renderDialogFrame();
-    text_renderLine('loading...', 50, OPTIMAL_VIEWPORT_HEIGHT/2-25, hudContext, 0);
-  }
-  else if(gameState === GAME_STATE_START_SCREEN) {
-    hud_renderDialogFrame();
-    text_renderLine('bubba*s back room', 80, 200, hudContext, 0);
-    text_renderLine('created by eric rowell @ericdrowell', 30, 320, hudContext, 0);
-    text_renderLine('press enter to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 200 - 30, hudContext, 0);
-  }
-  else if(gameState === GAME_STATE_CONTROLS) {
-    hud_renderDialogFrame();
-    text_renderLine('controls', 80, 150, hudContext, 0);
+  if (gameState === GAME_STATE_STORY) {
+    if (gameStory === 0) {
+      hud_renderDialogFrame();
+      text_renderLine('loading...', 50, OPTIMAL_VIEWPORT_HEIGHT/2-25, hudContext, 0);
+    }
+    else if(gameStory === 1) {
+      hud_renderDialogFrame();
+      text_renderLine('bubba*s back room', 80, 200, hudContext, 0);
+      text_renderLine('created by eric rowell @ericdrowell', 30, 320, hudContext, 0);
+      text_renderLine('press enter to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 200 - 30, hudContext, 0);
+    }
+    else if(gameStory === 2) {
+      hud_renderDialogFrame();
+ 
+      text_renderLine('ring... ring... ring...', 30, 150, hudContext, 0);
+      
+      text_renderLine('welcome to your first day at bubbas gas station.', 30, 260, hudContext, 0);
+      text_renderLine('i*m your new boss.  you can just call me bubba.', 30, 300, hudContext, 0);
+      text_renderLine('i want you to check on my son bubba junior.', 30, 340, hudContext, 0);
+      text_renderLine('he*s in the back.  he can*t wait to eat you.', 30, 380, hudContext, 0);
+      text_renderLine('i mean... meet you.', 30, 420, hudContext, 0);
+      text_renderLine('press enter to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 150 - 30, hudContext, 0);
+    }
+    else if(gameStory === 3) {
+      hud_renderDialogFrame();
+      text_renderLine('controls', 80, 150, hudContext, 0);
 
-    text_renderLine('[wasd]', 30, 260, hudContext, -1);
-    text_renderLine('[mouse move]', 30, 300, hudContext, -1);
-    text_renderLine('[mouse click]', 30, 340, hudContext, -1);
-    text_renderLine('[r]', 30, 380, hudContext, -1);
-    text_renderLine('[space]', 30, 420, hudContext, -1);
-    text_renderLine('[esc]', 30, 460, hudContext, -1);
+      text_renderLine('[wasd]', 30, 260, hudContext, -1);
+      text_renderLine('[mouse move]', 30, 300, hudContext, -1);
+      text_renderLine('[mouse click]', 30, 340, hudContext, -1);
+      text_renderLine('[r]', 30, 380, hudContext, -1);
+      text_renderLine('[space]', 30, 420, hudContext, -1);
+      text_renderLine('[esc]', 30, 460, hudContext, -1);
 
-    text_renderLine('move', 30, 260, hudContext, 1);
-    text_renderLine('look', 30, 300, hudContext, 1);
-    text_renderLine('shoot', 30, 340, hudContext, 1);
-    text_renderLine('reload', 30, 380, hudContext, 1);
-    text_renderLine('jump', 30, 420, hudContext, 1);
-    text_renderLine('pause', 30, 460, hudContext, 1);
+      text_renderLine('move', 30, 260, hudContext, 1);
+      text_renderLine('look', 30, 300, hudContext, 1);
+      text_renderLine('shoot', 30, 340, hudContext, 1);
+      text_renderLine('reload', 30, 380, hudContext, 1);
+      text_renderLine('jump', 30, 420, hudContext, 1);
+      text_renderLine('pause', 30, 460, hudContext, 1);
 
-    text_renderLine('press enter to start', 30, OPTIMAL_VIEWPORT_HEIGHT - 150 - 30, hudContext, 0);
+      text_renderLine('press enter to start', 30, OPTIMAL_VIEWPORT_HEIGHT - 150 - 30, hudContext, 0);
+    }
   }
-  else if(gameState === GAME_STATE_PAUSED) {
+  else if (gameState === GAME_STATE_PAUSED) {
     hud_renderDialogFrame();
     text_renderLine('paused', 80, 200, hudContext, 0);
     text_renderLine('press enter to resume', 30, OPTIMAL_VIEWPORT_HEIGHT - 200 - 30, hudContext, 0);
   }
+
+
+
+
 }
 
 function hud_renderDialogHorn(angle) {

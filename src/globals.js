@@ -27,10 +27,8 @@ const BOBBLE_FREQUENCEY = 10;
 const GRAVITY = -100; // units / second^2
 const JUMP_SPEED = 30;
 const FLASH_COOLDOWN = 100;
-const GAME_STATE_LOADING = 'loading';
-const GAME_STATE_START_SCREEN = 'start-screen';
 const GAME_STATE_PLAYING = 'playing';
-const GAME_STATE_CONTROLS = 'controls';
+const GAME_STATE_STORY = 'story';
 const GAME_STATE_PAUSED = 'paused';
 const CHAR_SPACING = 2;
 const TEXTURES_STONE = 'stone';
@@ -48,6 +46,7 @@ const OPTIMAL_VIEWPORT_HEIGHT = OPTIMAL_VIEWPORT_WIDTH / GAME_ASPECT_RATIO;
 const RELOAD_SPEED = 500; // once per ms
 const GUN_RELOAD_DIST = 150;
 const RAY_TRACE_INCREMENT = 0.3;
+const PLAYER_STEP_SPEED = 300; // ms
 
 let world = [];
 let worldBuffers = {};
@@ -104,3 +103,12 @@ let textCanvas;
 let textContext;
 let hitCanvas;
 let hitContext;
+
+/*
+  0 - loading
+  1 - splash screen
+  2 - ring ring
+  3 - controls
+*/
+let gameStory = 0;
+let playerStep = 0;

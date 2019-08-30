@@ -29,11 +29,8 @@ function userInputs_handleKeyDown(evt) {
   switch (keycode) {
     // enter key
     case 13:
-      if (gameState === GAME_STATE_START_SCREEN) {
-        game_showControls();
-      }
-      else if (gameState === GAME_STATE_CONTROLS) {
-        game_start();
+      if (gameState === GAME_STATE_STORY) {
+        game_storyNext();
       }
       else if (gameState === GAME_STATE_PAUSED) {
         game_resume();
