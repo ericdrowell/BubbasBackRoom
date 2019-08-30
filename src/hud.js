@@ -7,7 +7,7 @@ function hud_init() {
 }
 
 function hud_render() {
-  hudContext.clearRect(0, 0, OPTIMAL_VIEWPORT_WIDTH, OPTIMAL_VIEWPORT_HEIGHT);
+  hudContext.clearRect(0, 0, viewportWidth, viewportHeight);
 
   hudContext.save();
   hudContext.scale(viewportScale, viewportScale);
@@ -109,7 +109,7 @@ function hud_renderCrossHair() {
   if (!isReloading && numBullets <= 0) {
     // TODO: show "Press R to Reload"
   }
-  else if (!isReloading) {
+  else if (numBullets > 0) {
     hudContext.fillStyle = 'rgba(255, 255, 255, 0.3)';
     // horizontal bar
     hudContext.fillRect(OPTIMAL_VIEWPORT_WIDTH/2 - barLength - halfBarThickness, OPTIMAL_VIEWPORT_HEIGHT/2 - halfBarThickness, barLength, barThickness);
@@ -194,47 +194,44 @@ function hud_renderDialog() {
     hud_renderDialogFrame();
 
     let str = 'loading...';
-    let height = 30;
-    let width = text_getWidth(str, height);
-    text_renderLine(str, OPTIMAL_VIEWPORT_WIDTH/2 - width/2, OPTIMAL_VIEWPORT_HEIGHT/2, height, hudContext);
+    text_renderLine(str, OPTIMAL_VIEWPORT_HEIGHT/2, 30, hudContext);
   }
   else if(gameState === GAME_STATE_START_SCREEN) {
     hud_renderDialogFrame();
 
-    let str = 'press enter to start';
-    let height = 30;
-    let width = text_getWidth(str, height);
-    text_renderLine(str, OPTIMAL_VIEWPORT_WIDTH/2 - width/2, OPTIMAL_VIEWPORT_HEIGHT/2, height, hudContext);
+    let str = 'bubba*s back room';
+    text_renderLine(str, 200, 80, hudContext);
+
+    str = '[press enter to start]';
+    text_renderLine(str, OPTIMAL_VIEWPORT_HEIGHT - 200 - 30, 30, hudContext);
   }
   else if(gameState === GAME_STATE_PAUSED) {
     hud_renderDialogFrame();
 
-    let str = 'press enter to resume';
-    let height = 30;
-    let width = text_getWidth(str, height);
-    text_renderLine(str, OPTIMAL_VIEWPORT_WIDTH/2 - width/2, OPTIMAL_VIEWPORT_HEIGHT/2, height, hudContext);
+    let str = '[press enter to resume]';
+    text_renderLine(str, OPTIMAL_VIEWPORT_HEIGHT/2, 30, hudContext);
   }
 
 }
 
 function hud_renderDialogHorn(angle) {
   let lineWidth = 5;
-  let hornLength = 80;
+  let hornLength = 60;
   let halfLineWidth = lineWidth/2;
   let barLength = 30;
   let barSize = 5;
   let barSpacing = 30;
 
-  
   hudContext.save();
   hudContext.rotate(angle)
 
   // spike
   hudContext.beginPath();
-  hudContext.moveTo(-halfLineWidth, -halfLineWidth);
-  hudContext.lineTo(0, -halfLineWidth - hornLength);
-  hudContext.lineTo(halfLineWidth, -halfLineWidth);
-  hudContext.fill();
+  hudContext.fillRect(-halfLineWidth, -halfLineWidth - hornLength, lineWidth, hornLength);
+  // hudContext.moveTo(-halfLineWidth, -halfLineWidth);
+  // hudContext.lineTo(0, -halfLineWidth - hornLength);
+  // hudContext.lineTo(halfLineWidth, -halfLineWidth);
+  // hudContext.fill();
 
   // bar
   hudContext.beginPath();

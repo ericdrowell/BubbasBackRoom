@@ -1,5 +1,4 @@
-const TEXT_BASE64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIEAAAAJAQMAAAAvjd2mAAAABlBMVEUAAACVjnilYY8fAAAAAXRSTlMAQObYZgAAAIpJREFUCNdjYGFQSHASZAACJhBhwwASaXCYCBdxYmB4LvHseZFwzWOJ09bLQr3idjIwiCzV7PSa7DVlqY6TWqiXUysDw5eF+p1ec4EiGkZqoUY+exkYgEyIGg0uoJqApQwM5RLP2oEiky1eFM7t8rw3nwEEGBkaGBgUFEBMBwewCBsjA1SEscGGAQDqvCg0BsK+agAAAABJRU5ErkJggg==';
-
+const TEXT_BASE64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIYAAAAJAQMAAADNUcbfAAAABlBMVEUAAACVjnilYY8fAAAAAXRSTlMAQObYZgAAAIxJREFUCNdjYGFQSHASZAACJhBh8wIk0uAwES7i5MHwXOLZ8yLhmscSp62XhXrF7XRgEFmq2ek12WvKUh0ntVAvp1YHhi8L9Tu95gJFNIzUQo189jowAJkQNRpcQDUBSx0YyiWetQNFJlu8KJzb5XlvvgvIfEaGBgYGBQUQ08HBAUSxMTJARRgbbB4AAPNfK8iWulxXAAAAAElFTkSuQmCC';
 const TEXT_MAP  = {
   a: [0, 4],
   b: [5, 4],
@@ -27,7 +26,11 @@ const TEXT_MAP  = {
   x: [105, 4],
   y: [110, 4],
   z: [115, 4],
-  '@': [120, 8]
+  '@': [120, 8],
+  ']': [128, 2],
+  '[': [129, 2],
+  '*': [132, 1],
+  '.': [133, 1]
 }
 
 function text_init() {
@@ -39,9 +42,10 @@ function text_init() {
   image.src = TEXT_BASE64; 
 }
 
-function text_renderLine(str, startX, y, height, context) {
+function text_renderLine(str, y, height, context) {
   let scale = height / TEXT_HEIGHT;
-  let textColor = '#958e78';
+  let width = text_getWidth(str, height);
+  let startX = OPTIMAL_VIEWPORT_WIDTH/2 - width/2;
   let x = startX;
 
   context.save();
@@ -53,11 +57,6 @@ function text_renderLine(str, startX, y, height, context) {
 
     if (char === ' ') {
       x += 4 * scale;
-    }
-    else if (char === '.') {
-      context.fillStyle = textColor;
-      context.fillRect(x, y+6*scale, scale, scale);
-      x += (1 + CHAR_SPACING) * scale;
     }
     else if (charObj) {
       let charX = charObj[0];

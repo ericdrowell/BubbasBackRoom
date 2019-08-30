@@ -183,10 +183,19 @@ function player_update() {
     reloadTimeRemaining -= elapsedTime;
 
     if (reloadTimeRemaining < 0) {
-      isReloading = false;
-      numBullets = 6;
-      // second reload sound
-      soundEffects.play('reload');
+      reloadTimeRemaining = RELOAD_SPEED;
+
+      if (numBullets < 6) {
+        numBullets++;
+        soundEffects.play('reload');
+      }
+
+      
+
+      if (numBullets === 6) {
+        isReloading = false;
+        
+      }
 
     }
   }
@@ -213,7 +222,8 @@ function player_hurt() {
 }
 
 function player_fire() {
-  if (numBullets > 0 && !isReloading) {
+  if (numBullets > 0) {
+    isReloading = false;
     gunBobbleX = 0;
     gunBobbleY = 0;
     flashTimeRemaining = FLASH_COOLDOWN;
@@ -250,9 +260,8 @@ function player_fire() {
 }
 
 function player_reload() {
-  if (numBullets < 6 && !isReloading) {
+  if (!isReloading && numBullets < 6) {
     isReloading = true;
     reloadTimeRemaining = RELOAD_SPEED;
-    soundEffects.play('reload');
   }
 }

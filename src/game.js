@@ -1,4 +1,4 @@
-const ENABLE_MUSIC = true;
+const ENABLE_MUSIC = false;
 
 // start game - have to do it this way because I need the compressor to convert game_init() to the right variable name
 setTimeout(function() {
