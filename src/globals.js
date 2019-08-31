@@ -73,7 +73,7 @@ let sceneCanvas;
 let sceneContext;
 let mvMatrix; 
 let pMatrix;
-let mvMatrixStack;
+let mvMatrixStack = [];
 let shaderProgram;
 let hitShaderProgram;
 let bobble = 0;

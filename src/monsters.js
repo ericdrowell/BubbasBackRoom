@@ -162,18 +162,16 @@ function monsters_render() {
   monsters.forEach(function(monster) {
     let texture = monster.painFlash > 0 ? TEXTURES_BLOOD_STONE : TEXTURES_BURNED_STONE;
  
-    let x = monster.x;
-    let y = monster.y;
-    let z = monster.z;
-
-
-    mat4.translate(mvMatrix, [x, y, z]);
+    modelView_save();
+    mat4.translate(mvMatrix, [2 * monster.x, 2 * monster.y, 2 * monster.z]);
     mat4.rotate(mvMatrix, -monster.yaw, [0, 1, 0]);
     
     
 
     scene_render(monster.buffers, textures[texture].glTexture);
     hit_render(monster.hitBuffers);
+
+    modelView_restore();
 
     
     

@@ -84,15 +84,19 @@ function game_render() {
     mat4.perspective(45, sceneCanvas.width / sceneCanvas.height, minDist, maxDist, pMatrix);
     mat4.identity(mvMatrix);
 
+    webgl_clear(sceneCanvas, sceneContext);
+    webgl_clear(hitCanvas, hitContext);
+
+    //modelView_save();
+
     mat4.rotate(mvMatrix, -player.pitch, [1, 0, 0]);
     mat4.rotate(mvMatrix, -player.yaw, [0, 1, 0]);
     mat4.translate(mvMatrix, [-2 * player.x, -2 * (player.y + PLAYER_HEIGHT), -2 * player.z]);
     mat4.translate(mvMatrix, [0, bobble, 0]);
 
-    webgl_clear(sceneCanvas, sceneContext);
-    webgl_clear(hitCanvas, hitContext);
-
     world_render();
+    //modelView_restore();
+
     monsters_render();    
   }
 
@@ -172,4 +176,4 @@ function game_loop() {
 
   lastTime = now;
   window.requestAnimationFrame(game_loop);  
-} 
+}
