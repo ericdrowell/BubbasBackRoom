@@ -1,5 +1,5 @@
 const MONSTER_COOLDOWN_TIME = 1; // s
-const MONSTER_SPEED = 1; // units / s
+const MONSTER_SPEED = 3; // units / s
 const MONSTER_JUMP_SPEED = 25; // units / s
 const PLAYER_SPEED = 20; // units / s
 const PLAYER_HEIGHT = 4;
@@ -16,6 +16,8 @@ const MATH_CEIL = Math.floor;
 const MATH_SIGN = Math.sign;
 const MATH_ABS = Math.abs;
 const MATH_SQRT = Math.sqrt;
+const MATH_ATAN2 = Math.atan2;
+const MATH_ATAN = Math.atan;
 const GUN_RECOIL = 200;
 const GUN_RECOIL_RECOVER_SPEED= 400; // units per second
 const PIXEL_RATIO = (window && window.devicePixelRatio) || 1;
@@ -47,6 +49,7 @@ const RELOAD_SPEED = 500; // once per ms
 const GUN_RELOAD_DIST = 150;
 const RAY_TRACE_INCREMENT = 0.3;
 const PLAYER_STEP_SPEED = 300; // ms
+
 
 let world = [];
 let worldBuffers = {};

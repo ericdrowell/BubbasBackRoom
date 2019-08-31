@@ -1,4 +1,4 @@
-const ENABLE_MUSIC = true;
+const ENABLE_MUSIC = false;
 
 // start game - have to do it this way because I need the compressor to convert game_init() to the right variable name
 setTimeout(function() {
@@ -81,8 +81,9 @@ function game_render() {
     let viewAngle = 45;
     let minDist = 0.1;
     let maxDist = 100;
-    mat4.perspective(viewAngle, sceneCanvas.width / sceneCanvas.height, minDist, maxDist, pMatrix);
+    mat4.perspective(45, sceneCanvas.width / sceneCanvas.height, minDist, maxDist, pMatrix);
     mat4.identity(mvMatrix);
+
     mat4.rotate(mvMatrix, -player.pitch, [1, 0, 0]);
     mat4.rotate(mvMatrix, -player.yaw, [0, 1, 0]);
     mat4.translate(mvMatrix, [-2 * player.x, -2 * (player.y + PLAYER_HEIGHT), -2 * player.z]);

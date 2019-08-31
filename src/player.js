@@ -2,16 +2,16 @@ function player_init() {
 
 
 // start at beginning of tunnel
-player = {
-health: 7,
-pitch: -0.13823007675794918,
-sideMovement: 0,
-straightMovement: 0,
-x: -230,
-y: 26,
-yaw: -1.640840704496659,
-z: -2
-};
+// player = {
+// health: 7,
+// pitch: -0.13823007675794918,
+// sideMovement: 0,
+// straightMovement: 0,
+// x: -230,
+// y: 26,
+// yaw: -1.640840704496659,
+// z: -2
+// };
 
 // center
 // player = {
@@ -30,10 +30,10 @@ health: 7,
 pitch: 0.015,
 sideMovement: 0,
 straightMovement: 0,
-x: 3.95,
-y: -0.49,
+x: 0,
+y: 0,
 yaw: 1.87,
-z: -7.8,
+z: 0,
 };
 
   flashTimeRemaining = 0;

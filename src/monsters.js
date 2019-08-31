@@ -46,33 +46,51 @@ function monsters_buildModel() {
   monsters.push({
     x: 0,
     y: 0,
-    z: 0,
+    z: 10,
     painFlash: 0,
     health: 6,
+    yaw: MATH_PI * 0.5,
     id: utils_generateId()
   });
 
-  monsters.push({
-    x: 0,
-    y: 0,
-    z: 5,
-    painFlash: 0,
-    health: 6,
-    id: utils_generateId()
-  });
+  // monsters.push({
+  //   x: 0,
+  //   y: 0,
+  //   z: 5,
+  //   painFlash: 0,
+  //   health: 6,
+  //   yaw: 0,
+  //   id: utils_generateId()
+  // });
 }
 
 function monsters_update() {
   let distEachFrame = MONSTER_SPEED * elapsedTime / 1000;
 
   monsters.forEach(function(monster) {
-    if (monster.id === 0) {
-      monster.x -= distEachFrame;
-    }
-    else if (monster.id === 1) {
-      monster.z -= distEachFrame;
-    }
+    // tan(theta) = o/a
+    let playerDirectionX = monster.x - player.x;
+    let playerDirectionZ = monster.z - player.z;
+    // let playerDirectionX = player.x;
+    // let playerDirectionZ = player.z;
+    let yaw = MATH_ATAN2(playerDirectionZ, playerDirectionX);
+
+    //let newPlayerXDiff = -1 * distEachFrame * MATH_COS(yaw);
+    //let newPlayerZDiff = -1 * distEachFrame * MATH_SIN(yaw);
+
+    monster.yaw = yaw;
+    //monster.x += newPlayerXDiff;
+    //monster.z += newPlayerZDiff;
   });
+
+  // monsters.forEach(function(monster) {
+  //   if (monster.id === 0) {
+  //     monster.x -= distEachFrame;
+  //   }
+  //   else if (monster.id === 1) {
+  //     monster.z -= distEachFrame;
+  //   }
+  // });
 
   monsters_restore();
 
@@ -148,10 +166,20 @@ function monsters_render() {
     let y = monster.y;
     let z = monster.z;
 
+
     mat4.translate(mvMatrix, [x, y, z]);
+    mat4.rotate(mvMatrix, -monster.yaw, [0, 1, 0]);
+    
+    
+
     scene_render(monster.buffers, textures[texture].glTexture);
     hit_render(monster.hitBuffers);
-    mat4.translate(mvMatrix, [-x, -y, -z]);
+
+    
+    
+    // mat4.rotate(mvMatrix, monster.yaw, [0, 1, 0]);
+    // mat4.translate(mvMatrix, [-x, -y, -z]);
+    
 
   });
 }
