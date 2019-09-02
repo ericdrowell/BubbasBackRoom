@@ -21,6 +21,8 @@ function hud_render() {
   
 
   hudContext.restore();
+
+  //canvas2d_pixelate(hudCanvas, hudContext, 2);
 }
 
 function hud_renderPainFlash() {

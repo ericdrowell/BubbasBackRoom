@@ -19,7 +19,7 @@ function game_init() {
   hud_init();
   soundEffects_init();
   userInputs_init();
-  //text_init();
+  text_init();
 
   world_init();
   player_init();
@@ -106,7 +106,9 @@ function game_render() {
     world_render();
     //modelView_restore();
 
-    monsters_render();    
+    monsters_render();  
+
+    
   }
 
   // canvas2d rendering
