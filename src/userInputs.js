@@ -35,6 +35,9 @@ function userInputs_handleKeyDown(evt) {
       else if (gameState === GAME_STATE_PAUSED) {
         game_resume();
       }
+      else if (gameState === GAME_STATE_DIED || gameState === GAME_STATE_WIN) {
+        game_restart()
+      }
       break;
     case 65:
       // a key (strafe left)

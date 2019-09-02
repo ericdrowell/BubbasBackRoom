@@ -16,6 +16,80 @@ function textures_createRandom(colors) {
   return canvas.toDataURL();
 }
 
+// function textures_createHorizontalBars(colors) {
+//   let canvas = document.createElement('canvas');
+//   canvas.width = 16;
+//   canvas.height = 16;
+//   let context = canvas.getContext('2d');
+
+
+//   let numBars = 4;
+//   let barHeight = 16/numBars;
+//   let innerHeight = barHeight - 2;
+//   let y = 0;
+//   for (let n=0; n<numBars; n++) {
+//     context.fillStyle = '#' + colors[0];
+//     context.fillRect(0, y, 16, 1);
+//     y += 1;
+
+//     context.fillStyle = '#' + colors[1];
+//     context.fillRect(0, y, 16, innerHeight);
+//     y += innerHeight;
+
+//     context.fillStyle = '#' + colors[2];
+//     context.fillRect(0, y, 16, 1);
+//     y += 1;
+//   }
+
+
+//   return canvas.toDataURL();
+// }
+
+function textures_createDiagonalBars(colors) {
+  let canvas = document.createElement('canvas');
+  canvas.width = 16;
+  canvas.height = 16;
+  let context = canvas.getContext('2d');
+
+  context.save();
+  context.translate(7.7, 7.5);
+  context.rotate(0.45);
+
+  let bandColors = colors.slice();
+  bandColors.shift();
+  bandColors.pop();
+  
+  for (let x=-15; x<15; x++) {
+    for (let y=-15; y<15; y++) {
+      context.save();
+      context.fillStyle = '#' + u_getRandomElement(bandColors);
+      context.fillRect(x, y, 2, 2);
+      context.restore();
+    }
+  }
+
+  let numBars = 4;
+  let barHeight = 30/numBars;
+  let innerHeight = barHeight - 2;
+  let y = -15;
+  for (let n=0; n<numBars; n++) {
+    context.fillStyle = '#' + colors[0];
+    context.fillRect(-15, y, 30, 1);
+    y += 1;
+    y += innerHeight;
+
+    context.fillStyle = '#' + colors[colors.length-1];
+    context.fillRect(-15, y, 30, 1);
+    y += 1;
+  }
+
+  
+
+  context.restore();
+
+  return canvas.toDataURL();
+}
+
 function textures_createTile(colors) {
   let canvas = document.createElement('canvas');
   canvas.width = 16;
@@ -115,6 +189,15 @@ function textures_init(callback) {
         '4a3c26',
         '31271f',
         '120c09'  
+      ])
+    },
+    'mummy-wrap': {
+      encoding: textures_createDiagonalBars([
+        '928364',
+        '615339',
+        '756555',
+        '74644d',
+        '251e18'
       ])
     }
   };

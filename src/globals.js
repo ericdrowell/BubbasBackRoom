@@ -1,11 +1,3 @@
-const MONSTER_COOLDOWN_TIME = 1; // s
-const MONSTER_SPEED = 3; // units / s
-const MONSTER_JUMP_SPEED = 25; // units / s
-const PLAYER_SPEED = 20; // units / s
-const PLAYER_HEIGHT = 4;
-const PAIN_FLASH_DURATION = 200; // ms
-const MENU_COOLDOWN = 0.5; // s
-const BLOCK_NUM_VERTICES = 24;
 const MATH_PI = Math.PI;
 const MATH_ROUND = Math.round;
 const MATH_RANDOM = Math.random;
@@ -18,6 +10,35 @@ const MATH_ABS = Math.abs;
 const MATH_SQRT = Math.sqrt;
 const MATH_ATAN2 = Math.atan2;
 const MATH_ATAN = Math.atan;
+
+const MONSTER_ATTACK_COOLDOWN = 1; // s
+const MONSTER_SPEED = 2.5; // units / s
+const MONSTER_JUMP_SPEED = 25; // units / s
+const MONSTER_TURN_SPEED = 0.5; // radians / s
+const MONSTER_ATTACK_DIST = 4; 
+
+const TEXTURES_STONE = 'stone';
+const TEXTURES_MOSSY_STONE = 'mossy-stone';
+const TEXTURES_ROTTING_WOOD = 'rotting-wood';
+const TEXTURES_DIRT = 'dirt';
+const TEXTURES_BURNED_STONE = 'burned-stone';
+const TEXTURES_BLOOD_STONE = 'blood-stone';
+const TEXTURES_MUMMY_WRAP = 'mummy-wrap';
+
+const PLAYER_SPEED = 20; // units / s
+const PLAYER_HEIGHT = 4;
+const PLAYER_STEP_SPEED = 300; // ms
+const PLAYER_PAIN_FLASH_DURATION = 1; // s
+
+const GAME_STATE_PLAYING = 'playing';
+const GAME_STATE_STORY = 'story';
+const GAME_STATE_PAUSED = 'paused';
+const GAME_STATE_DIED = 'died';
+const GAME_STATE_WIN = 'win';
+
+const PAIN_FLASH_DURATION = 200; // ms
+const MENU_COOLDOWN = 0.5; // s
+const BLOCK_NUM_VERTICES = 24;
 const GUN_RECOIL = 200;
 const GUN_RECOIL_RECOVER_SPEED= 400; // units per second
 const PIXEL_RATIO = (window && window.devicePixelRatio) || 1;
@@ -29,16 +50,7 @@ const BOBBLE_FREQUENCEY = 10;
 const GRAVITY = -100; // units / second^2
 const JUMP_SPEED = 30;
 const FLASH_COOLDOWN = 100;
-const GAME_STATE_PLAYING = 'playing';
-const GAME_STATE_STORY = 'story';
-const GAME_STATE_PAUSED = 'paused';
 const CHAR_SPACING = 2;
-const TEXTURES_STONE = 'stone';
-const TEXTURES_MOSSY_STONE = 'mossy-stone';
-const TEXTURES_ROTTING_WOOD = 'rotting-wood';
-const TEXTURES_DIRT = 'dirt';
-const TEXTURES_BURNED_STONE = 'burned-stone';
-const TEXTURES_BLOOD_STONE = 'blood-stone';
 const TEXT_HEIGHT = 9;
 const GUN_BOBBLE_AMPLITUDE = 30; // pixels
 const GUN_BOBBLE_FREQUENCEY = 10;
@@ -48,7 +60,6 @@ const OPTIMAL_VIEWPORT_HEIGHT = OPTIMAL_VIEWPORT_WIDTH / GAME_ASPECT_RATIO;
 const RELOAD_SPEED = 500; // once per ms
 const GUN_RELOAD_DIST = 150;
 const RAY_TRACE_INCREMENT = 0.3;
-const PLAYER_STEP_SPEED = 300; // ms
 
 
 let world = [];
@@ -81,7 +92,7 @@ let bobbleCounter = 0;
 let gunBobbleX = 0;
 let gunBobbleY = 0;
 let gunBobbleCounter = 0;
-let numBullets = 6;
+let numBullets;
 let health = 5;
 let upVelocity = 0;
 let hudRatio;
@@ -115,3 +126,4 @@ let hitContext;
 */
 let gameStory = 0;
 let playerStep = 0;
+let playerHurting = 0;

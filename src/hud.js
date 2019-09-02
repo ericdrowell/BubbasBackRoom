@@ -4,6 +4,7 @@ function hud_init() {
     x: OPTIMAL_VIEWPORT_WIDTH / 2,
     y: OPTIMAL_VIEWPORT_HEIGHT
   };
+
 }
 
 function hud_render() {
@@ -15,9 +16,22 @@ function hud_render() {
   hud_renderGun();
   hud_renderCrossHair();
   hud_renderBullets();
+  hud_renderPainFlash();
   hud_renderDialog();
+  
 
   hudContext.restore();
+}
+
+function hud_renderPainFlash() {
+  if (playerHurting > 0) {
+    hudContext.save();
+    hudContext.scale(10, 10);
+    hudContext.fillStyle = hudContext.createPattern(textures[TEXTURES_BLOOD_STONE].image, 'repeat');
+    hudContext.globalAlpha = 0.2 * playerHurting / PLAYER_PAIN_FLASH_DURATION;
+    hudContext.fillRect(0, 0, OPTIMAL_VIEWPORT_WIDTH, OPTIMAL_VIEWPORT_HEIGHT);
+    hudContext.restore();
+  }
 }
 
 function hud_update() {
@@ -241,6 +255,16 @@ function hud_renderDialog() {
     hud_renderDialogFrame();
     text_renderLine('paused', 80, 150, hudContext, 0);
     hud_renderControlsBottom();
+  }
+  else if (gameState === GAME_STATE_DIED) {
+    hud_renderDialogFrame();
+    text_renderLine('you died', 80, 150, hudContext, 0);
+    text_renderLine('press enter to try again', 30, OPTIMAL_VIEWPORT_HEIGHT - 150 - 30, hudContext, 0);
+  }
+  else if (gameState === GAME_STATE_WIN) {
+    hud_renderDialogFrame();
+    text_renderLine('you won', 80, 150, hudContext, 0);
+    text_renderLine('press enter to play again', 30, OPTIMAL_VIEWPORT_HEIGHT - 150 - 30, hudContext, 0);
   }
 
 

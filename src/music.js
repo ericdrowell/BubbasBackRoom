@@ -16,7 +16,8 @@ let songGen;
 // }
 
 var audio_ctx;
-let musicBuffer
+let musicBuffer;
+let musicPlaying = false;
 
 function music_init(callback) {
 	audio_ctx = new (window.webkitAudioContext||window.AudioContext)();
@@ -33,8 +34,11 @@ function music_play(buffer, loop) {
 	source.loop = loop;
 	source.connect(audio_ctx.destination);
 	source.start();
+	musicPlaying = true;
 };
 
 function music_start() {
-  music_play(musicBuffer, true);
+	if (!musicPlaying) {
+    music_play(musicBuffer, true);
+	}
 }

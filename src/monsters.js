@@ -11,7 +11,7 @@ const MONSTER_CUBES = [
 ];
 
 function monsters_init() {
-  monsters_buildModel();
+  monsters_spawn();
 }
 
 function monsters_hurt(id) {
@@ -42,7 +42,7 @@ function monsters_remove(index) {
   monsters.splice(index, 1);
 }
 
-function monsters_buildModel() {
+function monsters_spawn() {
   monsters.push({
     x: 0,
     y: 0,
@@ -50,52 +50,102 @@ function monsters_buildModel() {
     painFlash: 0,
     health: 6,
     yaw: MATH_PI * 0.5,
+    attackCooldown: 0,
     id: utils_generateId()
   });
 
-  // monsters.push({
-  //   x: 0,
-  //   y: 0,
-  //   z: 5,
-  //   painFlash: 0,
-  //   health: 6,
-  //   yaw: 0,
-  //   id: utils_generateId()
-  // });
+  monsters.push({
+    x: 0,
+    y: 0,
+    z: 5,
+    painFlash: 0,
+    health: 6,
+    yaw: 0,
+    attackCooldown: 0,
+    id: utils_generateId()
+  });
 }
 
 function monsters_update() {
   let distEachFrame = MONSTER_SPEED * elapsedTime / 1000;
+  //let maxThetaEachFrame = MONSTER_TURN_SPEED * elapsedTime / 1000;
+  //let yawOffset = 1 * MATH_SIN(elapsedTime * 0.1);
 
   monsters.forEach(function(monster) {
     // tan(theta) = o/a
-    let playerDirectionX = monster.x - player.x;
-    let playerDirectionZ = monster.z - player.z;
-    // let playerDirectionX = player.x;
-    // let playerDirectionZ = player.z;
-    let yaw = MATH_ATAN2(playerDirectionZ, playerDirectionX);
+    let xDiff = monster.x - player.x;
+    let yDiff = monster.y - player.y;
+    let zDiff = monster.z - player.z;
+    let theta = MATH_ATAN2(zDiff, xDiff);
+    let thetaDiff = monster.yaw - theta;
 
-    //let newPlayerXDiff = -1 * distEachFrame * MATH_COS(yaw);
-    //let newPlayerZDiff = -1 * distEachFrame * MATH_SIN(yaw);
+    // if (thetaDiff > maxThetaEachFrame) {
+    //   thetaDiff = maxThetaEachFrame;
+    // }
+
+
+    //if (thetaDiff >= 0) {
+      //thetaDiff = thetaDiff > maxThetaEachFrame ? maxThetaEachFrame : thetaDiff;
+    // }
+    // else {
+    //   thetaDiff = thetaDiff < -1 * maxThetaEachFrame ? -1 * maxThetaEachFrame : thetaDiff;
+    // }
+
+
+
+    let yaw = monster.yaw - thetaDiff;
+
+    //yaw += yawOffset;
+
+
+    let playerMonsterDist = MATH_SQRT(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
+    if (playerMonsterDist > MONSTER_ATTACK_DIST) {
+      let newPlayerXDiff = -1 * distEachFrame * MATH_COS(yaw);
+      let newPlayerZDiff = -1 * distEachFrame * MATH_SIN(yaw);
+      monster.x += newPlayerXDiff;
+      monster.z += newPlayerZDiff;
+    }
+    else {
+      if (monster.attackCooldown === 0) {
+        monsters_attack(monster.id);
+      }
+    }
 
     monster.yaw = yaw;
-    //monster.x += newPlayerXDiff;
-    //monster.z += newPlayerZDiff;
-  });
 
-  // monsters.forEach(function(monster) {
-  //   if (monster.id === 0) {
-  //     monster.x -= distEachFrame;
-  //   }
-  //   else if (monster.id === 1) {
-  //     monster.z -= distEachFrame;
-  //   }
-  // });
+    // attack cooldown
+    if (monster.attackCooldown > 0) {
+      monster.attackCooldown -= elapsedTime/1000;
+      if (monster.attackCooldown < 0) {
+        monster.attackCooldown = 0;
+      }
+    }
+
+  });
 
   monsters_restore();
 
   // now have to rebuild and bind buffers...
   monsters_buildBuffers();
+}
+
+function monsters_getById(id) {
+  for (let n=0; n<monsters.length; n++) {
+    let monster = monsters[n];
+    if (monster.id === id) {
+      return monster;
+    }
+  }
+
+  return -1;
+}
+
+function monsters_attack(id) {
+  let monster = monsters_getById(id);
+  monster.attackCooldown = MONSTER_ATTACK_COOLDOWN;
+  playerHurting = PLAYER_PAIN_FLASH_DURATION;
+  player.health -= 1;
+
 }
 
 function monsters_buildBuffers() {
@@ -160,7 +210,7 @@ function monsters_buildBuffers() {
 
 function monsters_render() {
   monsters.forEach(function(monster) {
-    let texture = monster.painFlash > 0 ? TEXTURES_BLOOD_STONE : TEXTURES_BURNED_STONE;
+    let texture = monster.painFlash > 0 ? TEXTURES_BLOOD_STONE : TEXTURES_MUMMY_WRAP;
  
     modelView_save();
     mat4.translate(mvMatrix, [2 * monster.x, 2 * monster.y, 2 * monster.z]);

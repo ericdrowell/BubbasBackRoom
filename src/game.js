@@ -1,4 +1,4 @@
-const ENABLE_MUSIC = false;
+const ENABLE_MUSIC = true;
 
 // start game - have to do it this way because I need the compressor to convert game_init() to the right variable name
 setTimeout(function() {
@@ -44,6 +44,15 @@ function game_init() {
   game_loop();
 
 
+}
+
+function game_restart() {
+  player_init();
+  monsters_init();
+  gameState = GAME_STATE_STORY;
+  gameStory = 1;
+  music_stop();
+  game_storyNext();
 }
 
 function game_setViewportSize() {
@@ -149,21 +158,39 @@ function game_resume() {
 function game_win() {
   soundEffects.play('player-win');
   document.exitPointerLock();
-  gameState = 'won';
+  gameState = GAME_STATE_WIN;
 }
 
 function game_die() {
   document.exitPointerLock();
-  gameState = 'died';
-  soundEffects.play('player-die');
+  gameState = GAME_STATE_DIED;
+  soundEffects.play('player-die', 0.5);
 }
 
 function game_update() {
   if (gameState === GAME_STATE_PLAYING) {
-    player_update();
-    monsters_update();
+   // if died
+    if (player.health <= 0) {
+      game_die();
+    }
+
+    // if won
+    else if (monsters.length === 0) {
+      game_win();
+    }
+    else {
+      player_update();
+      monsters_update();
+    }
+
+
+
+
   }
   hud_update();
+
+
+
 }
 function game_loop() {
   now = new Date().getTime();

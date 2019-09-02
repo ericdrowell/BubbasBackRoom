@@ -36,8 +36,12 @@ yaw: 1.87,
 z: 0,
 };
 
+  playerHurting = 0;
   flashTimeRemaining = 0;
   isAirborne = false;
+  numBullets = 6;
+  reloadTimeRemaining = 0;
+  isReloading = false;
 }
 
 // use ray tracing to find collisions
@@ -104,48 +108,6 @@ function player_move(xChange, yChange, zChange) {
   player.z = newZ;
 
 
-
-  // let newX = player.x + xChange;
-  // let newY = player.y + yChange;
-  // let newZ = player.z + zChange;
-
-  // let newPlayerBlockPos, newPlayerBlock;
-
-  // // handle y movement
-  // newPlayerBlockPos = world_getBlockPos(player.x, newY, player.z);
-  // newPlayerBlock = world_getBlock(newPlayerBlockPos.x, newPlayerBlockPos.y, newPlayerBlockPos.z);
-  // if (newPlayerBlock) {
-  //   newY = player.y;
-  //   upVelocity = 0;
-  //   isAirborne = false;
-  // }
-
-  // // else {
-  // //   newPlayerBlockPos = world_getBlockPos(player.x, newY+PLAYER_HEIGHT, player.z);
-  // //   newPlayerBlock = world_getBlock(newPlayerBlockPos.x, newPlayerBlockPos.y, newPlayerBlockPos.z);
-  // //   if (newPlayerBlock) {
-  // //     newY = player.y;
-  // //     upVelocity = 0;
-  // //   }
-  // // }
-
-  // // handle x movement
-  // newPlayerBlockPos = world_getBlockPos(newX, newY, player.z);
-  // newPlayerBlock = world_getBlock(newPlayerBlockPos.x, newPlayerBlockPos.y, newPlayerBlockPos.z);
-  // if (newPlayerBlock) {
-  //   newX = player.x;
-  // }
-
-  // // handle z movement
-  // newPlayerBlockPos = world_getBlockPos(newX, newY, newZ);
-  // newPlayerBlock = world_getBlock(newPlayerBlockPos.x, newPlayerBlockPos.y, newPlayerBlockPos.z);
-  // if (newPlayerBlock) {
-  //   newZ = player.z;
-  // }
- 
-  // player.x = newX;
-  // player.y = newY;
-  // player.z = newZ;
   
 }
 
@@ -223,7 +185,13 @@ function player_update() {
     }
   }
 
-
+  // pain flash
+  if (playerHurting > 0) {
+    playerHurting -= elapsedTime/1000;
+    if (playerHurting < 0) {
+      playerHurting = 0;
+    }
+  }
 };
 
 function player_jump() {
@@ -234,16 +202,16 @@ function player_jump() {
   }
 }
 
-function player_hurt() {
-  if (!isHurting) {
-    player.health -= 1;
-    //a_soundEffect('player-hurt');
-    soundEffects.play('monster-hit');
-    setTimeout(function() {
-      isHurting = false;
-    }, PAIN_FLASH_DURATION);
-  }
-}
+// function player_hurt() {
+//   if (!isHurting) {
+//     player.health -= 1;
+//     //a_soundEffect('player-hurt');
+//     soundEffects.play('monster-hit');
+//     setTimeout(function() {
+//       isHurting = false;
+//     }, PAIN_FLASH_DURATION);
+//   }
+// }
 
 function player_fire() {
   if (numBullets > 0) {
