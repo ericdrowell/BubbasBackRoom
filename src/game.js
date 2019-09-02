@@ -19,7 +19,7 @@ function game_init() {
   hud_init();
   soundEffects_init();
   userInputs_init();
-  text_init();
+  //text_init();
 
   world_init();
   player_init();
@@ -51,7 +51,7 @@ function game_restart() {
   monsters_init();
   gameState = GAME_STATE_STORY;
   gameStory = 1;
-  music_stop();
+  //music_stop();
   game_storyNext();
 }
 
