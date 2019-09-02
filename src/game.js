@@ -1,4 +1,4 @@
-const ENABLE_MUSIC = true;
+let ENABLE_MUSIC = true;
 
 // start game - have to do it this way because I need the compressor to convert game_init() to the right variable name
 setTimeout(function() {
@@ -169,12 +169,9 @@ function game_die() {
 
 function game_update() {
   if (gameState === GAME_STATE_PLAYING) {
-   // if died
     if (player.health <= 0) {
       game_die();
     }
-
-    // if won
     else if (monsters.length === 0) {
       game_win();
     }
@@ -182,15 +179,8 @@ function game_update() {
       player_update();
       monsters_update();
     }
-
-
-
-
   }
   hud_update();
-
-
-
 }
 function game_loop() {
   now = new Date().getTime();

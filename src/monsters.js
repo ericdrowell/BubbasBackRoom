@@ -1,4 +1,4 @@
-const MONSTER_CUBES = [
+let MONSTER_CUBES = [
   0, 0, 0.3, 0.5, 3, 0.5, // right leg
   -0.4, -0.4, 0.3, 0.5, 0.3, 0.5, // right foot
   0, 0, -0.3, 0.5, 3, 0.5, // left leg

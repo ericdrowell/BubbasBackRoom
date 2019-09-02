@@ -1,4 +1,4 @@
-const CUBE_BUFFERS = {
+let CUBE_BUFFERS = {
   // 72 elements = 24 vertices
   position: [    
     -1, -1, 1, 1, -1, 1, 1, 1, 1, -1, 1, 1, // Front face    
