@@ -14,7 +14,7 @@ function canvas2d_init() {
   }
 
   textCanvas = document.createElement('canvas');
-  textContext = canvas2d_initCanvas(textCanvas, 134, 9, PIXEL_RATIO);
+  textContext = canvas2d_initCanvas(textCanvas, 78, 5, PIXEL_RATIO);
 };
 
 function canvas2d_initCanvas(canvas, width, height, pixelRatio) {

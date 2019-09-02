@@ -15,7 +15,7 @@
     }
   },
   "scripts": {
-    "build": "npm run create-dist && node scripts/buildShaders && npm run concat",
+    "build": "npm run create-dist && node scripts/buildShaders && npm run concat && cp sprites/alphabet-tiny.png dist",
     "prod": "npm run build && node scripts/wrap.js && npm run uglify && node scripts/replace.js && npm run html && npm run zip",
     "dev": "npm run build && cp ./dist/game-concatenated.js ./dist/bubbas-back-room.min.js && node scripts/replace.js && npm run html",
     "jshint": "jshint ./src/*.js",

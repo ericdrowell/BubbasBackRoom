@@ -206,12 +206,12 @@ function hud_gunRecoil() {
 }
 
 function hud_renderControlsBottom() {
-  text_renderLine('[wasd]', 30, 260, hudContext, -1);
-  text_renderLine('[mouse move]', 30, 300, hudContext, -1);
-  text_renderLine('[mouse click]', 30, 340, hudContext, -1);
-  text_renderLine('[r]', 30, 380, hudContext, -1);
-  text_renderLine('[space]', 30, 420, hudContext, -1);
-  text_renderLine('[esc]', 30, 460, hudContext, -1);
+  text_renderLine('wasd', 30, 260, hudContext, -1);
+  text_renderLine('mouse move', 30, 300, hudContext, -1);
+  text_renderLine('mouse click', 30, 340, hudContext, -1);
+  text_renderLine('r', 30, 380, hudContext, -1);
+  text_renderLine('space', 30, 420, hudContext, -1);
+  text_renderLine('esc', 30, 460, hudContext, -1);
 
   text_renderLine('move', 30, 260, hudContext, 1);
   text_renderLine('look', 30, 300, hudContext, 1);
@@ -231,20 +231,20 @@ function hud_renderDialog() {
     }
     else if(gameStory === 1) {
       hud_renderDialogFrame();
-      text_renderLine('bubba*s back room', 80, 200, hudContext, 0);
-      text_renderLine('created by eric rowell @ericdrowell', 30, 320, hudContext, 0);
+      text_renderLine('back room', 80, 200, hudContext, 0);
+      text_renderLine('created by eric rowell', 30, 320, hudContext, 0);
       text_renderLine('press enter to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 200 - 30, hudContext, 0);
     }
     else if(gameStory === 2) {
       hud_renderDialogFrame();
  
-      text_renderLine('ring... ring... ring...', 30, 170, hudContext, 0);
+      text_renderLine('ring. ring. ring.', 30, 170, hudContext, 0);
       
-      text_renderLine('welcome to your first day at bubbas gas station.', 30, 260, hudContext, 0);
-      text_renderLine('i*m your new boss.  you can just call me bubba.', 30, 300, hudContext, 0);
+      text_renderLine('its your first day at bubbas gas station.', 30, 260, hudContext, 0);
+      text_renderLine('im your new boss.call me bubba.', 30, 300, hudContext, 0);
       text_renderLine('i want you to check on my son bubba junior.', 30, 340, hudContext, 0);
-      text_renderLine('he*s in the back.  he can*t wait to eat you.', 30, 380, hudContext, 0);
-      text_renderLine('i mean... meet you.', 30, 420, hudContext, 0);
+      text_renderLine('hes in the back.he cant wait to eat you.', 30, 380, hudContext, 0);
+      text_renderLine('i mean. meet you.', 30, 420, hudContext, 0);
       text_renderLine('press enter to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 150 - 30, hudContext, 0);
     }
     else if(gameStory === 3) {
@@ -265,7 +265,7 @@ function hud_renderDialog() {
   }
   else if (gameState === GAME_STATE_WIN) {
     hud_renderDialogFrame();
-    text_renderLine('you won', 80, 150, hudContext, 0);
+    text_renderLine('you win', 80, 150, hudContext, 0);
     text_renderLine('press enter to play again', 30, OPTIMAL_VIEWPORT_HEIGHT - 150 - 30, hudContext, 0);
   }
 
