@@ -237,7 +237,7 @@ function player_fire() {
 
       monsters_hurt(monsterId);
 
-      soundEffects.play('hit', 0.5);
+      soundEffects.play('hit', 0.3);
     }
 
 
