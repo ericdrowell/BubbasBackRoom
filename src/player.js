@@ -237,13 +237,10 @@ function player_fire() {
 
       monsters_hurt(monsterId);
 
-      soundEffects.play('hit-monster');
-    }
-    else {
-      //soundEffects.play('hit-object');
+      soundEffects.play('hit', 0.5);
     }
 
-    
+
     hud_gunRecoil();
   }
   else {

@@ -145,6 +145,7 @@ function monsters_attack(id) {
   monster.attackCooldown = MONSTER_ATTACK_COOLDOWN;
   playerHurting = PLAYER_PAIN_FLASH_DURATION;
   player.health -= 1;
+  soundEffects.play('hit', 0.8);
 
 }
 
