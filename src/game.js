@@ -158,7 +158,7 @@ function game_resume() {
 }
 
 function game_win() {
-  soundEffects.play('player-win');
+  //soundEffects.play('player-win');
   document.exitPointerLock();
   gameState = GAME_STATE_WIN;
 }
