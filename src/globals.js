@@ -128,3 +128,5 @@ let gameStory = 0;
 let playerStep = 0;
 let playerHurting = 0;
 let canvasLeft;
+let monsterKills;
+let monsterBatch;

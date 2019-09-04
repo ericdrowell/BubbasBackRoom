@@ -5,13 +5,26 @@ function world_init() {
 
 function world_buildModel() {
 
+  // -------------------- BACK ROOM --------------------
+  world_addRoom(-290, -241, 26, 36, -10, 50);
+  world_removePlane(-241, -241, 26, 36, -8, 2);
+
+  // tunnel filler
+  world_addPlane(-241, -241, 27, 28, 1, 2, TEXTURES_DIRT);
+  world_addPlane(-241, -241, 27, 28, -8, -7, TEXTURES_DIRT);
+  world_addPlane(-241, -241, 34, 35, 1, 2, TEXTURES_DIRT);
+  world_addPlane(-241, -241, 34, 35, -8, -7, TEXTURES_DIRT);
   // -------------------- DIRT TUNNEL --------------------
 
-  world_addTunnel(-60, -51, 9, 9, 0, 0);
-  world_addTunnel(-81, -61, 19, 9, 5, 0);
-  world_addTunnel(-100, -82, 11, 19, -5, 5);
-  world_addTunnel(-140, -101, 16, 11, 5, -5);
+  
+  
+  
+  
   world_addTunnel(-241, -141, 26, 16, -3, 5);
+  world_addTunnel(-140, -101, 16, 11, 5, -5);
+  world_addTunnel(-100, -82, 11, 19, -5, 5);
+  world_addTunnel(-81, -61, 19, 9, 5, 0);
+  world_addTunnel(-60, -51, 9, 9, 0, 0);
 
   // -------------------- SHORT TUNNEL --------------------
 
@@ -31,7 +44,7 @@ function world_buildModel() {
   world_addPlane(-50, -15, 18, 18, -2, 2, TEXTURES_ROTTING_WOOD);
 
 
-  // -------------------- FOUR COLUMN ROOM  --------------------
+  // -------------------- TEMPLE ROOM  --------------------
 
   world_addPole(-10, 1, -10, 10);
   world_addPole(10, 1, -10, 10);
@@ -43,7 +56,7 @@ function world_buildModel() {
   world_addPlane(7, 11, 0, 0, 5, 5, TEXTURES_STONE);
   world_addPlane(9, 11, 9, 9, 9, 11, TEXTURES_STONE);
 
-  world_addRoom(-20, 20, -1, 10, -20, 20);
+  world_addRoom(-20, 40, -1, 10, -40, 20);
   // cut out step doorway
   world_removePlane(-20, -20, 0, 10, -2, 2);
   // cut out step top

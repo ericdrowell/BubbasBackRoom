@@ -125,32 +125,6 @@ function game_start() {
   soundEffects.play('start');
 }
 
-function game_storyNext() {
-  gameStory++;
-
-  // now on loading
-  if (gameStory === 1) {
-    gameState = GAME_STATE_STORY;
-  }
-  // now on ring ring
-  else if (gameStory  === 2) {
-    soundEffects.play('dialog');
-    if (ENABLE_MUSIC) {
-      music_start();
-    }
-    gameState = GAME_STATE_STORY;
-  }
-  // now on controls
-  else if (gameStory === 3) {
-    soundEffects.play('dialog');
-    gameState = GAME_STATE_STORY;
-  }
-  else if (gameStory === 4) {
-    game_start();
-  }
-  
-}
-
 function game_pause() {
   gameState = 'paused';
   soundEffects.play('dialog');
@@ -179,16 +153,43 @@ function game_update() {
     if (player.health <= 0) {
       game_die();
     }
-    else if (monsters.length === 0) {
+    else if (monsterKills === 2) {
       game_win();
     }
     else {
       player_update();
       monsters_update();
     }
+
+    game_updateStory();
   }
   hud_update();
 }
+
+function game_updateStory() {
+  // if (gameStory === 3 && player.z < 4) {
+  //   game_storyNext();
+  // }
+  // if (gameStory === 4 && x > -55) {
+  //   game_storyNext();
+  // }
+}
+
+function game_storyNext() {
+  gameStory++;
+  player.straightMovement = 0;
+  player.sideMovement = 0;
+  document.exitPointerLock();
+
+  if (ENABLE_MUSIC && gameStory === 2 && !musicPlaying) {
+    music_start();
+  }
+  if (gameStory > 1) {
+    soundEffects.play('dialog');
+    gameState = GAME_STATE_STORY;
+  }
+}
+
 function game_loop() {
   now = new Date().getTime();
   if (lastTime !== 0) {

@@ -11,7 +11,9 @@ let MONSTER_CUBES = [
 ];
 
 function monsters_init() {
-  monsters_spawn();
+  monsters = [];
+  monsterKills = 0;
+  monsterBatch = 0;
 }
 
 function monsters_hurt(id) {
@@ -32,6 +34,7 @@ function monsters_restore() {
         if (monster.health <= 0) {
           soundEffects.play('monster-die');
           monsters_remove(n);
+          monsterKills++;
         }
       }
     }
@@ -43,6 +46,7 @@ function monsters_remove(index) {
 }
 
 function monsters_spawn() {
+  console.log('spawn monster batch ' + monsterBatch);
   monsters.push({
     x: 0,
     y: 0,
@@ -64,9 +68,17 @@ function monsters_spawn() {
     attackCooldown: 0,
     id: utils_generateId()
   });
+
+  monsterBatch++;
 }
 
 function monsters_update() {
+  if (monsterBatch === 0 && player.x > -55) {
+    monsters_spawn();
+  }
+
+
+
   let distEachFrame = MONSTER_SPEED * elapsedTime / 1000;
   //let maxThetaEachFrame = MONSTER_TURN_SPEED * elapsedTime / 1000;
   //let yawOffset = 1 * MATH_SIN(elapsedTime * 0.1);

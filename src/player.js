@@ -26,14 +26,14 @@ function player_init() {
 // };
 
 player = {
-health: 7,
-pitch: 0.015,
+health: 6,
+pitch: -0.07924777960769419,
 sideMovement: 0,
 straightMovement: 0,
-x: 0,
-y: 0,
-yaw: 1.87,
-z: 0,
+x: -275.38950637525187,
+y: 26.502200000000038,
+yaw: 6.177123528071624,
+z: 45.58826675852633
 };
 
   playerHurting = 0;

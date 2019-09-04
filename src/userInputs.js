@@ -30,7 +30,12 @@ function userInputs_handleKeyDown(evt) {
     // enter key
     case 13:
       if (gameState === GAME_STATE_STORY) {
-        game_storyNext();
+        if (gameStory < 3) {
+          game_storyNext();
+        }
+        else {
+          game_resume();
+        }
       }
       else if (gameState === GAME_STATE_PAUSED) {
         game_resume();

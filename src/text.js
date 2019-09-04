@@ -52,7 +52,7 @@ function text_renderLine(str, height, y, context, align) {
         copyWidth = charWidth;
       }
 
-      context.drawImage(textCanvas, MATH_FLOOR(charX * PIXEL_RATIO), 0, copyWidth * PIXEL_RATIO, TEXT_HEIGHT * PIXEL_RATIO, MATH_FLOOR(x), MATH_FLOOR(y), MATH_FLOOR(copyWidth*scale)-1, MATH_FLOOR(TEXT_HEIGHT*scale));
+      context.drawImage(textCanvas, MATH_FLOOR(charX * PIXEL_RATIO), 0, copyWidth * PIXEL_RATIO, TEXT_HEIGHT * PIXEL_RATIO, MATH_FLOOR(x), MATH_FLOOR(y), MATH_FLOOR(copyWidth*scale), MATH_FLOOR(TEXT_HEIGHT*scale));
       x += (charWidth + CHAR_SPACING) * scale;
     }
 
