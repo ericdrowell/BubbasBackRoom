@@ -5,12 +5,14 @@ function canvas2d_init() {
   // very wide screen
   if (windowRatio > GAME_ASPECT_RATIO) {
     hudCanvas.style.left = '50%';
-    hudCanvas.style.marginLeft = '-' + (viewportWidth/2) + 'px'
+    hudCanvas.style.marginLeft = '-' + (viewportWidth/2) + 'px';
+    canvasLeft = -1 * (viewportWidth/2);
   }
   // very tall screen
   else {
     hudCanvas.style.top = '50%';
-    hudCanvas.style.marginTop = '-' + (viewportHeight/2) + 'px'
+    hudCanvas.style.marginTop = '-' + (viewportHeight/2) + 'px';
+    canvasLeft = 0;
   }
 
   textCanvas = document.createElement('canvas');

@@ -1,4 +1,4 @@
-let ENABLE_MUSIC = true;
+let ENABLE_MUSIC = false;
 
 // start game - have to do it this way because I need the compressor to convert game_init() to the right variable name
 setTimeout(function() {
@@ -87,10 +87,10 @@ function game_setReady() {
 
 function game_render() {
   if (gameState === GAME_STATE_PLAYING) {
-    let viewAngle = 45;
+    let viewAngle = 45; // 45 -> 90
     let minDist = 0.1;
     let maxDist = 100;
-    mat4.perspective(45, sceneCanvas.width / sceneCanvas.height, minDist, maxDist, pMatrix);
+    mat4.perspective(viewAngle, sceneCanvas.width / sceneCanvas.height, minDist, maxDist, pMatrix);
     mat4.identity(mvMatrix);
 
     webgl_clear(sceneCanvas, sceneContext);
@@ -107,6 +107,11 @@ function game_render() {
     //modelView_restore();
 
     monsters_render();  
+
+    // screen shake
+    let marginLeft = canvasLeft + (playerHurting * 50 * MATH_SIN(elapsedTime));
+    sceneCanvas.style.marginLeft = marginLeft + 'px';
+    hudCanvas.style.marginLeft = marginLeft + 'px';
 
     
   }
