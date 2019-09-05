@@ -33,6 +33,9 @@ function userInputs_handleKeyDown(evt) {
         if (gameStory < 3) {
           game_storyNext();
         }
+        else if (gameStory === 3) {
+          game_start();
+        }
         else {
           game_resume();
         }

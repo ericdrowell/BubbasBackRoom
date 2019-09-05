@@ -136,7 +136,7 @@ function player_jump() {
   if (!isAirborne) {
     upVelocity = JUMP_SPEED;
     isAirborne = true;
-    //soundEffects_play('jump');
+    soundEffects_play('jump');
   }
 }
 
