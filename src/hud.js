@@ -5,6 +5,8 @@ function hud_init() {
     y: OPTIMAL_VIEWPORT_HEIGHT
   };
 
+  hudDirty = true;
+
 }
 
 function hud_render() {
@@ -16,6 +18,7 @@ function hud_render() {
   hud_renderGun();
   hud_renderCrossHair();
   hud_renderBullets();
+  hud_renderHealth();
   hud_renderPainFlash();
   hud_renderDialog();
   
@@ -23,6 +26,100 @@ function hud_render() {
   hudContext.restore();
 
   //canvas2d_pixelate(hudCanvas, hudContext, 2);
+}
+
+function hud_renderHealth() {
+  let foamPattern = hudContext.createPattern(textures[TEXTURES_FOAM].image, 'repeat');
+
+  for (let n=0; n<player.health; n++) {
+    let offset = n * 60;
+    hudContext.save();
+    hudContext.translate(40 + offset, 70);
+
+    // straw
+    hudContext.beginPath();
+    hudContext.save();
+    hudContext.translate(-5, -30);
+    hudContext.rotate(-0.3);
+    hudContext.fillStyle = '#9d170e'; // red
+    hudContext.fillRect(-2, -30, 4, 60);
+    hudContext.restore();
+
+    // top disc
+    hudContext.beginPath();
+    hudContext.save();
+    hudContext.translate(0, -20);
+    hudContext.scale(1, 0.5);
+    hudContext.arc(0, 0, 25, 0, 2*MATH_PI, false);
+ 
+    hudContext.save();
+    hudContext.scale(2, 2);
+    hudContext.fillStyle = foamPattern;
+    hudContext.fill();
+    hudContext.restore();
+
+    hudContext.restore();
+
+    // body
+    
+    hudContext.beginPath();
+    hudContext.moveTo(-25, -20);
+    hudContext.lineTo(25, -20);
+    hudContext.lineTo(20, 20);
+    hudContext.lineTo(-20, 20);
+
+    hudContext.save();
+    hudContext.scale(2, 2);
+    hudContext.fillStyle = foamPattern;
+    hudContext.fill();
+    hudContext.restore();
+
+    // middle disc 1
+    hudContext.beginPath();
+    hudContext.save();
+    hudContext.translate(0, 20);
+    hudContext.scale(1, 0.5);
+    hudContext.arc(0, 0, 20, 0, 2 * MATH_PI, false);
+    hudContext.fillStyle = '#868686'; // dark gray
+    hudContext.fill();
+    hudContext.restore();
+
+    // middle disc 2 
+    hudContext.beginPath();
+    hudContext.save();
+    hudContext.translate(0, 22);
+    hudContext.scale(1, 0.5);
+    hudContext.arc(0, 0, 14, 0, 2 * MATH_PI, false);
+    hudContext.fillStyle = foamPattern;
+    hudContext.fill();
+    hudContext.restore();
+
+    hudContext.save();
+    hudContext.beginPath();
+    hudContext.rect(-14, 22, 28, 20);
+    hudContext.scale(2, 2);
+    hudContext.fillStyle = foamPattern;
+    hudContext.fill();
+    hudContext.restore();
+
+    
+
+    // bottom
+    // hudContext.beginPath();
+    // hudContext.rect(-14, 22, 28, 20);
+
+    // bottom disc
+    hudContext.beginPath();
+    hudContext.save();
+    hudContext.translate(0, 42);
+    hudContext.scale(1, 0.5);
+    hudContext.arc(0, 0, 14, 0, 2 * MATH_PI, false);
+    hudContext.fillStyle = '#868686'; // dark gray
+    hudContext.fill();
+    hudContext.restore();
+
+    hudContext.restore();
+  }
 }
 
 function hud_renderPainFlash() {
@@ -284,44 +381,44 @@ function hud_renderDialog() {
 
 }
 
-function hud_renderDialogHorn(angle) {
-  let lineWidth = 5;
-  let hornLength = 60;
-  let halfLineWidth = lineWidth/2;
-  let barLength = 30;
-  let barSize = 5;
-  let barSpacing = 30;
+// function hud_renderDialogHorn(angle) {
+//   let lineWidth = 5;
+//   let hornLength = 60;
+//   let halfLineWidth = lineWidth/2;
+//   let barLength = 30;
+//   let barSize = 5;
+//   let barSpacing = 30;
 
-  hudContext.save();
-  hudContext.rotate(angle)
+//   hudContext.save();
+//   hudContext.rotate(angle)
 
-  // spike
-  hudContext.beginPath();
-  hudContext.fillRect(-halfLineWidth, -halfLineWidth - hornLength, lineWidth, hornLength);
-  // hudContext.moveTo(-halfLineWidth, -halfLineWidth);
-  // hudContext.lineTo(0, -halfLineWidth - hornLength);
-  // hudContext.lineTo(halfLineWidth, -halfLineWidth);
-  // hudContext.fill();
+//   // spike
+//   hudContext.beginPath();
+//   hudContext.fillRect(-halfLineWidth, -halfLineWidth - hornLength, lineWidth, hornLength);
+//   // hudContext.moveTo(-halfLineWidth, -halfLineWidth);
+//   // hudContext.lineTo(0, -halfLineWidth - hornLength);
+//   // hudContext.lineTo(halfLineWidth, -halfLineWidth);
+//   // hudContext.fill();
 
-  // bar
-  hudContext.beginPath();
-  hudContext.fillRect(-barLength/2, -barSize/2 - barSpacing, barLength, barSize);
-  hudContext.restore();
+//   // bar
+//   hudContext.beginPath();
+//   hudContext.fillRect(-barLength/2, -barSize/2 - barSpacing, barLength, barSize);
+//   hudContext.restore();
 
-}
+// }
 
-function hud_renderCorner(x, y, rotation) {
-  hudContext.save();
+// function hud_renderCorner(x, y, rotation) {
+//   hudContext.save();
 
-  hudContext.translate(x, y);
-  hudContext.rotate(rotation);
+//   hudContext.translate(x, y);
+//   hudContext.rotate(rotation);
 
-  hud_renderDialogHorn();
-  hud_renderDialogHorn(-1 * MATH_PI * 0.5);
+//   hud_renderDialogHorn();
+//   hud_renderDialogHorn(-1 * MATH_PI * 0.5);
 
 
-  hudContext.restore();
-}
+//   hudContext.restore();
+// }
 
 function hud_renderDialogFrame() {
   let borderColor = '#958e77';
@@ -351,13 +448,13 @@ function hud_renderDialogFrame() {
   hudContext.strokeRect(x, y, width, height);
 
   // horn corners
-  hudContext.fillStyle = borderColor;
+  //hudContext.fillStyle = borderColor;
 
 
-  hud_renderCorner(x, y, 0);
-  hud_renderCorner(x+width, y, MATH_PI*0.5);
-  hud_renderCorner(x+width, y+height, MATH_PI);
-  hud_renderCorner(x, y+height, MATH_PI*-0.5);
+  // hud_renderCorner(x, y, 0);
+  // hud_renderCorner(x+width, y, MATH_PI*0.5);
+  // hud_renderCorner(x+width, y+height, MATH_PI);
+  // hud_renderCorner(x, y+height, MATH_PI*-0.5);
 
 
 

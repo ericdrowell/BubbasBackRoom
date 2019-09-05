@@ -199,6 +199,15 @@ function textures_init(callback) {
         '74644d',
         '251e18'
       ])
+    },
+    'foam': {
+      encoding: textures_createRandom([
+        'dedede',
+        'd5d5d5',
+        'c9c9c9',
+        'dadada',
+        'dbdbdb'
+      ])
     }
   };
 

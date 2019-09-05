@@ -55,6 +55,7 @@ function monsters_spawn() {
     health: 6,
     yaw: MATH_PI * 0.5,
     attackCooldown: 0,
+    seed: MATH_RANDOM(),
     id: utils_generateId()
   });
 
@@ -66,6 +67,7 @@ function monsters_spawn() {
     health: 6,
     yaw: 0,
     attackCooldown: 0,
+    seed: MATH_RANDOM(),
     id: utils_generateId()
   });
 
@@ -104,10 +106,11 @@ function monsters_update() {
     // }
 
 
-
+    // point directly at player
     let yaw = monster.yaw - thetaDiff;
 
-    //yaw += yawOffset;
+    let yawOffset = 0.5 * MATH_SIN(now * 0.001);
+    yaw += yawOffset;
 
 
     let playerMonsterDist = MATH_SQRT(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);

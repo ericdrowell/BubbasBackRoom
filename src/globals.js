@@ -24,6 +24,7 @@ let TEXTURES_DIRT = 'dirt';
 let TEXTURES_BURNED_STONE = 'burned-stone';
 let TEXTURES_BLOOD_STONE = 'blood-stone';
 let TEXTURES_MUMMY_WRAP = 'mummy-wrap';
+let TEXTURES_FOAM = 'foam';
 
 let PLAYER_SPEED = 20; // units / s
 let PLAYER_HEIGHT = 4;
@@ -130,3 +131,4 @@ let playerHurting = 0;
 let canvasLeft;
 let monsterKills;
 let monsterBatch;
+let hudDirty;

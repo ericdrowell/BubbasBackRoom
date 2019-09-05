@@ -109,7 +109,7 @@ function game_render() {
     monsters_render();  
 
     // screen shake
-    let marginLeft = canvasLeft + (playerHurting * 50 * MATH_SIN(elapsedTime));
+    let marginLeft = canvasLeft + (playerHurting * 50 * MATH_SIN(now*0.1));
     sceneCanvas.style.marginLeft = marginLeft + 'px';
     hudCanvas.style.marginLeft = marginLeft + 'px';
 
