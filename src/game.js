@@ -1,4 +1,4 @@
-let ENABLE_MUSIC = false;
+let ENABLE_MUSIC = true;
 
 // start game - have to do it this way because I need the compressor to convert game_init() to the right variable name
 setTimeout(function() {
@@ -201,4 +201,71 @@ function game_loop() {
 
   lastTime = now;
   window.requestAnimationFrame(game_loop);  
+}
+
+// use ray tracing to find collisions
+function game_moveObject(object, xChange, yChange, zChange) {
+  
+  let newX = object.x;
+  let newY = object.y;
+  let newZ = object.z;
+
+  
+
+  // y movement
+  let yChangeAbs = MATH_ABS(yChange);
+  let ySign = MATH_SIGN(yChange);
+  for (let y=0; y<yChangeAbs+RAY_TRACE_INCREMENT; y+=RAY_TRACE_INCREMENT) {
+    if (y > yChangeAbs) {
+      y = yChangeAbs;
+    }
+    let block = world_getBlock(object.x, object.y + y*ySign, object.z);
+    if (block) {
+      upVelocity = 0;
+      isAirborne = false;
+      break;
+    }
+    else {
+      newY = object.y + y*ySign;
+    }
+  }
+
+  // x movement
+  let xChangeAbs = MATH_ABS(xChange);
+  let xSign = MATH_SIGN(xChange);
+  for (let x=0; x<xChangeAbs+RAY_TRACE_INCREMENT; x+=RAY_TRACE_INCREMENT) {
+    if (x > xChangeAbs) {
+      x = xChangeAbs;
+    }
+    let block = world_getBlock(object.x + x*xSign, newY, object.z);
+    if (block) {
+      break;
+    }
+    else {
+      newX = object.x + x*xSign;
+    }
+  }
+
+  // z movement
+  let zChangeAbs = MATH_ABS(zChange);
+  let zSign = MATH_SIGN(zChange);
+  for (let z=0; z<zChangeAbs+RAY_TRACE_INCREMENT; z+=RAY_TRACE_INCREMENT) {
+    if (z > zChangeAbs) {
+      z = zChangeAbs;
+    }
+    let block = world_getBlock(newX, newY, object.z + z*zSign);
+    if (block) {
+      break;
+    }
+    else {
+      newZ = object.z + z*zSign;
+    }
+  }
+
+  object.x = newX;
+  object.y = newY;
+  object.z = newZ;
+
+
+  
 }

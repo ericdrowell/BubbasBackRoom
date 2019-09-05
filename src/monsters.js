@@ -45,31 +45,24 @@ function monsters_remove(index) {
   monsters.splice(index, 1);
 }
 
-function monsters_spawn() {
-  console.log('spawn monster batch ' + monsterBatch);
+function monsters_add(x, y, z) {
   monsters.push({
-    x: 0,
-    y: 0,
-    z: 10,
+    x: x,
+    y: y,
+    z: z,
     painFlash: 0,
     health: 6,
     yaw: MATH_PI * 0.5,
     attackCooldown: 0,
-    seed: MATH_RANDOM(),
+    turnFrequency: 0.001 + MATH_RANDOM() * 0.001,
     id: utils_generateId()
   });
+}
 
-  monsters.push({
-    x: 0,
-    y: 0,
-    z: 5,
-    painFlash: 0,
-    health: 6,
-    yaw: 0,
-    attackCooldown: 0,
-    seed: MATH_RANDOM(),
-    id: utils_generateId()
-  });
+function monsters_spawn() {
+  //console.log('spawn monster batch ' + monsterBatch);
+  monsters_add(0, 0, 10);
+  monsters_add(0, 0, 5);
 
   monsterBatch++;
 }
@@ -109,16 +102,16 @@ function monsters_update() {
     // point directly at player
     let yaw = monster.yaw - thetaDiff;
 
-    let yawOffset = 0.5 * MATH_SIN(now * 0.001);
+    let yawOffset = 0.5 * MATH_SIN(now * monster.turnFrequency);
     yaw += yawOffset;
 
 
     let playerMonsterDist = MATH_SQRT(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
     if (playerMonsterDist > MONSTER_ATTACK_DIST) {
-      let newPlayerXDiff = -1 * distEachFrame * MATH_COS(yaw);
-      let newPlayerZDiff = -1 * distEachFrame * MATH_SIN(yaw);
-      monster.x += newPlayerXDiff;
-      monster.z += newPlayerZDiff;
+      let newMonsterXDiff = -1 * distEachFrame * MATH_COS(yaw);
+      let newMonsterZDiff = -1 * distEachFrame * MATH_SIN(yaw);
+
+      game_moveObject(monster, newMonsterXDiff, 0, newMonsterZDiff);
     }
     else {
       if (monster.attackCooldown === 0) {
@@ -226,7 +219,7 @@ function monsters_buildBuffers() {
 
 function monsters_render() {
   monsters.forEach(function(monster) {
-    let texture = monster.painFlash > 0 ? TEXTURES_BLOOD_STONE : TEXTURES_MUMMY_WRAP;
+    let texture = monster.painFlash > 0 ? TEXTURES_BLOOD_STONE : TEXTURES_BURNED_STONE;
  
     modelView_save();
     mat4.translate(mvMatrix, [2 * monster.x, 2 * monster.y, 2 * monster.z]);

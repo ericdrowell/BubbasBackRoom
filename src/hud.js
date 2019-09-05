@@ -28,95 +28,136 @@ function hud_render() {
   //canvas2d_pixelate(hudCanvas, hudContext, 2);
 }
 
+function hud_fillPattern(scale, pattern) {
+    hudContext.save();
+    hudContext.scale(2, 2);
+    hudContext.fillStyle = pattern;
+    hudContext.fill();
+    hudContext.restore();
+}
+
 function hud_renderHealth() {
   let foamPattern = hudContext.createPattern(textures[TEXTURES_FOAM].image, 'repeat');
+
+  let gradient = hudContext.createLinearGradient(-10, 0, 10, 0);
+  gradient.addColorStop(0, '#9d170e');
+  gradient.addColorStop(0.2, '#c81818');
+  gradient.addColorStop(0.4, '#591816');
+  gradient.addColorStop(0.6, '#3f0805');
+  gradient.addColorStop(1, '#190b02');
 
   for (let n=0; n<player.health; n++) {
     let offset = n * 60;
     hudContext.save();
-    hudContext.translate(40 + offset, 70);
+      hudContext.translate(40 + offset, 70);
 
-    // straw
-    hudContext.beginPath();
-    hudContext.save();
-    hudContext.translate(-5, -30);
-    hudContext.rotate(-0.3);
-    hudContext.fillStyle = '#9d170e'; // red
-    hudContext.fillRect(-2, -30, 4, 60);
-    hudContext.restore();
 
-    // top disc
-    hudContext.beginPath();
-    hudContext.save();
-    hudContext.translate(0, -20);
-    hudContext.scale(1, 0.5);
-    hudContext.arc(0, 0, 25, 0, 2*MATH_PI, false);
- 
-    hudContext.save();
-    hudContext.scale(2, 2);
-    hudContext.fillStyle = foamPattern;
-    hudContext.fill();
-    hudContext.restore();
+      // bottom disc
+      hudContext.save();
+        hudContext.beginPath();
+        hudContext.translate(0, 42);
+        hudContext.scale(1, 0.5);
+        hudContext.arc(0, 0, 14, 0, 2 * MATH_PI, false);
+        hudContext.fillStyle = gradient;
+        hudContext.fill();
+      hudContext.restore();
 
-    hudContext.restore();
+      // bottom body
+      hudContext.save();
+        hudContext.translate(0, 32);
+        hudContext.beginPath();
+        hudContext.rect(-14, -10, 28, 20);
+        hudContext.fillStyle = gradient;
+        hudContext.fill();
+      hudContext.restore();
 
-    // body
-    
-    hudContext.beginPath();
-    hudContext.moveTo(-25, -20);
-    hudContext.lineTo(25, -20);
-    hudContext.lineTo(20, 20);
-    hudContext.lineTo(-20, 20);
 
-    hudContext.save();
-    hudContext.scale(2, 2);
-    hudContext.fillStyle = foamPattern;
-    hudContext.fill();
-    hudContext.restore();
 
-    // middle disc 1
-    hudContext.beginPath();
-    hudContext.save();
-    hudContext.translate(0, 20);
-    hudContext.scale(1, 0.5);
-    hudContext.arc(0, 0, 20, 0, 2 * MATH_PI, false);
-    hudContext.fillStyle = '#868686'; // dark gray
-    hudContext.fill();
-    hudContext.restore();
 
-    // middle disc 2 
-    hudContext.beginPath();
-    hudContext.save();
-    hudContext.translate(0, 22);
-    hudContext.scale(1, 0.5);
-    hudContext.arc(0, 0, 14, 0, 2 * MATH_PI, false);
-    hudContext.fillStyle = foamPattern;
-    hudContext.fill();
-    hudContext.restore();
+      // middle disc 2 
+      
+      hudContext.save();
+        hudContext.beginPath();
+        hudContext.translate(0, 22);
+        hudContext.scale(1, 0.5);
+        hudContext.arc(0, 0, 20, 0, 2 * MATH_PI, false);
+        hudContext.fillStyle = gradient;
+        hudContext.fill();
+      hudContext.restore();
 
-    hudContext.save();
-    hudContext.beginPath();
-    hudContext.rect(-14, 22, 28, 20);
-    hudContext.scale(2, 2);
-    hudContext.fillStyle = foamPattern;
-    hudContext.fill();
-    hudContext.restore();
 
-    
 
-    // bottom
-    // hudContext.beginPath();
-    // hudContext.rect(-14, 22, 28, 20);
+      // middle disc 1
+     
+      hudContext.save();
+        hudContext.scale(2, 2);
+        hudContext.fillStyle = gradient;
+        hudContext.fill();
+      hudContext.restore();
 
-    // bottom disc
-    hudContext.beginPath();
-    hudContext.save();
-    hudContext.translate(0, 42);
-    hudContext.scale(1, 0.5);
-    hudContext.arc(0, 0, 14, 0, 2 * MATH_PI, false);
-    hudContext.fillStyle = '#868686'; // dark gray
-    hudContext.fill();
-    hudContext.restore();
+
+      // top body
+      hudContext.beginPath();
+      hudContext.moveTo(-25, -20);
+      hudContext.lineTo(25, -20);
+      hudContext.lineTo(20, 20);
+      hudContext.lineTo(-20, 20);
+
+
+
+      hudContext.save();
+        hudContext.scale(2, 2);
+        hudContext.fillStyle = gradient;
+        hudContext.fill();
+      hudContext.restore();
+
+
+
+
+      
+
+
+
+
+
+
+      // lid
+      
+      hudContext.save();
+        hudContext.beginPath();
+        hudContext.translate(0, -20);
+        hudContext.scale(1, 0.5);
+        hudContext.arc(0, 0, 25, 0, 2*MATH_PI, false);
+        hud_fillPattern(2, foamPattern);
+      hudContext.restore();
+
+      // x
+      hudContext.save();
+        hudContext.strokeStyle = '#999';
+        hudContext.lineWidth = 2;
+        hudContext.translate(0, -20);
+
+        hudContext.beginPath();
+        hudContext.moveTo(-6, -3);
+        hudContext.lineTo(6, 3);
+        hudContext.stroke();
+
+        hudContext.beginPath();
+        hudContext.moveTo(-6, 3);
+        hudContext.lineTo(6, -3);
+        hudContext.stroke();
+      hudContext.restore();
+
+      // straw
+      
+      hudContext.save();
+        hudContext.beginPath();
+        hudContext.translate(-5, -38);
+        hudContext.rotate(-0.3);
+        hudContext.fillStyle = '#9d170e'; // red
+        hudContext.fillRect(-2, -20, 4, 40);
+      hudContext.restore();
+
 
     hudContext.restore();
   }
@@ -171,6 +212,34 @@ function hud_renderGun() {
   let gradient;
 
   let height = 230;
+
+  // render flash
+  if (flashTimeRemaining > 0) {
+    hudContext.beginPath();
+      hudContext.save();
+      hudContext.translate(gun.x, gun.y - height);
+      
+      let radius = 100;
+      hudContext.moveTo(0, 0);
+      let numTips = 12;
+      let eachAngle = 2 * MATH_PI / numTips;
+      for (let n=0; n<numTips; n++) {
+        hudContext.rotate(eachAngle);
+        hudContext.quadraticCurveTo(-20, radius/2, 0, radius);
+        hudContext.quadraticCurveTo(20, radius/2, 0, 0);
+      }
+
+
+
+      gradient = hudContext.createRadialGradient(0, 0, 0, 0, 0, 100);
+      gradient.addColorStop(0, 'white');
+      gradient.addColorStop(0.7, 'rgba(253, 254, 206, 0.7)');
+      gradient.addColorStop(1, 'rgba(166, 82, 40, 0.7)');
+      hudContext.lineJoin = 'round';
+      hudContext.fillStyle = gradient;
+      hudContext.fill();
+    hudContext.restore();
+  }
   
   // left barrel
   hudContext.save();
@@ -407,18 +476,18 @@ function hud_renderDialog() {
 
 // }
 
-// function hud_renderCorner(x, y, rotation) {
-//   hudContext.save();
+function hud_renderCorner(x, y) {
+  hudContext.save();
 
-//   hudContext.translate(x, y);
-//   hudContext.rotate(rotation);
+  hudContext.strokeStyle = '#958e77';
+  hudContext.lineWidth = 5;
+  hudContext.strokeRect(x, y, 20, 20);
 
-//   hud_renderDialogHorn();
-//   hud_renderDialogHorn(-1 * MATH_PI * 0.5);
+  
 
 
-//   hudContext.restore();
-// }
+  hudContext.restore();
+}
 
 function hud_renderDialogFrame() {
   let borderColor = '#958e77';
@@ -451,10 +520,10 @@ function hud_renderDialogFrame() {
   //hudContext.fillStyle = borderColor;
 
 
-  // hud_renderCorner(x, y, 0);
-  // hud_renderCorner(x+width, y, MATH_PI*0.5);
-  // hud_renderCorner(x+width, y+height, MATH_PI);
-  // hud_renderCorner(x, y+height, MATH_PI*-0.5);
+  hud_renderCorner(x-20, y-20);
+  hud_renderCorner(x+width, y-20);
+  hud_renderCorner(x+width, y+height);
+  hud_renderCorner(x-20, y+height);
 
 
 

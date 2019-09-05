@@ -25,27 +25,27 @@ function player_init() {
 // z: 0
 // };
 
-// player = {
-// health: 6,
-// pitch: -0.07924777960769419,
-// sideMovement: 0,
-// straightMovement: 0,
-// x: -275.38950637525187,
-// y: 26.502200000000038,
-// yaw: 6.177123528071624,
-// z: 45.58826675852633
-// };
-
 player = {
-  health: 6,
-pitch: -0.10123892818282226,
+health: 6,
+pitch: -0.07924777960769419,
 sideMovement: 0,
 straightMovement: 0,
-x: -62.67023136178909,
-y: 10.500999999999998,
-yaw: 4.73827409272751,
-z: 0.4229865121474473
-}
+x: -275.38950637525187,
+y: 26.502200000000038,
+yaw: 6.177123528071624,
+z: 45.58826675852633
+};
+
+// player = {
+//   health: 6,
+// pitch: -0.10123892818282226,
+// sideMovement: 0,
+// straightMovement: 0,
+// x: -62.67023136178909,
+// y: 10.500999999999998,
+// yaw: 4.73827409272751,
+// z: 0.4229865121474473
+// }
 
   playerHurting = 0;
   flashTimeRemaining = 0;
@@ -55,86 +55,19 @@ z: 0.4229865121474473
   isReloading = false;
 }
 
-// use ray tracing to find collisions
-function player_move(xChange, yChange, zChange) {
-  
-  let newX = player.x;
-  let newY = player.y;
-  let newZ = player.z;
-
-  
-
-  // y movement
-  let yChangeAbs = MATH_ABS(yChange);
-  let ySign = MATH_SIGN(yChange);
-  for (let y=0; y<yChangeAbs+RAY_TRACE_INCREMENT; y+=RAY_TRACE_INCREMENT) {
-    if (y > yChangeAbs) {
-      y = yChangeAbs;
-    }
-    let block = world_getBlock(player.x, player.y + y*ySign, player.z);
-    if (block) {
-      upVelocity = 0;
-      isAirborne = false;
-      break;
-    }
-    else {
-      newY = player.y + y*ySign;
-    }
-  }
-
-  // x movement
-  let xChangeAbs = MATH_ABS(xChange);
-  let xSign = MATH_SIGN(xChange);
-  for (let x=0; x<xChangeAbs+RAY_TRACE_INCREMENT; x+=RAY_TRACE_INCREMENT) {
-    if (x > xChangeAbs) {
-      x = xChangeAbs;
-    }
-    let block = world_getBlock(player.x + x*xSign, newY, player.z);
-    if (block) {
-      break;
-    }
-    else {
-      newX = player.x + x*xSign;
-    }
-  }
-
-  // z movement
-  let zChangeAbs = MATH_ABS(zChange);
-  let zSign = MATH_SIGN(zChange);
-  for (let z=0; z<zChangeAbs+RAY_TRACE_INCREMENT; z+=RAY_TRACE_INCREMENT) {
-    if (z > zChangeAbs) {
-      z = zChangeAbs;
-    }
-    let block = world_getBlock(newX, newY, player.z + z*zSign);
-    if (block) {
-      break;
-    }
-    else {
-      newZ = player.z + z*zSign;
-    }
-  }
-
-  player.x = newX;
-  player.y = newY;
-  player.z = newZ;
-
-
-  
-}
-
 function player_update() {
   // handle moving forward and backward
   if (player.straightMovement !== 0) {
     let direction = player.straightMovement === 1 ? -1 : 1;
     let distEachFrame = direction * PLAYER_SPEED * elapsedTime / 1000;
-    player_move(distEachFrame * Math.sin(player.yaw), 0, distEachFrame * Math.cos(player.yaw));
+    game_moveObject(player, distEachFrame * Math.sin(player.yaw), 0, distEachFrame * Math.cos(player.yaw));
   }
   
    // handle strafe
   if (player.sideMovement !== 0) {
     let direction = player.sideMovement === 1 ? 1 : -1;
     let distEachFrame = direction * PLAYER_SPEED * elapsedTime / 1000;
-    player_move(distEachFrame * Math.sin(player.yaw + Math.PI / 2), 0, distEachFrame * Math.cos(player.yaw + Math.PI / 2));
+    game_moveObject(player, distEachFrame * Math.sin(player.yaw + Math.PI / 2), 0, distEachFrame * Math.cos(player.yaw + Math.PI / 2));
   }
 
   if (!isAirborne && (player.straightMovement || player.sideMovement)) {
@@ -153,17 +86,11 @@ function player_update() {
   }
 
 
-
   
   // handle gravity
-  // let blockBelow = world_getBlockBelow(player);
-
-  // if (isAirborne || !blockBelow) {
   upVelocity += GRAVITY * elapsedTime / 1000;
   let distEachFrame = upVelocity * elapsedTime / 1000;
-  player_move(0, distEachFrame, 0);  
-  //}
-
+  game_moveObject(player, 0, distEachFrame, 0);  
 
   
   if (flashTimeRemaining !== 0) {
