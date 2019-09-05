@@ -25,7 +25,7 @@
     "concat": "concat -o ./dist/game-concatenated.js ./src/*.js ./lib/*.js ./dist/shaders/*.js",
     "html": "html-minifier --collapse-whitespace ./dist/index-uncompressed.html -o ./dist/index.html",
     "watch": "npm-watch",
-    "zip": "mkdir ./dist/bubbas-back-room-eric-rowell-js13k-2019 && cp ./dist/index.html ./dist/bubbas-back-room-eric-rowell-js13k-2019/index.html && cd ./dist && zip -9 -r ./bubbas-back-room-eric-rowell-js13k-2019 ./bubbas-back-room-eric-rowell-js13k-2019 && cd .. && echo ================== && ls -l ./dist/bubbas-back-room-eric-rowell-js13k-2019.zip && echo =================="
+    "zip": "mkdir ./dist/bubbas-back-room-eric-rowell-js13k-2019 && cp ./dist/index.html ./dist/bubbas-back-room-eric-rowell-js13k-2019/index.html && cp ./dist/alphabet-tiny.png ./dist/bubbas-back-room-eric-rowell-js13k-2019 && cd ./dist && zip -9 -r ./bubbas-back-room-eric-rowell-js13k-2019 ./bubbas-back-room-eric-rowell-js13k-2019 && cd .. && echo ================== && ls -l ./dist/bubbas-back-room-eric-rowell-js13k-2019.zip && echo =================="
   },
   "devDependencies": {
     "concat": "^1.0.3",
