@@ -32,7 +32,7 @@ function monsters_restore() {
       if (monster.painFlash <= 0) {
         monster.painFlash = 0;
         if (monster.health <= 0) {
-          soundEffects.play('monster-die');
+          soundEffects_play('monster-die');
           monsters_remove(n);
           monsterKills++;
         }
@@ -153,7 +153,7 @@ function monsters_attack(id) {
   monster.attackCooldown = MONSTER_ATTACK_COOLDOWN;
   playerHurting = PLAYER_PAIN_FLASH_DURATION;
   player.health -= 1;
-  soundEffects.play('hit', 0.5);
+  soundEffects_play('hit', 0.5);
 
 }
 

@@ -17,7 +17,6 @@ function game_init() {
   canvas2d_init()
   webgl_init();
   hud_init();
-  soundEffects_init();
   userInputs_init();
   text_init();
 
@@ -32,14 +31,6 @@ function game_init() {
     texturesReady = true;
     game_setReady();
   });
-
-  if (ENABLE_MUSIC) {
-    music_init(function() {
-      musicReady = true;
-      game_setReady();
-    });
-  }
-
 
   game_loop();
 
@@ -75,11 +66,7 @@ function game_setViewportSize() {
 }
 
 function game_setReady() {
-  if (ENABLE_MUSIC && texturesReady && musicReady) {
-    game_storyNext();
-  }
-
-  if (!ENABLE_MUSIC && texturesReady) {
+  if (texturesReady) {
     game_storyNext();
   }
 }
@@ -122,22 +109,22 @@ function game_render() {
 
 function game_start() {
   game_resume();
-  soundEffects.play('start');
+  soundEffects_play('start');
 }
 
 function game_pause() {
   gameState = 'paused';
-  soundEffects.play('dialog');
+  soundEffects_play('dialog');
 }
 
 function game_resume() {
   gameState = GAME_STATE_PLAYING;
   sceneCanvas.requestPointerLock();
-  soundEffects.play('dismiss');
+  soundEffects_play('dismiss');
 }
 
 function game_win() {
-  //soundEffects.play('player-win');
+  //soundEffects_play('player-win');
   document.exitPointerLock();
   gameState = GAME_STATE_WIN;
 }
@@ -145,7 +132,7 @@ function game_win() {
 function game_die() {
   document.exitPointerLock();
   gameState = GAME_STATE_DIED;
-  soundEffects.play('player-die', 0.5);
+  soundEffects_play('player-die', 0.5);
 }
 
 function game_update() {
@@ -185,7 +172,7 @@ function game_storyNext() {
     music_start();
   }
   if (gameStory > 1) {
-    soundEffects.play('dialog');
+    soundEffects_play('dialog');
     gameState = GAME_STATE_STORY;
   }
 }

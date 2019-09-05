@@ -132,3 +132,4 @@ let canvasLeft;
 let monsterKills;
 let monsterBatch;
 let hudDirty;
+let musicPlaying;
