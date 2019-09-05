@@ -7,7 +7,7 @@ let soundEffectsMap = {
   'monster-die': 98111,
   'reload': 40892,
   'dialog': 72316, //72316,
-  'dismiss': 79921, //72316,
+  'dismiss': 72316,
   'jump': 97356, //62106
   'shoot': [9372, 78981],
   'empty-gun': 77166,

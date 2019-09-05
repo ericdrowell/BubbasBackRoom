@@ -32,6 +32,14 @@ function game_init() {
     game_setReady();
   });
 
+  if (ENABLE_MUSIC) {
+    music_init(function() {
+      musicReady = true;
+      game_setReady();
+    });
+  }
+
+
   game_loop();
 
 
@@ -66,7 +74,11 @@ function game_setViewportSize() {
 }
 
 function game_setReady() {
-  if (texturesReady) {
+  if (ENABLE_MUSIC && texturesReady && musicReady) {
+    game_storyNext();
+  }
+
+  if (!ENABLE_MUSIC && texturesReady) {
     game_storyNext();
   }
 }
