@@ -202,11 +202,11 @@ function textures_init(callback) {
     },
     'foam': {
       encoding: textures_createRandom([
-        'dedede',
-        'd5d5d5',
-        'c9c9c9',
-        'dadada',
-        'dbdbdb'
+        'c3c3c3',
+        'bbbbbb',
+        'bfbfbf',
+        'c0c0c0',
+        'b1b1b1'
       ])
     }
   };

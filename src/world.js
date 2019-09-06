@@ -303,46 +303,69 @@ function world_getBlock(x, y, z) {
   }
 }
 
-// function world_getBlockBelow(obj) {
-//   let x = MATH_ROUND(obj.x);
-//   let startY = MATH_ROUND(obj.y) - 1;
-//   let z = MATH_ROUND(obj.z);
+// use ray tracing to find collisions
+function world_moveObject(object, xChange, yChange, zChange) {
+  
+  let newX = object.x;
+  let newY = object.y;
+  let newZ = object.z;
 
-//   // num blocks below
-//   for (let n=0; n<1; n++) {
-//     let y = startY - 1 - n;
+  
 
-//     let block = world[x] && world[x][y] && world[x][y][z];
+  // y movement
+  let yChangeAbs = MATH_ABS(yChange);
+  let ySign = MATH_SIGN(yChange);
+  for (let y=0; y<yChangeAbs+RAY_TRACE_INCREMENT; y+=RAY_TRACE_INCREMENT) {
+    if (y > yChangeAbs) {
+      y = yChangeAbs;
+    }
+    let block = world_getBlock(object.x, object.y + y*ySign, object.z);
+    if (block) {
+      object.upVelocity = 0;
+      object.isAirborne = false;
+      break;
+    }
+    else {
+      newY = object.y + y*ySign;
+    }
+  }
 
-//     if (block) {
-//       return {
-//         x: x,
-//         y: y,
-//         z: z,
-//         texture: block.texture
-//       };
-//     }
-//   }
+  // x movement
+  let xChangeAbs = MATH_ABS(xChange);
+  let xSign = MATH_SIGN(xChange);
+  for (let x=0; x<xChangeAbs+RAY_TRACE_INCREMENT; x+=RAY_TRACE_INCREMENT) {
+    if (x > xChangeAbs) {
+      x = xChangeAbs;
+    }
+    let block = world_getBlock(object.x + x*xSign, newY, object.z);
+    if (block) {
+      break;
+    }
+    else {
+      newX = object.x + x*xSign;
+    }
+  }
 
-//   return null;
+  // z movement
+  let zChangeAbs = MATH_ABS(zChange);
+  let zSign = MATH_SIGN(zChange);
+  for (let z=0; z<zChangeAbs+RAY_TRACE_INCREMENT; z+=RAY_TRACE_INCREMENT) {
+    if (z > zChangeAbs) {
+      z = zChangeAbs;
+    }
+    let block = world_getBlock(newX, newY, object.z + z*zSign);
+    if (block) {
+      break;
+    }
+    else {
+      newZ = object.z + z*zSign;
+    }
+  }
 
-// }
+  object.x = newX;
+  object.y = newY;
+  object.z = newZ;
 
-// function world_getBlockPos(x, y, z) {
-//   return {
-//     x: MATH_ROUND(x),
-//     y: MATH_ROUND(y),
-//     z: MATH_ROUND(z)
-//   }
-// }
 
-// for debugging
-// function world_getNumBlocks() {
-//   let total = 0;
-//   for (let key in worldBuffers) {
-//     worldBuffers[key].forEach(function(buffer) {
-//       total += buffer.numBlocks;
-//     });
-//   }
-//   console.log(total);
-// }
+  
+}

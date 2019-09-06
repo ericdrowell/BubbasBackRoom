@@ -1,4 +1,4 @@
-let ENABLE_MUSIC = true;
+let ENABLE_MUSIC = false;
 
 // start game - have to do it this way because I need the compressor to convert game_init() to the right variable name
 setTimeout(function() {
@@ -28,8 +28,11 @@ function game_init() {
   gameStory = 0;
 
   textures_init(function() {
-    texturesReady = true;
-    game_setReady();
+    sprite_init(function() {
+      hudDirty = true;
+      spritesReady = true;
+      game_setReady();
+    });
   });
 
   if (ENABLE_MUSIC) {
@@ -74,21 +77,23 @@ function game_setViewportSize() {
 }
 
 function game_setReady() {
-  if (ENABLE_MUSIC && texturesReady && musicReady) {
+  hudDirty = true;
+  if (ENABLE_MUSIC && spritesReady && musicReady) {
     game_storyNext();
   }
 
-  if (!ENABLE_MUSIC && texturesReady) {
+  if (!ENABLE_MUSIC && spritesReady) {
     game_storyNext();
   }
 }
 
 
 function game_render() {
+  // TODO: should use dirty flag instead of looking at state
   if (gameState === GAME_STATE_PLAYING) {
     let viewAngle = 45; // 45 -> 90
     let minDist = 0.1;
-    let maxDist = 100;
+    let maxDist = 150; // 100
     mat4.perspective(viewAngle, sceneCanvas.width / sceneCanvas.height, minDist, maxDist, pMatrix);
     mat4.identity(mvMatrix);
 
@@ -115,8 +120,10 @@ function game_render() {
     
   }
 
-  // canvas2d rendering
-  hud_render();
+  if (hudDirty) {
+    hud_render();
+    hudDirty = false;
+  }
 };
 
 function game_start() {
@@ -125,23 +132,27 @@ function game_start() {
 }
 
 function game_pause() {
+  hudDirty = true;
   gameState = 'paused';
   soundEffects_play('dialog');
 }
 
 function game_resume() {
+  hudDirty = true;
   gameState = GAME_STATE_PLAYING;
   sceneCanvas.requestPointerLock();
   soundEffects_play('dismiss');
 }
 
 function game_win() {
+  hudDirty = true;
   //soundEffects_play('player-win');
   document.exitPointerLock();
   gameState = GAME_STATE_WIN;
 }
 
 function game_die() {
+  hudDirty = true;
   document.exitPointerLock();
   gameState = GAME_STATE_DIED;
   soundEffects_play('player-die', 0.5);
@@ -180,8 +191,12 @@ function game_storyNext() {
   player.sideMovement = 0;
   document.exitPointerLock();
 
-  if (ENABLE_MUSIC && gameStory === 2 && !musicPlaying) {
-    music_start();
+ 
+  if (gameStory === 2) {
+    //soundEffects_play('story-start');
+    if (ENABLE_MUSIC && !musicPlaying) {
+      music_start();
+    }
   }
   if (gameStory > 1) {
     soundEffects_play('dialog');
@@ -200,71 +215,4 @@ function game_loop() {
 
   lastTime = now;
   window.requestAnimationFrame(game_loop);  
-}
-
-// use ray tracing to find collisions
-function game_moveObject(object, xChange, yChange, zChange) {
-  
-  let newX = object.x;
-  let newY = object.y;
-  let newZ = object.z;
-
-  
-
-  // y movement
-  let yChangeAbs = MATH_ABS(yChange);
-  let ySign = MATH_SIGN(yChange);
-  for (let y=0; y<yChangeAbs+RAY_TRACE_INCREMENT; y+=RAY_TRACE_INCREMENT) {
-    if (y > yChangeAbs) {
-      y = yChangeAbs;
-    }
-    let block = world_getBlock(object.x, object.y + y*ySign, object.z);
-    if (block) {
-      upVelocity = 0;
-      isAirborne = false;
-      break;
-    }
-    else {
-      newY = object.y + y*ySign;
-    }
-  }
-
-  // x movement
-  let xChangeAbs = MATH_ABS(xChange);
-  let xSign = MATH_SIGN(xChange);
-  for (let x=0; x<xChangeAbs+RAY_TRACE_INCREMENT; x+=RAY_TRACE_INCREMENT) {
-    if (x > xChangeAbs) {
-      x = xChangeAbs;
-    }
-    let block = world_getBlock(object.x + x*xSign, newY, object.z);
-    if (block) {
-      break;
-    }
-    else {
-      newX = object.x + x*xSign;
-    }
-  }
-
-  // z movement
-  let zChangeAbs = MATH_ABS(zChange);
-  let zSign = MATH_SIGN(zChange);
-  for (let z=0; z<zChangeAbs+RAY_TRACE_INCREMENT; z+=RAY_TRACE_INCREMENT) {
-    if (z > zChangeAbs) {
-      z = zChangeAbs;
-    }
-    let block = world_getBlock(newX, newY, object.z + z*zSign);
-    if (block) {
-      break;
-    }
-    else {
-      newZ = object.z + z*zSign;
-    }
-  }
-
-  object.x = newX;
-  object.y = newY;
-  object.z = newZ;
-
-
-  
 }

@@ -10,6 +10,7 @@ function hud_init() {
 }
 
 function hud_render() {
+  //console.log('render hud');
   hudContext.clearRect(0, 0, viewportWidth, viewportHeight);
 
   hudContext.save();
@@ -28,138 +29,17 @@ function hud_render() {
   //canvas2d_pixelate(hudCanvas, hudContext, 2);
 }
 
-function hud_fillPattern(scale, pattern) {
-    hudContext.save();
-    hudContext.scale(2, 2);
-    hudContext.fillStyle = pattern;
-    hudContext.fill();
-    hudContext.restore();
-}
-
 function hud_renderHealth() {
-  let foamPattern = hudContext.createPattern(textures[TEXTURES_FOAM].image, 'repeat');
-
-  let gradient = hudContext.createLinearGradient(-10, 0, 10, 0);
-  gradient.addColorStop(0, '#9d170e');
-  gradient.addColorStop(0.2, '#c81818');
-  gradient.addColorStop(0.4, '#591816');
-  gradient.addColorStop(0.6, '#3f0805');
-  gradient.addColorStop(1, '#190b02');
+  let x = 0;
 
   for (let n=0; n<player.health; n++) {
-    let offset = n * 60;
+    
     hudContext.save();
-      hudContext.translate(40 + offset, 70);
-
-
-      // bottom disc
-      hudContext.save();
-        hudContext.beginPath();
-        hudContext.translate(0, 42);
-        hudContext.scale(1, 0.5);
-        hudContext.arc(0, 0, 14, 0, 2 * MATH_PI, false);
-        hudContext.fillStyle = gradient;
-        hudContext.fill();
-      hudContext.restore();
-
-      // bottom body
-      hudContext.save();
-        hudContext.translate(0, 32);
-        hudContext.beginPath();
-        hudContext.rect(-14, -10, 28, 20);
-        hudContext.fillStyle = gradient;
-        hudContext.fill();
-      hudContext.restore();
-
-
-
-
-      // middle disc 2 
-      
-      hudContext.save();
-        hudContext.beginPath();
-        hudContext.translate(0, 22);
-        hudContext.scale(1, 0.5);
-        hudContext.arc(0, 0, 20, 0, 2 * MATH_PI, false);
-        hudContext.fillStyle = gradient;
-        hudContext.fill();
-      hudContext.restore();
-
-
-
-      // middle disc 1
-     
-      hudContext.save();
-        hudContext.scale(2, 2);
-        hudContext.fillStyle = gradient;
-        hudContext.fill();
-      hudContext.restore();
-
-
-      // top body
-      hudContext.beginPath();
-      hudContext.moveTo(-25, -20);
-      hudContext.lineTo(25, -20);
-      hudContext.lineTo(20, 20);
-      hudContext.lineTo(-20, 20);
-
-
-
-      hudContext.save();
-        hudContext.scale(2, 2);
-        hudContext.fillStyle = gradient;
-        hudContext.fill();
-      hudContext.restore();
-
-
-
-
-      
-
-
-
-
-
-
-      // lid
-      
-      hudContext.save();
-        hudContext.beginPath();
-        hudContext.translate(0, -20);
-        hudContext.scale(1, 0.5);
-        hudContext.arc(0, 0, 25, 0, 2*MATH_PI, false);
-        hud_fillPattern(2, foamPattern);
-      hudContext.restore();
-
-      // x
-      hudContext.save();
-        hudContext.strokeStyle = '#999';
-        hudContext.lineWidth = 2;
-        hudContext.translate(0, -20);
-
-        hudContext.beginPath();
-        hudContext.moveTo(-6, -3);
-        hudContext.lineTo(6, 3);
-        hudContext.stroke();
-
-        hudContext.beginPath();
-        hudContext.moveTo(-6, 3);
-        hudContext.lineTo(6, -3);
-        hudContext.stroke();
-      hudContext.restore();
-
-      // straw
-      
-      hudContext.save();
-        hudContext.beginPath();
-        hudContext.translate(-5, -38);
-        hudContext.rotate(-0.3);
-        hudContext.fillStyle = '#9d170e'; // red
-        hudContext.fillRect(-2, -20, 4, 40);
-      hudContext.restore();
-
-
+    hudContext.translate(x, 10);
+    sprite_draw(hudContext, 160, 0, 80, 120);
     hudContext.restore();
+
+    x += 70;
   }
 }
 
@@ -176,112 +56,50 @@ function hud_renderPainFlash() {
 
 function hud_update() {
   // recoil
-  if (isRecoiling) {
-    let distEachFrame = GUN_RECOIL_RECOVER_SPEED * elapsedTime / 1000;
+  if (gameState === GAME_STATE_PLAYING) {
+    if (isRecoiling) {
+      let distEachFrame = GUN_RECOIL_RECOVER_SPEED * elapsedTime / 1000;
 
-    gun.y -= distEachFrame;
+      gun.y -= distEachFrame;
 
-    if (gun.y < OPTIMAL_VIEWPORT_HEIGHT) {
-      gun.y = OPTIMAL_VIEWPORT_HEIGHT;
-      isRecoiling = false;
+      if (gun.y < OPTIMAL_VIEWPORT_HEIGHT) {
+        gun.y = OPTIMAL_VIEWPORT_HEIGHT;
+        isRecoiling = false;
+      }
     }
-  }
 
-  // else if (isReloading) {
-  //   gun.y = OPTIMAL_VIEWPORT_HEIGHT + GUN_RELOAD_DIST;
-  // }
-  // else {
-  //   gun.y = OPTIMAL_VIEWPORT_HEIGHT;
-  // }
+    // bobble as a half circle motion
+    if (!player.isAirborne && (player.straightMovement || player.sideMovement)) {
+      gunBobbleCounter += elapsedTime;
+      gunBobbleX = GUN_BOBBLE_AMPLITUDE * MATH_COS((gunBobbleCounter/1000) * GUN_BOBBLE_FREQUENCEY);
+      gunBobbleY = MATH_ABS(GUN_BOBBLE_AMPLITUDE * MATH_SIN((gunBobbleCounter/1000) * GUN_BOBBLE_FREQUENCEY));
+    }
+    else {
+      gunBobbleX = 0;
+      gunBobbleY = 0;
+    }
 
-  // bobble as a half circle motion
-  if (!isAirborne && (player.straightMovement || player.sideMovement)) {
-    gunBobbleCounter += elapsedTime;
-    gunBobbleX = GUN_BOBBLE_AMPLITUDE * MATH_COS((gunBobbleCounter/1000) * GUN_BOBBLE_FREQUENCEY);
-    gunBobbleY = MATH_ABS(GUN_BOBBLE_AMPLITUDE * MATH_SIN((gunBobbleCounter/1000) * GUN_BOBBLE_FREQUENCEY));
-  }
-  else {
-    gunBobbleX = 0;
-    gunBobbleY = 0;
+    hudDirty = true;
   }
 
   
 }
 
 function hud_renderGun() {
-  let gradient;
-
-  let height = 230;
-
-  // render flash
+  // muzzle flash 
   if (flashTimeRemaining > 0) {
-    hudContext.beginPath();
-      hudContext.save();
-      hudContext.translate(gun.x, gun.y - height);
-      
-      let radius = 100;
-      hudContext.moveTo(0, 0);
-      let numTips = 12;
-      let eachAngle = 2 * MATH_PI / numTips;
-      for (let n=0; n<numTips; n++) {
-        hudContext.rotate(eachAngle);
-        hudContext.quadraticCurveTo(-20, radius/2, 0, radius);
-        hudContext.quadraticCurveTo(20, radius/2, 0, 0);
-      }
-
-
-
-      gradient = hudContext.createRadialGradient(0, 0, 0, 0, 0, 100);
-      gradient.addColorStop(0, 'white');
-      gradient.addColorStop(0.7, 'rgba(253, 254, 206, 0.7)');
-      gradient.addColorStop(1, 'rgba(166, 82, 40, 0.7)');
-      hudContext.lineJoin = 'round';
-      hudContext.fillStyle = gradient;
-      hudContext.fill();
+    hudContext.save();
+    hudContext.translate(gun.x-100, gun.y-300);
+    sprite_draw(hudContext, 300, 0, 200, 200);
     hudContext.restore();
   }
-  
-  // left barrel
+
+  // gun
   hudContext.save();
-  hudContext.beginPath();
-  hudContext.translate(gun.x + gunBobbleX, gun.y + gunBobbleY + GUN_BOBBLE_AMPLITUDE);
-  hudContext.moveTo(-80, 0);
-  hudContext.lineTo(-30, -1 * height);
-  hudContext.quadraticCurveTo(-15, -1*height - 10, 0, -1*height);
-  hudContext.lineTo(0, 0);
-
-  //gradient = hudContext.createLinearGradient(-70, -100, 5, -90);
-  gradient = hudContext.createLinearGradient(-70, -1*height/2, 5, -1*height/2+8);
-  gradient.addColorStop(0, '#535c57');
-  gradient.addColorStop(0.3, '#555d5f');
-  gradient.addColorStop(0.5, '#8a918a');
-  gradient.addColorStop(0.7, '#3b3d38');
-  gradient.addColorStop(1, '#090909');
-
-  hudContext.fillStyle = gradient;
-  hudContext.fill();
+  hudContext.translate(gun.x -70 + gunBobbleX, gun.y-200+ gunBobbleY + GUN_BOBBLE_AMPLITUDE);
+  sprite_draw(hudContext, 31, 0, 140, 200);
   hudContext.restore();
 
-  // right barrel
-  hudContext.save();
-  hudContext.beginPath();
-  hudContext.translate(gun.x + gunBobbleX, gun.y + gunBobbleY + GUN_BOBBLE_AMPLITUDE);
-  hudContext.moveTo(0, 0);
-  hudContext.lineTo(0, -1 * height);
-  hudContext.quadraticCurveTo(15, -1*height-10, 30, -1*height);
-  hudContext.lineTo(80, 0);
-
-  gradient = hudContext.createLinearGradient(-10, -1*height/2+10, 60, -1*height/2+5);
-  //gradient = hudContext.createLinearGradient(-10, -90, 60, -99);
-  gradient.addColorStop(0, '#535c57');
-  gradient.addColorStop(0.3, '#555d5f');
-  gradient.addColorStop(0.5, '#8a918a');
-  gradient.addColorStop(0.7, '#3b3d38');
-  gradient.addColorStop(1, '#090909');
-
-  hudContext.fillStyle = gradient;
-  hudContext.fill();
-  hudContext.restore();
 }
 
 function hud_renderCrossHair() {
@@ -304,66 +122,17 @@ function hud_renderCrossHair() {
 }
 
 function hud_renderBullets() {
-  hudContext.save();
-  hudContext.translate(OPTIMAL_VIEWPORT_WIDTH - 10, OPTIMAL_VIEWPORT_HEIGHT - 10);
-  
-
-  let x = -20;
+  let x = OPTIMAL_VIEWPORT_WIDTH - 50;
 
   for (let n=0; n<numBullets; n++) {
+    
     hudContext.save();
-    hudContext.beginPath();
-    hudContext.moveTo(0, 0);
-
-    let gradient;
-
-    gradient = hudContext.createLinearGradient(x, 0, x + 20, 0);
-    gradient.addColorStop(0, '#9d170e');
-    gradient.addColorStop(0.2, '#c81818');
-    gradient.addColorStop(0.4, '#591816');
-    gradient.addColorStop(0.6, '#3f0805');
-    gradient.addColorStop(1, '#190b02');
-    hudContext.fillStyle = gradient;
-    hudContext.fillRect(x, -65, 20, 50);
-
-    hudContext.save();
-    hudContext.beginPath();
-    hudContext.scale(1, 0.5);
-    hudContext.arc(x + 10, -130, 10, 0, MATH_PI, true);
-    hudContext.fill();
+    hudContext.translate(x, OPTIMAL_VIEWPORT_HEIGHT - 100);
+    sprite_draw(hudContext, 245, 0, 30, 80);
     hudContext.restore();
 
-    gradient = hudContext.createLinearGradient(x, 0, x + 20, 0);
-    gradient.addColorStop(0, '#936623');
-    gradient.addColorStop(0.2, '#b3784c');
-    gradient.addColorStop(0.4, '#3f2317');
-    gradient.addColorStop(0.6, '#312111');
-    gradient.addColorStop(1, '#201408');
-    hudContext.fillStyle = gradient;
-    hudContext.fillRect(x, -25, 20, 10);
-    hudContext.fillRect(x - 2, -15, 24, 10);
-
-    hudContext.save();
-    hudContext.beginPath();
-    hudContext.scale(1, 0.5);
-    hudContext.arc(x + 10, -30, 12, 0, 2 * MATH_PI, false);
-    hudContext.fill();
-    hudContext.restore();
-
-    hudContext.save();
-    hudContext.beginPath();
-    hudContext.scale(1, 0.5);
-    hudContext.arc(x + 10, -10, 12, 0, 2 * MATH_PI, false);
-    hudContext.fillStyle = '#140c08';
-    hudContext.fill();
-    hudContext.restore();
-
-    hudContext.restore();
-
-    x -= 40;
+    x-= 40;
   }
-
-  hudContext.restore();
 }
 
 function hud_gunRecoil() {
@@ -397,7 +166,7 @@ function hud_renderDialog() {
     }
     else if(gameStory === 1) {
       hud_renderDialogFrame();
-      text_renderLine('back room', 80, 200, hudContext, 0);
+      text_renderLine('bubbas back room', 80, 200, hudContext, 0);
       text_renderLine('created by eric rowell', 30, 320, hudContext, 0);
       text_renderLine('press enter to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
     }
@@ -450,42 +219,12 @@ function hud_renderDialog() {
 
 }
 
-// function hud_renderDialogHorn(angle) {
-//   let lineWidth = 5;
-//   let hornLength = 60;
-//   let halfLineWidth = lineWidth/2;
-//   let barLength = 30;
-//   let barSize = 5;
-//   let barSpacing = 30;
-
-//   hudContext.save();
-//   hudContext.rotate(angle)
-
-//   // spike
-//   hudContext.beginPath();
-//   hudContext.fillRect(-halfLineWidth, -halfLineWidth - hornLength, lineWidth, hornLength);
-//   // hudContext.moveTo(-halfLineWidth, -halfLineWidth);
-//   // hudContext.lineTo(0, -halfLineWidth - hornLength);
-//   // hudContext.lineTo(halfLineWidth, -halfLineWidth);
-//   // hudContext.fill();
-
-//   // bar
-//   hudContext.beginPath();
-//   hudContext.fillRect(-barLength/2, -barSize/2 - barSpacing, barLength, barSize);
-//   hudContext.restore();
-
-// }
 
 function hud_renderCorner(x, y) {
   hudContext.save();
-
   hudContext.strokeStyle = '#958e77';
   hudContext.lineWidth = 5;
   hudContext.strokeRect(x, y, 20, 20);
-
-  
-
-
   hudContext.restore();
 }
 
@@ -495,7 +234,6 @@ function hud_renderDialogFrame() {
   let y = 100;
   let width = OPTIMAL_VIEWPORT_WIDTH-200;
   let height = OPTIMAL_VIEWPORT_HEIGHT-200;
-
 
   // background
   hudContext.beginPath();
@@ -517,14 +255,8 @@ function hud_renderDialogFrame() {
   hudContext.strokeRect(x, y, width, height);
 
   // horn corners
-  //hudContext.fillStyle = borderColor;
-
-
   hud_renderCorner(x-20, y-20);
   hud_renderCorner(x+width, y-20);
   hud_renderCorner(x+width, y+height);
   hud_renderCorner(x-20, y+height);
-
-
-
 }

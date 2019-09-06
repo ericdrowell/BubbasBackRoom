@@ -1,10 +1,5 @@
 function text_init() {
-  let image = new Image();
-  image.onload = function() {
-    textContext.drawImage(image, 0, 0);
-  };
 
-  image.src = 'alphabet-tiny.png'; 
 }
 
 function text_renderLine(str, height, y, context, align) {
@@ -53,7 +48,12 @@ function text_renderLine(str, height, y, context, align) {
       }
 
       //console.log(MATH_FLOOR(charX * PIXEL_RATIO), 0, copyWidth * PIXEL_RATIO, TEXT_HEIGHT * PIXEL_RATIO, MATH_FLOOR(x), MATH_FLOOR(y), MATH_FLOOR(copyWidth*scale), MATH_FLOOR(TEXT_HEIGHT*scale))
-      context.drawImage(textCanvas, MATH_FLOOR(charX * PIXEL_RATIO), 0, copyWidth * PIXEL_RATIO, TEXT_HEIGHT * PIXEL_RATIO, MATH_FLOOR(x), MATH_FLOOR(y), MATH_FLOOR(copyWidth*scale), MATH_FLOOR(TEXT_HEIGHT*scale));
+      //context.drawImage(textCanvas, MATH_FLOOR(charX * PIXEL_RATIO), 0, copyWidth * PIXEL_RATIO, TEXT_HEIGHT * PIXEL_RATIO, MATH_FLOOR(x), MATH_FLOOR(y), MATH_FLOOR(copyWidth*scale), MATH_FLOOR(TEXT_HEIGHT*scale));
+      hudContext.save();
+      hudContext.translate(MATH_FLOOR(x), MATH_FLOOR(y));
+      hudContext.scale(scale, scale);
+      sprite_draw(hudContext, MATH_FLOOR(charX), 270, copyWidth, TEXT_HEIGHT);
+      hudContext.restore();
       x += (charWidth + CHAR_SPACING) * scale;
     }
 

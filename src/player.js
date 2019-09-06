@@ -25,31 +25,34 @@ function player_init() {
 // z: 0
 // };
 
-player = {
-health: 6,
-pitch: -0.07924777960769419,
-sideMovement: 0,
-straightMovement: 0,
-x: -275.38950637525187,
-y: 26.502200000000038,
-yaw: 6.177123528071624,
-z: 45.58826675852633
-};
-
+// back room
 // player = {
 //   health: 6,
-// pitch: -0.10123892818282226,
-// sideMovement: 0,
-// straightMovement: 0,
-// x: -62.67023136178909,
-// y: 10.500999999999998,
-// yaw: 4.73827409272751,
-// z: 0.4229865121474473
-// }
+//   pitch: -0.07924777960769419,
+//   sideMovement: 0,
+//   straightMovement: 0,
+//   x: -275.38950637525187,
+//   y: 26.502200000000038,
+//   yaw: 6.177123528071624,
+//   z: 45.58826675852633
+// };
+
+// tunnel by temple room
+player = {
+  health: 6,
+  pitch: -0.10123892818282226,
+  sideMovement: 0,
+  straightMovement: 0,
+  x: -62.67023136178909,
+  y: 10.500999999999998,
+  yaw: 4.73827409272751,
+  z: 0.4229865121474473,
+  upVelocity: 0,
+  isAirborne: false
+}
 
   playerHurting = 0;
   flashTimeRemaining = 0;
-  isAirborne = false;
   numBullets = 6;
   reloadTimeRemaining = 0;
   isReloading = false;
@@ -60,17 +63,17 @@ function player_update() {
   if (player.straightMovement !== 0) {
     let direction = player.straightMovement === 1 ? -1 : 1;
     let distEachFrame = direction * PLAYER_SPEED * elapsedTime / 1000;
-    game_moveObject(player, distEachFrame * Math.sin(player.yaw), 0, distEachFrame * Math.cos(player.yaw));
+    world_moveObject(player, distEachFrame * Math.sin(player.yaw), 0, distEachFrame * Math.cos(player.yaw));
   }
   
    // handle strafe
   if (player.sideMovement !== 0) {
     let direction = player.sideMovement === 1 ? 1 : -1;
     let distEachFrame = direction * PLAYER_SPEED * elapsedTime / 1000;
-    game_moveObject(player, distEachFrame * Math.sin(player.yaw + Math.PI / 2), 0, distEachFrame * Math.cos(player.yaw + Math.PI / 2));
+    world_moveObject(player, distEachFrame * Math.sin(player.yaw + Math.PI / 2), 0, distEachFrame * Math.cos(player.yaw + Math.PI / 2));
   }
 
-  if (!isAirborne && (player.straightMovement || player.sideMovement)) {
+  if (!player.isAirborne && (player.straightMovement || player.sideMovement)) {
     // bobble
     bobbleCounter += elapsedTime;
     let lastBobble = bobble;
@@ -88,9 +91,9 @@ function player_update() {
 
   
   // handle gravity
-  upVelocity += GRAVITY * elapsedTime / 1000;
-  let distEachFrame = upVelocity * elapsedTime / 1000;
-  game_moveObject(player, 0, distEachFrame, 0);  
+  player.upVelocity += GRAVITY * elapsedTime / 1000;
+  let distEachFrame = player.upVelocity * elapsedTime / 1000;
+  world_moveObject(player, 0, distEachFrame, 0);  
 
   
   if (flashTimeRemaining !== 0) {
@@ -133,8 +136,8 @@ function player_update() {
 };
 
 function player_jump() {
-  if (!isAirborne) {
-    upVelocity = JUMP_SPEED;
+  if (!player.isAirborne) {
+    player.upVelocity = JUMP_SPEED;
     isAirborne = true;
     soundEffects_play('jump');
   }

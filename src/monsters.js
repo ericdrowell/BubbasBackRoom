@@ -1,13 +1,20 @@
 let MONSTER_CUBES = [
-  0, 0, 0.3, 0.5, 3, 0.5, // right leg
-  -0.4, -0.4, 0.3, 0.5, 0.3, 0.5, // right foot
-  0, 0, -0.3, 0.5, 3, 0.5, // left leg
-  -0.4, -0.4, -0.3, 0.5, 0.3, 0.5, // left foot
-  0, 2, 0, 0.8, 1.5, 1, // body
+  0, 0.8, 0.3, 0.5, 2, 0.5, // left leg
+  0, 0.8, -0.3, 0.5, 2, 0.5, // right leg
+  -0.2, -0.4, 0.3, 0.8, 0.3, 0.5, // left foot
+  -0.2, -0.4, -0.3, 0.8, 0.3, 0.5, // right foot
+  0, 2.2, 0, 0.7, 1.4, 1, // body
   0, 2.8, 0, 0.4, 0.4, 0.4, // neck
-  0, 3.4, 0, 0.8, 0.8, 0.8, // head
-  -0.8, 2.5, 0.65, 2, 0.35, 0.35, // right arm
-  -0.8, 2.5, -0.65, 2, 0.35, 0.35 // left arm
+  0, 3.4, 0, 0.8, 0.6, 0.8, // head 1
+  0, 3.4, 0, 0.6, 0.8, 0.6, // head 2
+  -0.8, 2.5, 0.65, 1.8, 0.35, 0.35, // left arm
+  -0.8, 2.5, -0.65, 1.8, 0.35, 0.35, // right arm
+
+  -1.8, 2.5, 0.8, 0.3, 0.35, 0.1, // left fingers
+  -1.8, 2.5, -0.8, 0.3, 0.35, 0.1, // right fingers
+  
+  -1.8, 2.6, 0.6, 0.3, 0.1, 0.1, // left thumb
+  -1.8, 2.6, -0.6, 0.3, 0.1, 0.1 // right thumb
 ];
 
 function monsters_init() {
@@ -52,9 +59,12 @@ function monsters_add(x, y, z) {
     z: z,
     painFlash: 0,
     health: 6,
-    yaw: MATH_PI * 0.5,
+    yaw: 0,
     attackCooldown: 0,
     turnFrequency: 0.001 + MATH_RANDOM() * 0.001,
+    bobble: 0,
+    upVelocity: 0,
+    isAirborne: false,
     id: utils_generateId()
   });
 }
@@ -63,6 +73,8 @@ function monsters_spawn() {
   //console.log('spawn monster batch ' + monsterBatch);
   monsters_add(0, 0, 10);
   monsters_add(0, 0, 5);
+
+  monsters_buildBuffers();
 
   monsterBatch++;
 }
@@ -86,19 +98,6 @@ function monsters_update() {
     let theta = MATH_ATAN2(zDiff, xDiff);
     let thetaDiff = monster.yaw - theta;
 
-    // if (thetaDiff > maxThetaEachFrame) {
-    //   thetaDiff = maxThetaEachFrame;
-    // }
-
-
-    //if (thetaDiff >= 0) {
-      //thetaDiff = thetaDiff > maxThetaEachFrame ? maxThetaEachFrame : thetaDiff;
-    // }
-    // else {
-    //   thetaDiff = thetaDiff < -1 * maxThetaEachFrame ? -1 * maxThetaEachFrame : thetaDiff;
-    // }
-
-
     // point directly at player
     let yaw = monster.yaw - thetaDiff;
 
@@ -109,9 +108,10 @@ function monsters_update() {
     let playerMonsterDist = MATH_SQRT(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
     if (playerMonsterDist > MONSTER_ATTACK_DIST) {
       let newMonsterXDiff = -1 * distEachFrame * MATH_COS(yaw);
+      let newMonsterYDiff = 0; //2 * MATH_SIN(now * 0.001);
       let newMonsterZDiff = -1 * distEachFrame * MATH_SIN(yaw);
 
-      game_moveObject(monster, newMonsterXDiff, 0, newMonsterZDiff);
+      world_moveObject(monster, newMonsterXDiff, newMonsterYDiff, newMonsterZDiff);
     }
     else {
       if (monster.attackCooldown === 0) {
@@ -133,8 +133,6 @@ function monsters_update() {
 
   monsters_restore();
 
-  // now have to rebuild and bind buffers...
-  monsters_buildBuffers();
 }
 
 function monsters_getById(id) {

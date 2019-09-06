@@ -15,8 +15,11 @@ function canvas2d_init() {
     canvasLeft = 0;
   }
 
-  textCanvas = document.createElement('canvas');
-  textContext = canvas2d_initCanvas(textCanvas, 78, 5, PIXEL_RATIO);
+  spriteCanvas = document.createElement('canvas');
+  spriteContext = canvas2d_initCanvas(spriteCanvas, viewportWidth, viewportHeight, PIXEL_RATIO);
+
+  // textCanvas = document.createElement('canvas');
+  // textContext = canvas2d_initCanvas(textCanvas, 78, 5, PIXEL_RATIO);
 };
 
 function canvas2d_initCanvas(canvas, width, height, pixelRatio) {
@@ -38,4 +41,12 @@ function canvas2d_initCanvas(canvas, width, height, pixelRatio) {
   }
 
   return context;
+}
+
+function canvas2d_fillPattern(context, scale, pattern) {
+    context.save();
+    context.scale(2, 2);
+    context.fillStyle = pattern;
+    context.fill();
+    context.restore();
 }

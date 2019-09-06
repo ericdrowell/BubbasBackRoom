@@ -17,6 +17,7 @@ function userInputs_init() {
 
   document.addEventListener('pointerlockchange', function(evt) {
     if (!userInputs_isPointerLocked() && gameState === GAME_STATE_PLAYING) {
+      hudDirty = true;
       game_pause();
     }
   }, false);
@@ -31,19 +32,24 @@ function userInputs_handleKeyDown(evt) {
     case 13:
       if (gameState === GAME_STATE_STORY) {
         if (gameStory < 3) {
+          hudDirty = true;
           game_storyNext();
         }
         else if (gameStory === 3) {
+          hudDirty = true;
           game_start();
         }
         else {
+          hudDirty = true;
           game_resume();
         }
       }
       else if (gameState === GAME_STATE_PAUSED) {
+        hudDirty = true;
         game_resume();
       }
       else if (gameState === GAME_STATE_DIED || gameState === GAME_STATE_WIN) {
+        hudDirty = true;
         game_restart()
       }
       break;
@@ -76,6 +82,7 @@ function userInputs_handleKeyDown(evt) {
       break;
     case 82:
       // r key (reload)
+      hudDirty = true;
       player_reload();
       break;
   }
