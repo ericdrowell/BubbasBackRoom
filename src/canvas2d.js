@@ -18,8 +18,10 @@ function canvas2d_init() {
   spriteCanvas = document.createElement('canvas');
   spriteContext = canvas2d_initCanvas(spriteCanvas, viewportWidth, viewportHeight, PIXEL_RATIO);
 
-  // textCanvas = document.createElement('canvas');
-  // textContext = canvas2d_initCanvas(textCanvas, 78, 5, PIXEL_RATIO);
+  textureCanvas = document.createElement('canvas');
+  textureCanvas.width = 16;
+  textureCanvas.height = 16;
+  textureContext = textureCanvas.getContext('2d');
 };
 
 function canvas2d_initCanvas(canvas, width, height, pixelRatio) {

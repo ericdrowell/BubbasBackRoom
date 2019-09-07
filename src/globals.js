@@ -117,13 +117,6 @@ let spriteCanvas;
 let spriteContext;
 let hitCanvas;
 let hitContext;
-
-/*
-  0 - loading
-  1 - splash screen
-  2 - ring ring
-  3 - controls
-*/
 let gameStory = 0;
 let playerStep = 0;
 let playerHurting = 0;
@@ -135,3 +128,5 @@ let musicPlaying;
 let items;
 let itemBatch;
 let texturesReady = false;
+let textureCanvas;
+let textureContext;

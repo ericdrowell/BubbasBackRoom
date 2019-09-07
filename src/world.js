@@ -315,20 +315,30 @@ function world_moveObject(object, xChange, yChange, zChange) {
   // y movement
   let yChangeAbs = MATH_ABS(yChange);
   let ySign = MATH_SIGN(yChange);
+  let yOffset = yChange > 0 ? PLAYER_HEIGHT : 0;
+
+  // down movement
+  
   for (let y=0; y<yChangeAbs+RAY_TRACE_INCREMENT; y+=RAY_TRACE_INCREMENT) {
     if (y > yChangeAbs) {
       y = yChangeAbs;
     }
-    let block = world_getBlock(object.x, object.y + y*ySign, object.z);
+    let block = world_getBlock(object.x, object.y + y*ySign + yOffset, object.z);
     if (block) {
       object.upVelocity = 0;
-      object.isAirborne = false;
+
+      // if landed on block
+      if (yChange < 0) {
+        object.isAirborne = false;
+      }
+      
       break;
     }
     else {
       newY = object.y + y*ySign;
     }
   }
+  
 
   // x movement
   let xChangeAbs = MATH_ABS(xChange);

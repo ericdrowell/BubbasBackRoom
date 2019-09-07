@@ -162,12 +162,14 @@ function hud_renderDialog() {
   if (gameState === GAME_STATE_STORY) {
     if (gameStory === 0) {
       hud_renderDialogFrame();
-      text_renderLine('loading...', 50, OPTIMAL_VIEWPORT_HEIGHT/2-25, hudContext, 0);
+      text_renderLine('bubbas back room', 75, 160, hudContext, 0);
+      text_renderLine('created by eric rowell', 30, 280, hudContext, 0);
+      text_renderLine('loading...', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
     }
     else if(gameStory === 1) {
       hud_renderDialogFrame();
-      text_renderLine('bubbas back room', 80, 200, hudContext, 0);
-      text_renderLine('created by eric rowell', 30, 320, hudContext, 0);
+      text_renderLine('bubbas back room', 75, 160, hudContext, 0);
+      text_renderLine('created by eric rowell', 30, 280, hudContext, 0);
       text_renderLine('click to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
     }
     else if(gameStory === 2) {
@@ -184,24 +186,24 @@ function hud_renderDialog() {
     }
     else if(gameStory === 3) {
       hud_renderDialogFrame();
-      text_renderLine('controls', 80, 150, hudContext, 0);
+      text_renderLine('controls', 75, 150, hudContext, 0);
       hud_renderControlsBottom();
     }
 
   }
   else if (gameState === GAME_STATE_PAUSED) {
     hud_renderDialogFrame();
-    text_renderLine('paused', 80, 150, hudContext, 0);
+    text_renderLine('paused', 75, 150, hudContext, 0);
     hud_renderControlsBottom();
   }
   else if (gameState === GAME_STATE_DIED) {
     hud_renderDialogFrame();
-    text_renderLine('you died', 80, 150, hudContext, 0);
+    text_renderLine('you died', 75, 150, hudContext, 0);
     text_renderLine('click to try again', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
   }
   else if (gameState === GAME_STATE_WIN) {
     hud_renderDialogFrame();
-    text_renderLine('you win', 80, 150, hudContext, 0);
+    text_renderLine('you win', 75, 150, hudContext, 0);
     text_renderLine('click to play again', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
   }
 

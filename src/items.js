@@ -1,7 +1,7 @@
 let HEALTH_CUBES = [
   0, 0, 0, 0.5, 0.8, 0.5, // bottom
   0, 0.8, 0, 0.8, 1, 0.8, // top
-  0, 1.8, 0, 0.1, 1, 0.1 // straw
+  0, 1.6, 0, 0.1, 1, 0.1 // straw
 ];
 
 function items_init() {

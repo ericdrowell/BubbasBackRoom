@@ -129,7 +129,7 @@ function monsters_update() {
       }
       else if (monster.y <= 0 && monster.stepPending) {
         stepPending = false;
-        let volume = 0.3 * MONSTER_ATTACK_DIST / playerMonsterDist
+        let volume = 0.3 * MONSTER_ATTACK_DIST / (playerMonsterDist*playerMonsterDist)
         soundEffects_play('monster-walk', volume);
       }
 
