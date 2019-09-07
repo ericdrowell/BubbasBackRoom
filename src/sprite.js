@@ -124,7 +124,7 @@ function sprite_addHealth() {
 }
 
 function sprite_addMuzzleFlash() {
-    // render flash
+  
 
   spriteContext.beginPath();
     spriteContext.save();
@@ -140,13 +140,20 @@ function sprite_addMuzzleFlash() {
       spriteContext.quadraticCurveTo(20, radius/2, 0, 0);
     }
 
-    gradient = spriteContext.createRadialGradient(0, 0, 0, 0, 0, 100);
-    gradient.addColorStop(0, 'white');
-    gradient.addColorStop(0.7, 'rgba(253, 254, 206, 0.7)');
-    gradient.addColorStop(1, 'rgba(166, 82, 40, 0.7)');
     spriteContext.lineJoin = 'round';
+
+
+
+    let pattern = spriteContext.createPattern(textures[TEXTURES_BLOOD_STONE].image, 'repeat');
+    canvas2d_fillPattern(spriteContext, 2, pattern);
+    
+    let gradient = spriteContext.createRadialGradient(0, 0, 0, 0, 0, 100);
+    gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+    gradient.addColorStop(0.7, 'rgba(253, 254, 206, 0.5)');
+    gradient.addColorStop(1, 'rgba(166, 82, 40, 0.5)');
     spriteContext.fillStyle = gradient;
     spriteContext.fill();
+
   spriteContext.restore();
   
 }

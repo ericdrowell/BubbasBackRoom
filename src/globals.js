@@ -25,6 +25,7 @@ let TEXTURES_BURNED_STONE = 'burned-stone';
 let TEXTURES_BLOOD_STONE = 'blood-stone';
 let TEXTURES_MUMMY_WRAP = 'mummy-wrap';
 let TEXTURES_FOAM = 'foam';
+let TEXTURES_HEALTH = 'health';
 
 let PLAYER_SPEED = 20; // units / s
 let PLAYER_HEIGHT = 4;
@@ -131,3 +132,6 @@ let monsterKills;
 let monsterBatch;
 let hudDirty;
 let musicPlaying;
+let items;
+let itemBatch;
+let texturesReady = false;

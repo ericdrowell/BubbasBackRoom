@@ -23,11 +23,13 @@ function game_init() {
   world_init();
   player_init();
   monsters_init();
+  items_init();
 
   gameState = GAME_STATE_STORY;
   gameStory = 0;
 
   textures_init(function() {
+    texturesReady = true;
     sprite_init(function() {
       hudDirty = true;
       spritesReady = true;
@@ -51,6 +53,7 @@ function game_init() {
 function game_restart() {
   player_init();
   monsters_init();
+  items_init();
   gameState = GAME_STATE_STORY;
   gameStory = 1;
   //music_stop();
@@ -100,7 +103,6 @@ function game_render() {
     webgl_clear(sceneCanvas, sceneContext);
     webgl_clear(hitCanvas, hitContext);
 
-    //modelView_save();
 
     mat4.rotate(mvMatrix, -player.pitch, [1, 0, 0]);
     mat4.rotate(mvMatrix, -player.yaw, [0, 1, 0]);
@@ -108,9 +110,8 @@ function game_render() {
     mat4.translate(mvMatrix, [0, bobble, 0]);
 
     world_render();
-    //modelView_restore();
-
     monsters_render();  
+    items_render();
 
     // screen shake
     let marginLeft = canvasLeft + (playerHurting * 50 * MATH_SIN(now*0.1));
@@ -120,7 +121,7 @@ function game_render() {
     
   }
 
-  if (hudDirty) {
+  if (hudDirty && texturesReady) {
     hud_render();
     hudDirty = false;
   }
@@ -169,9 +170,10 @@ function game_update() {
     else {
       player_update();
       monsters_update();
+      items_update();
     }
 
-    game_updateStory();
+    //game_updateStory();
   }
   hud_update();
 }

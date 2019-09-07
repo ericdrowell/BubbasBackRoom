@@ -30,28 +30,6 @@ function userInputs_handleKeyDown(evt) {
   switch (keycode) {
     // enter key
     case 13:
-      if (gameState === GAME_STATE_STORY) {
-        if (gameStory < 3) {
-          hudDirty = true;
-          game_storyNext();
-        }
-        else if (gameStory === 3) {
-          hudDirty = true;
-          game_start();
-        }
-        else {
-          hudDirty = true;
-          game_resume();
-        }
-      }
-      else if (gameState === GAME_STATE_PAUSED) {
-        hudDirty = true;
-        game_resume();
-      }
-      else if (gameState === GAME_STATE_DIED || gameState === GAME_STATE_WIN) {
-        hudDirty = true;
-        game_restart()
-      }
       break;
     case 65:
       // a key (strafe left)
@@ -135,6 +113,31 @@ function userInputs_handleMouseMove(evt) {
 function userInputs_handleMouseDown(evt) {
   if (gameState === GAME_STATE_PLAYING) {
     player_fire();
+  }
+  else if (gameState === GAME_STATE_STORY) {
+    if (gameStory === 0) {
+
+    }
+    else if (gameStory < 3 ) {
+      hudDirty = true;
+      game_storyNext();
+    }
+    else if (gameStory === 3) {
+      hudDirty = true;
+      game_start();
+    }
+    else {
+      hudDirty = true;
+      game_resume();
+    }
+  }
+  else if (gameState === GAME_STATE_PAUSED) {
+    hudDirty = true;
+    game_resume();
+  }
+  else if (gameState === GAME_STATE_DIED || gameState === GAME_STATE_WIN) {
+    hudDirty = true;
+    game_restart()
   }
 }
 

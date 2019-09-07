@@ -48,7 +48,6 @@ function scene_render(buffers, texture) {
   sceneContext.vertexAttribPointer(shaderProgram.aTextureCoord, 2, sceneContext.FLOAT, false, 0, 0);
   sceneContext.activeTexture(sceneContext.TEXTURE0);
   sceneContext.bindTexture(sceneContext.TEXTURE_2D, texture);
-
   // index buffers
   sceneContext.bindBuffer(sceneContext.ELEMENT_ARRAY_BUFFER, buffers.index);
 
@@ -68,9 +67,14 @@ function scene_initTexture(glTexture, image) {
   sceneContext.bindTexture(sceneContext.TEXTURE_2D, glTexture);
   sceneContext.texImage2D(sceneContext.TEXTURE_2D, 0, sceneContext.RGBA, sceneContext.RGBA, sceneContext.UNSIGNED_BYTE, image);
   sceneContext.texParameteri(sceneContext.TEXTURE_2D, sceneContext.TEXTURE_MAG_FILTER, sceneContext.NEAREST);
-  sceneContext.texParameteri(sceneContext.TEXTURE_2D, sceneContext.TEXTURE_MIN_FILTER, sceneContext.LINEAR_MIPMAP_NEAREST);
+  
+  // WebGL1 has different requirements for power of 2 images
   sceneContext.generateMipmap(sceneContext.TEXTURE_2D);
-  sceneContext.bindTexture(sceneContext.TEXTURE_2D, null);
+
+  // sceneContext.texParameteri(sceneContext.TEXTURE_2D, sceneContext.TEXTURE_WRAP_S, sceneContext.CLAMP_TO_EDGE);
+  // sceneContext.texParameteri(sceneContext.TEXTURE_2D, sceneContext.TEXTURE_WRAP_T, sceneContext.CLAMP_TO_EDGE);
+  // sceneContext.texParameteri(sceneContext.TEXTURE_2D, sceneContext.TEXTURE_MIN_FILTER, sceneContext.LINEAR);
+
 };
 
 

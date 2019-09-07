@@ -28,8 +28,17 @@ function monsters_hurt(id) {
     if (monster.id === id) {
       monster.painFlash = PAIN_FLASH_DURATION;
       monster.health -= 1;
+      let xDiff = monster.x - player.x;
+      let zDiff = monster.z - player.z;
+      let dist = MATH_SQRT(xDiff * xDiff + zDiff * zDiff);
+
+      world_moveObject(monster, 5*xDiff/dist, 0, 5*zDiff/dist);
+
+      soundEffects_play('hit', 0.3);
     }
   }); 
+
+  
 }
 
 function monsters_restore() {
@@ -62,9 +71,11 @@ function monsters_add(x, y, z) {
     yaw: 0,
     attackCooldown: 0,
     turnFrequency: 0.001 + MATH_RANDOM() * 0.001,
+    bobbleOffset: MATH_RANDOM() * 2 * MATH_PI,
     bobble: 0,
     upVelocity: 0,
     isAirborne: false,
+    stepPending: false,
     id: utils_generateId()
   });
 }
@@ -77,6 +88,8 @@ function monsters_spawn() {
   monsters_buildBuffers();
 
   monsterBatch++;
+
+  soundEffects_play('monster-spawn');
 }
 
 function monsters_update() {
@@ -108,10 +121,24 @@ function monsters_update() {
     let playerMonsterDist = MATH_SQRT(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
     if (playerMonsterDist > MONSTER_ATTACK_DIST) {
       let newMonsterXDiff = -1 * distEachFrame * MATH_COS(yaw);
-      let newMonsterYDiff = 0; //2 * MATH_SIN(now * 0.001);
+      let newMonsterYDiff = (0.3 * MATH_SIN(now * 0.02 + monster.bobbleOffset)) - monster.y;
       let newMonsterZDiff = -1 * distEachFrame * MATH_SIN(yaw);
 
+      if (monster.y > 0) {
+        monster.stepPending = true;
+      }
+      else if (monster.y <= 0 && monster.stepPending) {
+        stepPending = false;
+        let volume = 0.3 * MONSTER_ATTACK_DIST / playerMonsterDist
+        soundEffects_play('monster-walk', volume);
+      }
+
       world_moveObject(monster, newMonsterXDiff, newMonsterYDiff, newMonsterZDiff);
+
+      // hack for now so monsters don't go below the floor
+      if (monster.y < 0) {
+        monster.y = 0;
+      }
     }
     else {
       if (monster.attackCooldown === 0) {
@@ -151,6 +178,7 @@ function monsters_attack(id) {
   monster.attackCooldown = MONSTER_ATTACK_COOLDOWN;
   playerHurting = PLAYER_PAIN_FLASH_DURATION;
   player.health -= 1;
+  hudDirty = true;
   soundEffects_play('hit', 0.5);
 
 }

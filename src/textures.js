@@ -208,6 +208,12 @@ function textures_init(callback) {
         'c0c0c0',
         'b1b1b1'
       ])
+    },
+    'health': {
+      encoding: textures_createRandom([
+        '9d170e',
+        'c81818'
+      ])
     }
   };
 
