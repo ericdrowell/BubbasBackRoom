@@ -2,32 +2,32 @@ function player_init() {
 
 
 // back room
-// player = {
-//   health: 6,
-//   pitch: -0.07924777960769419,
-//   sideMovement: 0,
-//   straightMovement: 0,
-//   x: -275.38950637525187,
-//   y: 27,
-//   yaw: 6.177123528071624,
-//   z: 45.58826675852633,
-//   upVelocity: 0,
-//   isAirborne: false
-// };
-
-// tunnel by temple room
 player = {
   health: 6,
-  pitch: -0.10123892818282226,
+  pitch: -0.07924777960769419,
   sideMovement: 0,
   straightMovement: 0,
-  x: -62.67023136178909,
-  y: 10.500999999999998,
-  yaw: 4.73827409272751,
-  z: 0.4229865121474473,
+  x: -275.38950637525187,
+  y: 27,
+  yaw: 6.177123528071624,
+  z: 45.58826675852633,
   upVelocity: 0,
   isAirborne: false
-}
+};
+
+// tunnel by temple room
+// player = {
+//   health: 6,
+//   pitch: -0.10123892818282226,
+//   sideMovement: 0,
+//   straightMovement: 0,
+//   x: -62.67023136178909,
+//   y: 10.500999999999998,
+//   yaw: 4.73827409272751,
+//   z: 0.4229865121474473,
+//   upVelocity: 0,
+//   isAirborne: false
+// }
 
   playerHurting = 0;
   flashTimeRemaining = 0;

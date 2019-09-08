@@ -349,11 +349,19 @@ function world_moveObject(object, xChange, yChange, zChange) {
     }
     let block = world_getBlock(object.x + x*xSign, newY, object.z);
     if (block) {
+      // handle auto up step
+      let blockAboveStep = world_getBlock(object.x + x*xSign, newY+1, object.z);
+      if (!blockAboveStep) {
+        newY += 1;
+      }
+
       break;
     }
     else {
       newX = object.x + x*xSign;
     }
+
+
   }
 
   // z movement
@@ -365,6 +373,12 @@ function world_moveObject(object, xChange, yChange, zChange) {
     }
     let block = world_getBlock(newX, newY, object.z + z*zSign);
     if (block) {
+      // handle auto up step
+      let blockAboveStep = world_getBlock(newX, newY+1, object.z + z*zSign);
+      if (!blockAboveStep) {
+        newY += 1;
+      }
+
       break;
     }
     else {
