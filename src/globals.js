@@ -130,3 +130,4 @@ let itemBatch;
 let texturesReady = false;
 let textureCanvas;
 let textureContext;
+let clickBlock = 0;

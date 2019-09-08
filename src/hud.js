@@ -6,11 +6,9 @@ function hud_init() {
   };
 
   hudDirty = true;
-
 }
 
 function hud_render() {
-  //console.log('render hud');
   hudContext.clearRect(0, 0, viewportWidth, viewportHeight);
 
   hudContext.save();
@@ -23,10 +21,7 @@ function hud_render() {
   hud_renderPainFlash();
   hud_renderDialog();
   
-
   hudContext.restore();
-
-  //canvas2d_pixelate(hudCanvas, hudContext, 2);
 }
 
 function hud_renderHealth() {
@@ -80,9 +75,7 @@ function hud_update() {
     }
 
     hudDirty = true;
-  }
-
-  
+  } 
 }
 
 function hud_renderGun() {
@@ -99,7 +92,6 @@ function hud_renderGun() {
   hudContext.translate(gun.x -70 + gunBobbleX, gun.y-200+ gunBobbleY + GUN_BOBBLE_AMPLITUDE);
   sprite_draw(hudContext, 31, 0, 140, 200);
   hudContext.restore();
-
 }
 
 function hud_renderCrossHair() {
@@ -118,7 +110,6 @@ function hud_renderCrossHair() {
     hudContext.fillRect(OPTIMAL_VIEWPORT_WIDTH/2 - halfBarThickness, OPTIMAL_VIEWPORT_HEIGHT/2 - barLength - halfBarThickness, barThickness, barLength);
     hudContext.fillRect(OPTIMAL_VIEWPORT_WIDTH/2 - halfBarThickness, OPTIMAL_VIEWPORT_HEIGHT/2 + halfBarThickness, barThickness, barLength);
   }
-
 }
 
 function hud_renderBullets() {
@@ -203,15 +194,17 @@ function hud_renderDialog() {
   }
   else if (gameState === GAME_STATE_WIN) {
     hud_renderDialogFrame();
-    text_renderLine('you win', 75, 150, hudContext, 0);
-    text_renderLine('click to play again', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
+    text_renderLine('way to go', 75, 150, hudContext, 0);
+
+    if (clickBlock === 0) {
+      text_renderLine('click to play again', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
+    }
+    else {
+      text_renderLine('...', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
+    }
+    
   }
-
-
-
-
 }
-
 
 function hud_renderCorner(x, y) {
   hudContext.save();

@@ -147,9 +147,13 @@ function game_resume() {
 
 function game_win() {
   hudDirty = true;
-  //soundEffects_play('player-win');
-  document.exitPointerLock();
-  gameState = GAME_STATE_WIN;
+  setTimeout(function() {
+    hudDirty = true;
+    document.exitPointerLock();
+    gameState = GAME_STATE_WIN;
+    clickBlock = 500;
+  }, 1000);
+
 }
 
 function game_die() {
@@ -160,6 +164,15 @@ function game_die() {
 }
 
 function game_update() {
+  if (clickBlock > 0) {
+    clickBlock -= elapsedTime;
+    if (clickBlock <= 0) {
+      clickBlock = 0;
+      hudDirty = true;
+    }
+  }
+  
+
   if (gameState === GAME_STATE_PLAYING) {
     if (player.health <= 0) {
       game_die();
@@ -167,11 +180,11 @@ function game_update() {
     else if (monsterKills === 2) {
       game_win();
     }
-    else {
-      player_update();
-      monsters_update();
-      items_update();
-    }
+    
+    player_update();
+    monsters_update();
+    items_update();
+    
 
     //game_updateStory();
   }
