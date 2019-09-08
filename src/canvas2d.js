@@ -16,7 +16,7 @@ function canvas2d_init() {
   }
 
   spriteCanvas = document.createElement('canvas');
-  spriteContext = canvas2d_initCanvas(spriteCanvas, viewportWidth, viewportHeight, PIXEL_RATIO);
+  spriteContext = canvas2d_initCanvas(spriteCanvas, OPTIMAL_VIEWPORT_WIDTH, OPTIMAL_VIEWPORT_HEIGHT, PIXEL_RATIO);
 
   textureCanvas = document.createElement('canvas');
   textureCanvas.width = 16;

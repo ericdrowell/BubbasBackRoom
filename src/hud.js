@@ -154,13 +154,13 @@ function hud_renderDialog() {
     if (gameStory === 0) {
       hud_renderDialogFrame();
       text_renderLine('bubbas back room', 75, 160, hudContext, 0);
-      text_renderLine('created by eric rowell', 30, 280, hudContext, 0);
+      text_renderLine('created by @ericdrowell', 30, 280, hudContext, 0);
       text_renderLine('loading...', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
     }
     else if(gameStory === 1) {
       hud_renderDialogFrame();
       text_renderLine('bubbas back room', 75, 160, hudContext, 0);
-      text_renderLine('created by eric rowell', 30, 280, hudContext, 0);
+      text_renderLine('created by @ericdrowell', 30, 280, hudContext, 0);
       text_renderLine('click to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
     }
     else if(gameStory === 2) {

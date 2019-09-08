@@ -1,4 +1,4 @@
-let ENABLE_MUSIC = false;
+let ENABLE_MUSIC = true;
 
 // start game - have to do it this way because I need the compressor to convert game_init() to the right variable name
 setTimeout(function() {
@@ -18,7 +18,6 @@ function game_init() {
   webgl_init();
   hud_init();
   userInputs_init();
-  text_init();
 
   world_init();
   player_init();
@@ -43,6 +42,7 @@ function game_init() {
       game_setReady();
     });
   }
+
 
 
   game_loop();
@@ -93,7 +93,7 @@ function game_setReady() {
 
 function game_render() {
   // TODO: should use dirty flag instead of looking at state
-  if (gameState === GAME_STATE_PLAYING) {
+  if (gameState === GAME_STATE_PLAYING || gameStory < 2) {
     let viewAngle = 45; // 45 -> 90
     let minDist = 0.1;
     let maxDist = 150; // 100
