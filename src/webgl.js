@@ -40,9 +40,9 @@ function webgl_setShaderProgram(program, context, fragShader, vertShader) {
 
   context.linkProgram(program);
   
-  if (!context.getProgramParameter(program, context.LINK_STATUS)) {
-    alert('Could not initialize shaders');
-  }
+  // if (!context.getProgramParameter(program, context.LINK_STATUS)) {
+  //   alert('Could not initialize shaders');
+  // }
   
   context.useProgram(program);
 };

@@ -103,7 +103,7 @@ function world_buildModel() {
 function world_addDoor(startX, endX, startY, endY, startZ, endZ) {
   world_addPlane(startX-1, endX+1, startY, endY+1, startZ, endZ, TEXTURES_ROTTING_WOOD);
   world_addPlane(startX, endX, startY, endY, startZ, endZ, TEXTURES_DIRTY_GRAY);
-  world_addBlock(startX, startY + MATH_ROUND((endY-startY)/2), startZ, TEXTURES_DOOR_KNOB);
+  world_addBlock(startX, startY + Math.round((endY-startY)/2), startZ, TEXTURES_DOOR_KNOB);
 }
 
 function world_addTable(startX, endX, startY, endY, startZ, endZ) {
@@ -168,8 +168,8 @@ function world_addTunnel(startX, endX, startY, endY, startZ, endZ) {
   let diffZ = endZ - startZ;
 
   for (let x=startX; x<=endX; x++) {
-    let y = MATH_ROUND(startY + (((x - startX) / diffX) * diffY));
-    let z = MATH_ROUND(startZ + (((x - startX) / diffX) * diffZ));
+    let y = Math.round(startY + (((x - startX) / diffX) * diffY));
+    let z = Math.round(startZ + (((x - startX) / diffX) * diffZ));
 
     world_addRing(x, y, z);
   }
@@ -256,7 +256,7 @@ function world_buildBuffers() {
         let lastBuffer = rawBuffers[texture][rawBuffers[texture].length-1];
 
         // used to slightly offset all blocks so they don't fit perfectly, and create a more organic fitting
-        let randomOffset = (MATH_RANDOM() - 0.5) * 0.1;
+        let randomOffset = (Math.random() - 0.5) * 0.1;
 
         // position buffer
         for (let n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
@@ -337,9 +337,9 @@ function world_render() {
 }
 
 function world_getBlock(x, y, z) {
-  x = MATH_ROUND(x);
-  y = MATH_ROUND(y);
-  z = MATH_ROUND(z);
+  x = Math.round(x);
+  y = Math.round(y);
+  z = Math.round(z);
 
   let block = world[x] && world[x][y] && world[x][y][z];
 
@@ -366,8 +366,8 @@ function world_moveObject(object, xChange, yChange, zChange) {
   
 
   // y movement
-  let yChangeAbs = MATH_ABS(yChange);
-  let ySign = MATH_SIGN(yChange);
+  let yChangeAbs = Math.abs(yChange);
+  let ySign = Math.sign(yChange);
   let yOffset = yChange > 0 ? PLAYER_HEIGHT : 0;
 
   // down movement
@@ -394,8 +394,8 @@ function world_moveObject(object, xChange, yChange, zChange) {
   
 
   // x movement
-  let xChangeAbs = MATH_ABS(xChange);
-  let xSign = MATH_SIGN(xChange);
+  let xChangeAbs = Math.abs(xChange);
+  let xSign = Math.sign(xChange);
   for (let x=0; x<xChangeAbs+RAY_TRACE_INCREMENT; x+=RAY_TRACE_INCREMENT) {
     if (x > xChangeAbs) {
       x = xChangeAbs;
@@ -418,8 +418,8 @@ function world_moveObject(object, xChange, yChange, zChange) {
   }
 
   // z movement
-  let zChangeAbs = MATH_ABS(zChange);
-  let zSign = MATH_SIGN(zChange);
+  let zChangeAbs = Math.abs(zChange);
+  let zSign = Math.sign(zChange);
   for (let z=0; z<zChangeAbs+RAY_TRACE_INCREMENT; z+=RAY_TRACE_INCREMENT) {
     if (z > zChangeAbs) {
       z = zChangeAbs;

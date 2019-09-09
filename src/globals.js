@@ -1,16 +1,3 @@
-let MATH_PI = Math.PI;
-let MATH_ROUND = Math.round;
-let MATH_RANDOM = Math.random;
-let MATH_SIN = Math.sin;
-let MATH_COS = Math.cos;
-let MATH_FLOOR = Math.floor;
-let MATH_CEIL = Math.floor;
-let MATH_SIGN = Math.sign;
-let MATH_ABS = Math.abs;
-let MATH_SQRT = Math.sqrt;
-let MATH_ATAN2 = Math.atan2;
-let MATH_ATAN = Math.atan;
-
 let MONSTER_ATTACK_COOLDOWN = 1; // s
 let MONSTER_SPEED = 2.5; // units / s
 let MONSTER_JUMP_SPEED = 25; // units / s
@@ -135,3 +122,6 @@ let texturesReady = false;
 let textureCanvas;
 let textureContext;
 let clickBlock = 0;
+let songGen;
+let audio_ctx;
+let musicBuffer;

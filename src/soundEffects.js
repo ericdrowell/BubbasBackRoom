@@ -28,7 +28,6 @@ function soundEffects_play(str, volume) {
     volume = 1;
   }
 
-  //console.log(str, seed)
   if (seed) {
     if (Array.isArray(seed)) {
       for (let n=0; n<seed.length; n++) {
@@ -37,32 +36,6 @@ function soundEffects_play(str, volume) {
     }
     else {
       ZZFX.z(seed, {volume:volume});
-    }
-    
+    } 
   }
-  
 }
-
-
-
-/*
-
-60780
-87147
-65570
-31278
-54077
-84538*
-91585
-14212
-42816
-11993
-15311
-7537
-35772
-
-ring - 28322
-possible music pieces
-77115
-*/
-

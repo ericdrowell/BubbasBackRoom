@@ -46,16 +46,15 @@ function text_renderLine(str, height, y, context, align) {
         copyWidth = CHAR_WIDTH;
       }
 
-      //console.log(MATH_FLOOR(charX * PIXEL_RATIO), 0, copyWidth * PIXEL_RATIO, TEXT_HEIGHT * PIXEL_RATIO, MATH_FLOOR(x), MATH_FLOOR(y), MATH_FLOOR(copyWidth*scale), MATH_FLOOR(TEXT_HEIGHT*scale))
-      //context.drawImage(textCanvas, MATH_FLOOR(charX * PIXEL_RATIO), 0, copyWidth * PIXEL_RATIO, TEXT_HEIGHT * PIXEL_RATIO, MATH_FLOOR(x), MATH_FLOOR(y), MATH_FLOOR(copyWidth*scale), MATH_FLOOR(TEXT_HEIGHT*scale));
+      //console.log(Math.floor(charX * PIXEL_RATIO), 0, copyWidth * PIXEL_RATIO, TEXT_HEIGHT * PIXEL_RATIO, Math.floor(x), Math.floor(y), Math.floor(copyWidth*scale), Math.floor(TEXT_HEIGHT*scale))
+      //context.drawImage(textCanvas, Math.floor(charX * PIXEL_RATIO), 0, copyWidth * PIXEL_RATIO, TEXT_HEIGHT * PIXEL_RATIO, Math.floor(x), Math.floor(y), Math.floor(copyWidth*scale), Math.floor(TEXT_HEIGHT*scale));
       hudContext.save();
-      hudContext.translate(MATH_FLOOR(x), MATH_FLOOR(y));
+      hudContext.translate(Math.floor(x), Math.floor(y));
       hudContext.scale(scale, scale);
-      sprite_draw(hudContext, MATH_CEIL(charX), 270, copyWidth, TEXT_HEIGHT);
+      sprite_draw(hudContext, Math.floor(charX), 270, copyWidth, TEXT_HEIGHT);
       hudContext.restore();
       x += (CHAR_WIDTH + CHAR_SPACING) * scale;
     }
-
   }
 
   context.restore();
@@ -63,8 +62,6 @@ function text_renderLine(str, height, y, context, align) {
 
 function text_getWidth(str, height) {
   let scale = height / TEXT_HEIGHT;
-
   let width = (CHAR_WIDTH + CHAR_SPACING) * scale * str.length;
-
   return width;
 }

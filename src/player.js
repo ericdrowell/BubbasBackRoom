@@ -5,14 +5,14 @@ function player_init() {
 player = {
   health: 6,
   isAirborne: false,
-  pitch: -0.1200884841043614,
+  pitch: -0.12,
   sideMovement: 0,
   straightMovement: 0,
   upVelocity: 0,
-  x: -251.9371103806768,
-  y: 26.5074,
-  yaw: 6.268229715025741,
-  z: 45.063600395573964
+  x: -251.9,
+  y: 26.5,
+  yaw: 6.3,
+  z: 45
 };
 
 // tunnel by temple room
@@ -70,7 +70,7 @@ function player_update() {
     // bobble
     bobbleCounter += elapsedTime;
     let lastBobble = bobble;
-    bobble = BOBBLE_AMPLITUDE * MATH_SIN((bobbleCounter/1000) * BOBBLE_FREQUENCEY);
+    bobble = BOBBLE_AMPLITUDE * Math.sin((bobbleCounter/1000) * BOBBLE_FREQUENCEY);
 
      // run sound
     playerStep -= elapsedTime;
@@ -81,8 +81,6 @@ function player_update() {
 
   }
 
-
-  
   // handle gravity
   player.upVelocity += GRAVITY * elapsedTime / 1000;
   let distEachFrame = player.upVelocity * elapsedTime / 1000;
@@ -109,13 +107,9 @@ function player_update() {
         soundEffects_play('reload', 0.5);
       }
 
-      
-
       if (numBullets === 6) {
-        isReloading = false;
-        
+        isReloading = false; 
       }
-
     }
   }
 
@@ -136,17 +130,6 @@ function player_jump() {
   }
 }
 
-// function player_hurt() {
-//   if (!isHurting) {
-//     player.health -= 1;
-//     //a_soundEffect('player-hurt');
-//     soundEffects_play('monster-hit');
-//     setTimeout(function() {
-//       isHurting = false;
-//     }, PAIN_FLASH_DURATION);
-//   }
-// }
-
 function player_fire() {
   if (numBullets > 0) {
     isReloading = false;
@@ -154,11 +137,6 @@ function player_fire() {
     gunBobbleY = 0;
     flashTimeRemaining = FLASH_COOLDOWN;
     numBullets -= 1;
-
-    // let hitMonster = monsters_getHit();
-    // if (hitMonster >= 0) {
-    //   monsters_hurt(hitMonster);
-    // }
 
     let pixel = hit_getPixel(viewportWidth/2, viewportHeight/2);
 
@@ -168,12 +146,8 @@ function player_fire() {
     if (pixel[0] === 255) {
       // monster id is in the green channel
       let monsterId = pixel[1];
-
       monsters_hurt(monsterId);
-
-      
     }
-
 
     hud_gunRecoil();
   }

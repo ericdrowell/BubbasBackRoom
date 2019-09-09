@@ -19,21 +19,11 @@ function sprite_init(callback) {
 
 function sprite_addHealth() {
   let pattern = spriteContext.createPattern(textures[TEXTURES_DIRTY_WHITE].image, 'repeat');
-
   let gradient = spriteContext.createLinearGradient(-10, 0, 10, 0);
 
   gradient.addColorStop(0, '#9d170e');
   gradient.addColorStop(0.4, '#c81818');
   gradient.addColorStop(1, '#190b02');
-
-
-
-  // gradient.addColorStop(0, '#9d170e');
-  // gradient.addColorStop(0.2, '#c81818');
-  // gradient.addColorStop(0.4, '#591816');
-  // gradient.addColorStop(0.6, '#3f0805');
-  // gradient.addColorStop(1, '#190b02');
-
 
   spriteContext.save();
     spriteContext.translate(200, 70);
@@ -43,7 +33,7 @@ function sprite_addHealth() {
       spriteContext.beginPath();
       spriteContext.translate(0, 42);
       spriteContext.scale(1, 0.5);
-      spriteContext.arc(0, 0, 14, 0, 2 * MATH_PI, false);
+      spriteContext.arc(0, 0, 14, 0, 2 * Math.PI, false);
       spriteContext.fillStyle = gradient;
       spriteContext.fill();
     spriteContext.restore();
@@ -63,7 +53,7 @@ function sprite_addHealth() {
       spriteContext.beginPath();
       spriteContext.translate(0, 22);
       spriteContext.scale(1, 0.5);
-      spriteContext.arc(0, 0, 20, 0, 2 * MATH_PI, false);
+      spriteContext.arc(0, 0, 20, 0, 2 * Math.PI, false);
       spriteContext.fillStyle = gradient;
       spriteContext.fill();
     spriteContext.restore();
@@ -94,7 +84,7 @@ function sprite_addHealth() {
       spriteContext.beginPath();
       spriteContext.translate(0, -20);
       spriteContext.scale(1, 0.5);
-      spriteContext.arc(0, 0, 25, 0, 2*MATH_PI, false);
+      spriteContext.arc(0, 0, 25, 0, 2*Math.PI, false);
       canvas2d_fillPattern(spriteContext, 2, pattern);
     spriteContext.restore();
 
@@ -137,7 +127,7 @@ function sprite_addMuzzleFlash() {
     let radius = 100;
     spriteContext.moveTo(0, 0);
     let numTips = 12;
-    let eachAngle = 2 * MATH_PI / numTips;
+    let eachAngle = 2 * Math.PI / numTips;
     for (let n=0; n<numTips; n++) {
       spriteContext.rotate(eachAngle);
       spriteContext.quadraticCurveTo(-20, radius/2, 0, radius);
@@ -236,7 +226,7 @@ function sprite_addBullet() {
   spriteContext.save();
   spriteContext.beginPath();
   spriteContext.scale(1, 0.5);
-  spriteContext.arc(x + 10, -130, 10, 0, MATH_PI, true);
+  spriteContext.arc(x + 10, -130, 10, 0, Math.PI, true);
   spriteContext.fill();
   spriteContext.restore();
 
@@ -253,14 +243,14 @@ function sprite_addBullet() {
   spriteContext.save();
   spriteContext.beginPath();
   spriteContext.scale(1, 0.5);
-  spriteContext.arc(x + 10, -30, 12, 0, 2 * MATH_PI, false);
+  spriteContext.arc(x + 10, -30, 12, 0, 2 * Math.PI, false);
   spriteContext.fill();
   spriteContext.restore();
 
   spriteContext.save();
   spriteContext.beginPath();
   spriteContext.scale(1, 0.5);
-  spriteContext.arc(x + 10, -10, 12, 0, 2 * MATH_PI, false);
+  spriteContext.arc(x + 10, -10, 12, 0, 2 * Math.PI, false);
   spriteContext.fillStyle = '#140c08';
   spriteContext.fill();
   spriteContext.restore();

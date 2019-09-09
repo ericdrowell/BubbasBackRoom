@@ -1,10 +1,8 @@
-
-
 function textures_createRandom(colors) {
   for (let x=0; x<16; x++) {
     for (let y=0; y<16; y++) {
       textureContext.save();
-      textureContext.fillStyle = '#' + u_getRandomElement(colors);
+      textureContext.fillStyle = '#' + utils_getRandomElement(colors);
       textureContext.fillRect(x, y, 1, 1);
       textureContext.restore();
     }
@@ -57,15 +55,6 @@ function textures_createBrick(colors) {
   textureContext.fillRect(0, 15, 16, 1);
   textureContext.fillRect(0, 0, 1, 7);
   textureContext.fillRect(7, 7, 1, 8);
-
-  
-
-
-
-
-
-
-  
 
   return textureCanvas.toDataURL();
 }

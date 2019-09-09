@@ -5,8 +5,8 @@ function modelView_save() {
 };
 
 function modelView_restore() {
-  if (mvMatrixStack.length == 0) {
-    throw 'Invalid popMatrix!';
-  }
+  // if (mvMatrixStack.length == 0) {
+  //   throw 'Invalid popMatrix!';
+  // }
   mvMatrix = mvMatrixStack.pop();
 };

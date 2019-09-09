@@ -33,7 +33,7 @@ function items_update() {
   }
 
   items.forEach(function(item, n) {
-    item.y = item.startY + MATH_SIN(now*0.001);
+    item.y = item.startY + Math.sin(now*0.001);
     item.yaw = now * 0.001;
 
     // if player touches it
@@ -41,7 +41,7 @@ function items_update() {
     let yDiff = item.y - player.y;
     let zDiff = item.z - player.z;
 
-    let dist = MATH_SQRT(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
+    let dist = Math.sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
     if (dist < 3) {
       player.health = 6;
       items.splice(n, 1);

@@ -1,12 +1,5 @@
-function u_convertNegZeroToPosZero(val) {
-  if (1/val === -Infinity) {
-    return val * -1;
-  }
-  return val;
-}
-
-function u_getRandomElement(arr) {
-  let index = Math.floor(MATH_RANDOM() * arr.length);
+function utils_getRandomElement(arr) {
+  let index = Math.floor(Math.random() * arr.length);
   return arr[index];
 }
 

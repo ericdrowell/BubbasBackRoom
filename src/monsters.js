@@ -30,7 +30,7 @@ function monsters_hurt(id) {
       monster.health -= 1;
       let xDiff = monster.x - player.x;
       let zDiff = monster.z - player.z;
-      let dist = MATH_SQRT(xDiff * xDiff + zDiff * zDiff);
+      let dist = Math.sqrt(xDiff * xDiff + zDiff * zDiff);
 
       world_moveObject(monster, 5*xDiff/dist, 0, 5*zDiff/dist);
 
@@ -49,16 +49,12 @@ function monsters_restore() {
         monster.painFlash = 0;
         if (monster.health <= 0) {
           soundEffects_play('monster-die');
-          monsters_remove(n);
+          monsters.splice(n, 1);
           monsterKills++;
         }
       }
     }
   }); 
-}
-
-function monsters_remove(index) {
-  monsters.splice(index, 1);
 }
 
 function monsters_add(x, y, z) {
@@ -70,8 +66,8 @@ function monsters_add(x, y, z) {
     health: 6,
     yaw: 0,
     attackCooldown: 0,
-    turnFrequency: 0.001 + MATH_RANDOM() * 0.001,
-    bobbleOffset: MATH_RANDOM() * 2 * MATH_PI,
+    turnFrequency: 0.001 + Math.random() * 0.001,
+    bobbleOffset: Math.random() * 2 * Math.PI,
     bobble: 0,
     upVelocity: 0,
     isAirborne: false,
@@ -102,29 +98,27 @@ function monsters_update() {
 
 
   let distEachFrame = MONSTER_SPEED * elapsedTime / 1000;
-  //let maxThetaEachFrame = MONSTER_TURN_SPEED * elapsedTime / 1000;
-  //let yawOffset = 1 * MATH_SIN(elapsedTime * 0.1);
 
   monsters.forEach(function(monster) {
     // tan(theta) = o/a
     let xDiff = monster.x - player.x;
     let yDiff = monster.y - player.y;
     let zDiff = monster.z - player.z;
-    let theta = MATH_ATAN2(zDiff, xDiff);
+    let theta = Math.atan2(zDiff, xDiff);
     let thetaDiff = monster.yaw - theta;
 
     // point directly at player
     let yaw = monster.yaw - thetaDiff;
 
-    let yawOffset = 0.5 * MATH_SIN(now * monster.turnFrequency);
+    let yawOffset = 0.5 * Math.sin(now * monster.turnFrequency);
     yaw += yawOffset;
 
 
-    let playerMonsterDist = MATH_SQRT(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
+    let playerMonsterDist = Math.sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
     if (playerMonsterDist > MONSTER_ATTACK_DIST) {
-      let newMonsterXDiff = -1 * distEachFrame * MATH_COS(yaw);
-      let newMonsterYDiff = (0.3 * MATH_SIN(now * 0.02 + monster.bobbleOffset)) - monster.y;
-      let newMonsterZDiff = -1 * distEachFrame * MATH_SIN(yaw);
+      let newMonsterXDiff = -1 * distEachFrame * Math.cos(yaw);
+      let newMonsterYDiff = (0.3 * Math.sin(now * 0.02 + monster.bobbleOffset)) - monster.y;
+      let newMonsterZDiff = -1 * distEachFrame * Math.sin(yaw);
 
       if (monster.y > 0) {
         monster.stepPending = true;
@@ -252,19 +246,8 @@ function monsters_render() {
     modelView_save();
     mat4.translate(mvMatrix, [2 * monster.x, 2 * monster.y, 2 * monster.z]);
     mat4.rotate(mvMatrix, -monster.yaw, [0, 1, 0]);
-    
-    
-
     scene_render(monster.buffers, textures[texture].glTexture);
     hit_render(monster.hitBuffers);
-
     modelView_restore();
-
-    
-    
-    // mat4.rotate(mvMatrix, monster.yaw, [0, 1, 0]);
-    // mat4.translate(mvMatrix, [-x, -y, -z]);
-    
-
   });
 }

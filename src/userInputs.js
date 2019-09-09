@@ -96,16 +96,16 @@ function userInputs_handleMouseMove(evt) {
   if (gameState === GAME_STATE_PLAYING) {
     if (userInputs_isPointerLocked()) {
       // pitch (up and down)
-      player.pitch += evt.movementY * MATH_PI * 0.001 * -1;
-      if (player.pitch > MATH_PI/2) {
-        player.pitch = MATH_PI/2;
+      player.pitch += evt.movementY * Math.PI * 0.001 * -1;
+      if (player.pitch > Math.PI/2) {
+        player.pitch = Math.PI/2;
       }
-      if (player.pitch < -1 * MATH_PI/2) {
-        player.pitch = -1 * MATH_PI/2;
+      if (player.pitch < -1 * Math.PI/2) {
+        player.pitch = -1 * Math.PI/2;
       }
 
       // yaw (side to side)
-      player.yaw += evt.movementX * MATH_PI * 0.001 * -1;
+      player.yaw += evt.movementX * Math.PI * 0.001 * -1;
     }
   }
 }

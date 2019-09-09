@@ -44,11 +44,7 @@ function game_init() {
     });
   }
 
-
-
   game_loop();
-
-
 }
 
 function game_restart() {
@@ -57,7 +53,6 @@ function game_restart() {
   items_init();
   gameState = GAME_STATE_STORY;
   gameStory = 1;
-  //music_stop();
   game_storyNext();
 }
 
@@ -115,7 +110,7 @@ function game_render() {
     items_render();
 
     // screen shake
-    let marginLeft = canvasLeft + (playerHurting * 50 * MATH_SIN(now*0.1));
+    let marginLeft = canvasLeft + (playerHurting * 50 * Math.sin(now*0.1));
     sceneCanvas.style.marginLeft = marginLeft + 'px';
     hudCanvas.style.marginLeft = marginLeft + 'px';
 
