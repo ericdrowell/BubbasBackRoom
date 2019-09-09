@@ -17,29 +17,29 @@ let MONSTER_JUMP_SPEED = 25; // units / s
 let MONSTER_TURN_SPEED = 0.5; // radians / s
 let MONSTER_ATTACK_DIST = 4; 
 
-let TEXTURES_STONE = 'stone';
-let TEXTURES_MOSSY_STONE = 'mossy-stone';
-let TEXTURES_MOSSY_BRICK = 'mossy-brick';
-let TEXTURES_ROTTING_WOOD = 'rotting-wood';
-let TEXTURES_DIRT = 'dirt';
-let TEXTURES_BURNED_STONE = 'burned-stone';
-let TEXTURES_BLOOD_STONE = 'blood-stone';
-let TEXTURES_MUMMY_WRAP = 'mummy-wrap';
-let TEXTURES_DIRTY_WHITE = 'dirty-white';
-let TEXTURES_DIRTY_GRAY = 'dirty-gray';
-let TEXTURES_HEALTH = 'health';
-let TEXTURES_DOOR_KNOB = 'door-knob';
+let TEXTURES_INVISIBLE = -1;
+let TEXTURES_STONE = 5;
+let TEXTURES_MOSSY_STONE = 1;
+let TEXTURES_MOSSY_BRICK = 2;
+let TEXTURES_ROTTING_WOOD = 6;
+let TEXTURES_DIRT = 0;
+let TEXTURES_BURNED_STONE = 3;
+let TEXTURES_BLOOD_STONE = 4;
+let TEXTURES_DIRTY_WHITE = 7;
+let TEXTURES_DIRTY_GRAY = 8;
+let TEXTURES_HEALTH = 10;
+let TEXTURES_DOOR_KNOB = 9;
 
 let PLAYER_SPEED = 20; // units / s
 let PLAYER_HEIGHT = 4;
 let PLAYER_STEP_SPEED = 300; // ms
 let PLAYER_PAIN_FLASH_DURATION = 1; // s
 
-let GAME_STATE_PLAYING = 'playing';
-let GAME_STATE_STORY = 'story';
-let GAME_STATE_PAUSED = 'paused';
-let GAME_STATE_DIED = 'died';
-let GAME_STATE_WIN = 'win';
+let GAME_STATE_PLAYING = 0;
+let GAME_STATE_STORY = 1;
+let GAME_STATE_PAUSED = 2;
+let GAME_STATE_DIED = 3;
+let GAME_STATE_WIN = 4;
 
 let PAIN_FLASH_DURATION = 200; // ms
 let MENU_COOLDOWN = 0.5; // s
@@ -78,7 +78,7 @@ let openMenuTime = 0;
 let elapsedTime = 0;
 let lastTime = 0;
 let now = 0;
-let gameState = 'menu';
+let gameState;
 let hasRendered = false;
 let viewportWidth = 0;
 let viewportHeight = 0;

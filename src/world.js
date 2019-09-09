@@ -108,7 +108,7 @@ function world_addDoor(startX, endX, startY, endY, startZ, endZ) {
 
 function world_addTable(startX, endX, startY, endY, startZ, endZ) {
   // invisble 
-  world_addPlane(startX, endX, startY, endY, startZ, endZ, null);
+  world_addPlane(startX, endX, startY, endY, startZ, endZ, TEXTURES_INVISIBLE);
 
   // legs
   world_addPlane(startX, startX, startY, endY-1, startZ, startZ, TEXTURES_STONE);
@@ -236,7 +236,7 @@ function world_buildBuffers() {
         let texture = block.texture;
         let n;
 
-        if (!texture) {
+        if (texture === TEXTURES_INVISIBLE) {
           continue;
         }
 

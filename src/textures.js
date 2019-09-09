@@ -71,8 +71,9 @@ function textures_createBrick(colors) {
 }
 
 function textures_init(callback) {
-  textures = {
-    'dirt': {
+  textures = [
+    // 0 - dirt
+    {
       encoding: textures_createRandom([
         '3d3527', 
         '4a493b', 
@@ -83,7 +84,8 @@ function textures_init(callback) {
         '271c10'
       ])
     },
-    'mossy-stone': {
+    // 1 - mossy stone
+    {
       encoding: textures_createTile([
         '464339',
         '282e26',
@@ -100,7 +102,8 @@ function textures_init(callback) {
         '2c2e20'
       ])
     },
-    'mossy-brick': {
+    // 2 - mossy brick
+    {
       encoding: textures_createBrick([
         '6a6554',
         '464339',
@@ -116,8 +119,9 @@ function textures_init(callback) {
         '514938',
         '2c2e20'
       ])
-    },
-    'burned-stone': {
+    }, 
+    // 3 - burned stone
+    {
       encoding: textures_createRandom([
         '434343', 
         '2f2f2f', 
@@ -128,7 +132,8 @@ function textures_init(callback) {
         '0b0b0b'
       ])
     },
-    'blood-stone': {
+    // 4 - blood stone
+    {
       encoding: textures_createRandom([
         'f6a675', 
         '170503', 
@@ -139,7 +144,8 @@ function textures_init(callback) {
         '621a0e'
       ])
     },
-    'stone': {
+    // 5 - stone
+    {
       encoding: textures_createTile([
         '6c6a69',
         '6a5a4b',
@@ -149,7 +155,8 @@ function textures_init(callback) {
         '292322'  
       ])
     },
-    'rotting-wood': {
+    // 6 - rotting wood
+    {
       encoding: textures_createTile([
         '4f4131',
         '2c2822',
@@ -161,7 +168,8 @@ function textures_init(callback) {
         '120c09'  
       ])
     },
-    'dirty-white': {
+    // 7 - dirty white
+    {
       encoding: textures_createRandom([
         'c3c3c3',
         'bbbbbb',
@@ -170,7 +178,8 @@ function textures_init(callback) {
         'b1b1b1'
       ])
     },
-    'dirty-gray': {
+    // 8 - dirty gray
+    {
       encoding: textures_createRandom([
         '6c6a69',
         '6a5a4b',
@@ -180,7 +189,8 @@ function textures_init(callback) {
         '292322'  
       ])
     },
-    'door-knob': {
+    // 9 - door knob
+    {
       encoding: textures_createDoorKnob([
         '6c6a69',
         '6a5a4b',
@@ -190,20 +200,20 @@ function textures_init(callback) {
         '292322'  
       ])
     },
-    'health': {
+    // 10 - health
+    {
       encoding: textures_createRandom([
         '9d170e',
         'c81818'
       ])
     }
-  };
+  ];
 
   let loadedImages = 0;
   let numImages = 0;
-  for (let key in textures) {
+  textures.forEach(function(texture) {
     (function() {
       numImages++;
-      let texture = textures[key];
       let glTexture = texture.glTexture = sceneContext.createTexture();
       let image = texture.image = new Image();
       image.onload = function() {
@@ -215,6 +225,6 @@ function textures_init(callback) {
       
       image.src = texture.encoding;
     })();
-  }
+  });
 };
 

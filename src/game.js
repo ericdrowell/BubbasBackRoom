@@ -135,7 +135,7 @@ function game_start() {
 
 function game_pause() {
   hudDirty = true;
-  gameState = 'paused';
+  gameState = GAME_STATE_PAUSED;
   soundEffects_play('dialog');
 }
 
