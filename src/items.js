@@ -45,7 +45,7 @@ function items_update() {
     if (dist < 3) {
       player.health = 6;
       items.splice(n, 1);
-      soundEffects_play('health');
+      soundEffects_play(SOUND_EFFECTS_HEALTH);
     }
   });
 }

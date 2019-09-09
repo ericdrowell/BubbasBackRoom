@@ -34,7 +34,7 @@ function monsters_hurt(id) {
 
       world_moveObject(monster, 5*xDiff/dist, 0, 5*zDiff/dist);
 
-      soundEffects_play('hit', 0.3);
+      soundEffects_play(SOUND_EFFECTS_HIT, 0.3);
     }
   }); 
 
@@ -48,7 +48,7 @@ function monsters_restore() {
       if (monster.painFlash <= 0) {
         monster.painFlash = 0;
         if (monster.health <= 0) {
-          soundEffects_play('monster-die');
+          soundEffects_play(SOUND_EFFECTS_MONSTER_DIE);
           monsters.splice(n, 1);
           monsterKills++;
         }
@@ -87,7 +87,7 @@ function monsters_spawn() {
 
   monsterBatch++;
 
-  soundEffects_play('monster-spawn');
+  soundEffects_play(SOUND_EFFECTS_MONSTER_SPAWN);
 }
 
 function monsters_update() {
@@ -126,7 +126,7 @@ function monsters_update() {
       else if (monster.y <= 0 && monster.stepPending) {
         monster.stepPending = false;
         let volume = 0.3 * MONSTER_ATTACK_DIST / (playerMonsterDist*playerMonsterDist)
-        soundEffects_play('monster-walk', volume);
+        soundEffects_play(SOUND_EFFECTS_MONSTER_WALK, volume);
       }
 
       world_moveObject(monster, newMonsterXDiff, newMonsterYDiff, newMonsterZDiff);
@@ -175,7 +175,7 @@ function monsters_attack(id) {
   playerHurting = PLAYER_PAIN_FLASH_DURATION;
   player.health -= 1;
   hudDirty = true;
-  soundEffects_play('hit', 0.5);
+  soundEffects_play(SOUND_EFFECTS_HIT, 0.5);
 
 }
 

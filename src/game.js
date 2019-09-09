@@ -125,20 +125,20 @@ function game_render() {
 
 function game_start() {
   game_resume();
-  soundEffects_play('start');
+  soundEffects_play(SOUND_EFFECTS_START);
 }
 
 function game_pause() {
   hudDirty = true;
   gameState = GAME_STATE_PAUSED;
-  soundEffects_play('dialog');
+  soundEffects_play(SOUND_EFFECTS_DIALOG);
 }
 
 function game_resume() {
   hudDirty = true;
   gameState = GAME_STATE_PLAYING;
   sceneCanvas.requestPointerLock();
-  soundEffects_play('dismiss');
+  soundEffects_play(SOUND_EFFECTS_DIALOG);
 }
 
 function game_win() {
@@ -156,7 +156,6 @@ function game_die() {
   hudDirty = true;
   document.exitPointerLock();
   gameState = GAME_STATE_DIED;
-  soundEffects_play('player-die', 0.5);
 }
 
 function game_update() {
@@ -193,13 +192,12 @@ function game_storyNext() {
 
  
   if (gameStory === 2) {
-    //soundEffects_play('story-start');
     if (ENABLE_MUSIC && !musicPlaying) {
       music_start();
     }
   }
   if (gameStory > 1) {
-    soundEffects_play('dialog');
+    soundEffects_play(SOUND_EFFECTS_DIALOG);
     gameState = GAME_STATE_STORY;
   }
 }

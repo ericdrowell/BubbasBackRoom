@@ -76,7 +76,7 @@ function player_update() {
     playerStep -= elapsedTime;
     if (playerStep < 0) {
       playerStep = PLAYER_STEP_SPEED;
-      soundEffects_play('run');
+      soundEffects_play(SOUND_EFFECTS_RUN);
     }
 
   }
@@ -104,7 +104,7 @@ function player_update() {
 
       if (numBullets < 6) {
         numBullets++;
-        soundEffects_play('reload', 0.5);
+        soundEffects_play(SOUND_EFFECTS_RELOAD, 0.5);
       }
 
       if (numBullets === 6) {
@@ -126,7 +126,7 @@ function player_jump() {
   if (!player.isAirborne) {
     player.upVelocity = JUMP_SPEED;
     player.isAirborne = true;
-    soundEffects_play('jump');
+    soundEffects_play(SOUND_EFFECTS_JUMP);
   }
 }
 
@@ -140,7 +140,7 @@ function player_fire() {
 
     let pixel = hit_getPixel(viewportWidth/2, viewportHeight/2);
 
-    soundEffects_play('shoot');
+    soundEffects_play(SOUND_EFFECTS_SHOOT);
 
     // monsters are in the red channel
     if (pixel[0] === 255) {
@@ -152,13 +152,13 @@ function player_fire() {
     hud_gunRecoil();
   }
   else {
-    soundEffects_play('empty-gun');
+    soundEffects_play(SOUND_EFFECTS_EMPTY_GUN);
   }
 }
 
 function player_reload() {
   if (!isReloading && numBullets < 6) {
-    soundEffects_play('reload-start');
+    soundEffects_play(SOUND_EFFECTS_RELOAD_START);
     isReloading = true;
     reloadTimeRemaining = RELOAD_SPEED;
   }
