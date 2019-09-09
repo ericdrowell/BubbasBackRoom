@@ -192,8 +192,11 @@ function textures_init(callback) {
     // 10 - health
     {
       encoding: textures_createRandom([
-        '9d170e',
-        'c81818'
+        '170503', 
+        'a41800', 
+        'ac300e', 
+        '7d1e18', 
+        '621a0e'
       ])
     }
   ];
