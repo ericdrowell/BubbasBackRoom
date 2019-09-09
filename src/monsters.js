@@ -81,9 +81,11 @@ function monsters_add(x, y, z) {
 }
 
 function monsters_spawn() {
-  //console.log('spawn monster batch ' + monsterBatch);
-  monsters_add(0, 0, 10);
-  monsters_add(0, 0, 5);
+  monsters_add(-10, 0, -38);
+  monsters_add(-10, 0, 18);
+  monsters_add(38, 0, -38);
+  monsters_add(38, 0, 18);
+  
 
   monsters_buildBuffers();
 
@@ -93,7 +95,7 @@ function monsters_spawn() {
 }
 
 function monsters_update() {
-  if (monsterBatch === 0 && player.x > -55) {
+  if (ENABLE_MONSTERS && monsterBatch === 0 && player.x > -55) {
     monsters_spawn();
   }
 

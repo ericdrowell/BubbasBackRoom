@@ -146,7 +146,7 @@ function hud_renderControlsBottom() {
   text_renderLine('..jump', 30, 420, hudContext, 1);
   text_renderLine('..pause', 30, 460, hudContext, 1);
 
-  text_renderLine('click to start', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
+  
 }
 
 function hud_renderDialog() {
@@ -179,6 +179,14 @@ function hud_renderDialog() {
       hud_renderDialogFrame();
       text_renderLine('controls', 75, 150, hudContext, 0);
       hud_renderControlsBottom();
+      text_renderLine('click to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
+    }
+    else if(gameStory === 4) {
+      hud_renderDialogFrame();
+      text_renderLine('next mission', 75, 150, hudContext, 0);
+      text_renderLine('explore bubbas back room', 30, 280, hudContext, 0);
+      text_renderLine('click to start', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
+
     }
 
   }
@@ -186,6 +194,7 @@ function hud_renderDialog() {
     hud_renderDialogFrame();
     text_renderLine('paused', 75, 150, hudContext, 0);
     hud_renderControlsBottom();
+    text_renderLine('click to resume', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
   }
   else if (gameState === GAME_STATE_DIED) {
     hud_renderDialogFrame();
@@ -194,7 +203,7 @@ function hud_renderDialog() {
   }
   else if (gameState === GAME_STATE_WIN) {
     hud_renderDialogFrame();
-    text_renderLine('way to go', 75, 150, hudContext, 0);
+    text_renderLine('you win', 75, 150, hudContext, 0);
 
     if (clickBlock === 0) {
       text_renderLine('click to play again', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);

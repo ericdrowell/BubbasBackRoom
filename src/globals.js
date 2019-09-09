@@ -19,13 +19,16 @@ let MONSTER_ATTACK_DIST = 4;
 
 let TEXTURES_STONE = 'stone';
 let TEXTURES_MOSSY_STONE = 'mossy-stone';
+let TEXTURES_MOSSY_BRICK = 'mossy-brick';
 let TEXTURES_ROTTING_WOOD = 'rotting-wood';
 let TEXTURES_DIRT = 'dirt';
 let TEXTURES_BURNED_STONE = 'burned-stone';
 let TEXTURES_BLOOD_STONE = 'blood-stone';
 let TEXTURES_MUMMY_WRAP = 'mummy-wrap';
-let TEXTURES_FOAM = 'foam';
+let TEXTURES_DIRTY_WHITE = 'dirty-white';
+let TEXTURES_DIRTY_GRAY = 'dirty-gray';
 let TEXTURES_HEALTH = 'health';
+let TEXTURES_DOOR_KNOB = 'door-knob';
 
 let PLAYER_SPEED = 20; // units / s
 let PLAYER_HEIGHT = 4;

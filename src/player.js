@@ -4,15 +4,15 @@ function player_init() {
 // back room
 player = {
   health: 6,
-  pitch: -0.07924777960769419,
+  isAirborne: false,
+  pitch: -0.1200884841043614,
   sideMovement: 0,
   straightMovement: 0,
-  x: -275.38950637525187,
-  y: 27,
-  yaw: 6.177123528071624,
-  z: 45.58826675852633,
   upVelocity: 0,
-  isAirborne: false
+  x: -251.9371103806768,
+  y: 26.5074,
+  yaw: 6.268229715025741,
+  z: 45.063600395573964
 };
 
 // tunnel by temple room
@@ -28,6 +28,21 @@ player = {
 //   upVelocity: 0,
 //   isAirborne: false
 // }
+
+
+// first monster room
+// player = {
+//   health: 6,
+//   pitch: -0.10123892818282226,
+//   sideMovement: 0,
+//   straightMovement: 0,
+//   x: 0,
+//   y: 0,
+//   yaw: 4.73827409272751,
+//   z: 0,
+//   upVelocity: 0,
+//   isAirborne: false
+// };
 
   playerHurting = 0;
   flashTimeRemaining = 0;

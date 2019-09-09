@@ -14,6 +14,32 @@ function world_buildModel() {
   world_addPlane(-241, -241, 27, 28, -8, -7, TEXTURES_DIRT);
   world_addPlane(-241, -241, 34, 35, 1, 2, TEXTURES_DIRT);
   world_addPlane(-241, -241, 34, 35, -8, -7, TEXTURES_DIRT);
+
+  // z tables
+  world_addTable(-289, -285, 27, 28, -8, 12);
+  world_addTable(-289, -285, 29, 32, -8, 12);
+
+  world_addTable(-274, -270, 27, 28, -8, 12);
+  world_addTable(-274, -270, 29, 32, -8, 12);
+
+  world_addTable(-289, -285, 27, 28, 19, 45);
+  world_addTable(-289, -285, 29, 32, 19, 45);
+
+  world_addTable(-274, -270, 27, 28, 19, 45);
+  world_addTable(-274, -270, 29, 32, 19, 45);
+
+  // x tables
+  world_addTable(-262, -242, 27, 28, 3, 7);
+  world_addTable(-262, -242, 29, 32, 3, 7);
+
+  world_addTable(-262, -242, 27, 28, 18, 22);
+  world_addTable(-262, -242, 29, 32, 18, 22);
+
+  // door
+  world_addDoor(-252, -249, 27, 33, 50, 50);
+  
+
+
   // -------------------- DIRT TUNNEL --------------------
 
   
@@ -33,18 +59,18 @@ function world_buildModel() {
   world_addPlane(-61, -51, 10, 10, -2, 2, TEXTURES_DIRT);
 
   // walls
-  world_addPlane(-50, -16, 11, 18, 3, 3, TEXTURES_MOSSY_STONE);
-  world_addPlane(-50, -16, 11, 18, -3, -3, TEXTURES_MOSSY_STONE);
+  world_addPlane(-50, -16, 11, 18, 3, 3, TEXTURES_MOSSY_BRICK);
+  world_addPlane(-50, -16, 11, 18, -3, -3, TEXTURES_MOSSY_BRICK);
 
   // sides
-  world_addPlane(-50, -50, 11, 18, -4, -4, TEXTURES_MOSSY_STONE);
-  world_addPlane(-50, -50, 11, 18, 4, 4, TEXTURES_MOSSY_STONE);
+  world_addPlane(-50, -50, 11, 18, -4, -4, TEXTURES_MOSSY_BRICK);
+  world_addPlane(-50, -50, 11, 18, 4, 4, TEXTURES_MOSSY_BRICK);
 
   // ceiling
   world_addPlane(-50, -15, 18, 18, -2, 2, TEXTURES_ROTTING_WOOD);
 
 
-  // -------------------- TEMPLE ROOM  --------------------
+  // -------------------- FIRST MONSTER ROOM  --------------------
 
   world_addPole(-10, 1, -10, 10);
   world_addPole(10, 1, -10, 10);
@@ -67,8 +93,31 @@ function world_buildModel() {
   // sloped ceiling
   world_addSlope(-22, -14, 12, 18, -2, 2);
   // steps walls
-  world_addPlane(-30, -20, 0, 10, -3, -3, TEXTURES_MOSSY_STONE);
-  world_addPlane(-30, -20, 0, 10, 3, 3, TEXTURES_MOSSY_STONE);
+  world_addPlane(-30, -20, 0, 10, -3, -3, TEXTURES_MOSSY_BRICK);
+  world_addPlane(-30, -20, 0, 10, 3, 3, TEXTURES_MOSSY_BRICK);
+
+}
+
+// utils
+
+function world_addDoor(startX, endX, startY, endY, startZ, endZ) {
+  world_addPlane(startX-1, endX+1, startY, endY+1, startZ, endZ, TEXTURES_ROTTING_WOOD);
+  world_addPlane(startX, endX, startY, endY, startZ, endZ, TEXTURES_DIRTY_GRAY);
+  world_addBlock(startX, startY + MATH_ROUND((endY-startY)/2), startZ, TEXTURES_DOOR_KNOB);
+}
+
+function world_addTable(startX, endX, startY, endY, startZ, endZ) {
+  // invisble 
+  world_addPlane(startX, endX, startY, endY, startZ, endZ, null);
+
+  // legs
+  world_addPlane(startX, startX, startY, endY-1, startZ, startZ, TEXTURES_STONE);
+  world_addPlane(endX, endX, startY, endY-1, startZ, startZ, TEXTURES_STONE);
+  world_addPlane(startX, startX, startY, endY-1, endZ, endZ, TEXTURES_STONE);
+  world_addPlane(endX, endX, startY, endY-1, endZ, endZ, TEXTURES_STONE);
+
+  // table top
+  world_addPlane(startX, endX, endY, endY, startZ, endZ, TEXTURES_ROTTING_WOOD);
 
 }
 
@@ -134,10 +183,10 @@ function world_addRoom(startX, endX, startY, endY, startZ, endZ) {
   world_addPlane(startX, endX, endY, endY, startZ, endZ, TEXTURES_ROTTING_WOOD);
 
   // walls
-  world_addPlane(startX, endX, startY, endY, endZ, endZ, TEXTURES_MOSSY_STONE);
-  world_addPlane(startX, endX, startY, endY, startZ, startZ, TEXTURES_MOSSY_STONE);
-  world_addPlane(startX, startX, startY, endY, startZ, endZ, TEXTURES_MOSSY_STONE);
-  world_addPlane(endX, endX, startY, endY, startZ, endZ, TEXTURES_MOSSY_STONE);
+  world_addPlane(startX, endX, startY, endY, endZ, endZ, TEXTURES_MOSSY_BRICK);
+  world_addPlane(startX, endX, startY, endY, startZ, startZ, TEXTURES_MOSSY_BRICK);
+  world_addPlane(startX, startX, startY, endY, startZ, endZ, TEXTURES_MOSSY_BRICK);
+  world_addPlane(endX, endX, startY, endY, startZ, endZ, TEXTURES_MOSSY_BRICK);
 }
 
 function world_addPlane(startX, endX, startY, endY, startZ, endZ, texture) {
@@ -186,6 +235,10 @@ function world_buildBuffers() {
         let block = world[x][y][z];
         let texture = block.texture;
         let n;
+
+        if (!texture) {
+          continue;
+        }
 
         if (rawBuffers[texture] === undefined) {
           rawBuffers[texture] = [

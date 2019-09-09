@@ -5,7 +5,7 @@ function textures_createRandom(colors) {
     for (let y=0; y<16; y++) {
       textureContext.save();
       textureContext.fillStyle = '#' + u_getRandomElement(colors);
-      textureContext.fillRect(x, y, 2, 2);
+      textureContext.fillRect(x, y, 1, 1);
       textureContext.restore();
     }
   }
@@ -24,6 +24,48 @@ function textures_createTile(colors) {
   textureContext.fillStyle = '#' + colors[colors.length-1];
   textureContext.fillRect(0, 15, 16, 1);
   textureContext.fillRect(15, 1, 1, 16);
+
+  return textureCanvas.toDataURL();
+}
+
+function textures_createDoorKnob(colors) {
+  textures_createRandom(colors);
+
+  textureContext.fillStyle = '#' + colors[colors.length-1];
+  textureContext.fillRect(5, 4, 6, 8);
+  textureContext.fillRect(4, 5, 8, 6);
+  
+  return textureCanvas.toDataURL();
+}
+
+function textures_createBrick(colors) {
+  let backgroundColors = colors.slice(0);
+  backgroundColors.pop();
+  backgroundColors.shift();
+  textures_createRandom(backgroundColors);
+
+  // lights
+  textureContext.fillStyle = '#' + colors[0];
+  textureContext.fillRect(0, 0, 16, 1);
+  textureContext.fillRect(0, 8, 16, 1);
+  textureContext.fillRect(1, 0, 1, 8);
+  textureContext.fillRect(8, 7, 1, 8);
+
+  // darks
+  textureContext.fillStyle = '#' + colors[colors.length-1];
+  textureContext.fillRect(0, 7, 16, 1);
+  textureContext.fillRect(0, 15, 16, 1);
+  textureContext.fillRect(0, 0, 1, 7);
+  textureContext.fillRect(7, 7, 1, 8);
+
+  
+
+
+
+
+
+
+  
 
   return textureCanvas.toDataURL();
 }
@@ -55,6 +97,23 @@ function textures_init(callback) {
         '3d3a30',
         '514938',
         '6a6554',
+        '2c2e20'
+      ])
+    },
+    'mossy-brick': {
+      encoding: textures_createBrick([
+        '6a6554',
+        '464339',
+        '282e26',
+        '303e1a',
+        '444b31',
+        '393c2c',
+        '33352f',
+        '333435',
+        '2c2e23',
+        '3d3f36',
+        '3d3a30',
+        '514938',
         '2c2e20'
       ])
     },
@@ -102,13 +161,33 @@ function textures_init(callback) {
         '120c09'  
       ])
     },
-    'foam': {
+    'dirty-white': {
       encoding: textures_createRandom([
         'c3c3c3',
         'bbbbbb',
         'bfbfbf',
         'c0c0c0',
         'b1b1b1'
+      ])
+    },
+    'dirty-gray': {
+      encoding: textures_createRandom([
+        '6c6a69',
+        '6a5a4b',
+        '665f5f',
+        '3b3534',
+        '645444',
+        '292322'  
+      ])
+    },
+    'door-knob': {
+      encoding: textures_createDoorKnob([
+        '6c6a69',
+        '6a5a4b',
+        '665f5f',
+        '3b3534',
+        '645444',
+        '292322'  
       ])
     },
     'health': {

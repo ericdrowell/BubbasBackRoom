@@ -18,7 +18,7 @@ function sprite_init(callback) {
 }
 
 function sprite_addHealth() {
-  let foamPattern = spriteContext.createPattern(textures[TEXTURES_FOAM].image, 'repeat');
+  let pattern = spriteContext.createPattern(textures[TEXTURES_DIRTY_WHITE].image, 'repeat');
 
   let gradient = spriteContext.createLinearGradient(-10, 0, 10, 0);
 
@@ -95,7 +95,7 @@ function sprite_addHealth() {
       spriteContext.translate(0, -20);
       spriteContext.scale(1, 0.5);
       spriteContext.arc(0, 0, 25, 0, 2*MATH_PI, false);
-      canvas2d_fillPattern(spriteContext, 2, foamPattern);
+      canvas2d_fillPattern(spriteContext, 2, pattern);
     spriteContext.restore();
 
     // x
