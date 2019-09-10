@@ -22,7 +22,7 @@ function items_add(x, y, z) {
 }
 
 function items_spawn() {
-  items_add(0, 1, -5);
+  items_add(25, 3.5, -27);
   items_buildBuffers();
   itemBatch++;
 }
@@ -33,7 +33,7 @@ function items_update() {
   }
 
   items.forEach(function(item, n) {
-    item.y = item.startY + Math.sin(now*0.001);
+    item.y = item.startY + 0.5 * Math.sin(now*0.001);
     item.yaw = now * 0.001;
 
     // if player touches it

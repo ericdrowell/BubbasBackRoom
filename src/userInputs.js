@@ -119,11 +119,11 @@ function userInputs_handleMouseDown() {
       if (gameStory === 0) {
 
       }
-      else if (gameStory < 4 ) {
+      else if (gameStory < 3 ) {
         hudDirty = true;
         game_storyNext();
       }
-      else if (gameStory === 4) {
+      else if (gameStory === 3) {
         hudDirty = true;
         game_start();
       }

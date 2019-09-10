@@ -15,7 +15,7 @@ player = {
   z: 45
 };
 
-// tunnel by temple room
+// end of first tunnel
 // player = {
 //   health: 6,
 //   pitch: -0.10123892818282226,
@@ -36,12 +36,41 @@ player = {
 //   pitch: -0.10123892818282226,
 //   sideMovement: 0,
 //   straightMovement: 0,
-//   x: 0,
+//   x: -5,
 //   y: 0,
 //   yaw: 4.73827409272751,
 //   z: 0,
 //   upVelocity: 0,
 //   isAirborne: false
+// };
+
+
+// first pillar room
+// player = {
+//   health: 6,
+// isAirborne: false,
+// pitch: -0.2363274122871835,
+// sideMovement: 0,
+// straightMovement: 0,
+// upVelocity: 0,
+// x: 50.28245841255818,
+// y: -0.49950000000000006,
+// yaw: 4.483805087786748,
+// z: -0.06075657221456948,
+// };
+
+// end long hallway
+// player = {
+// health: 6,
+// isAirborne: false,
+// pitch: -0.1295132620651325,
+// sideMovement: 0,
+// straightMovement: 0,
+// upVelocity: 0,
+// x: 74.18563268989244,
+// y: 6.500199999999995,
+// yaw: 6.211681047261144,
+// z: -190.85177464751408,
 // };
 
   playerHurting = 0;

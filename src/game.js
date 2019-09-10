@@ -1,4 +1,4 @@
-let ENABLE_MUSIC = true;
+let ENABLE_MUSIC = false;
 let ENABLE_MONSTERS = true;
 
 // start game - have to do it this way because I need the compressor to convert game_init() to the right variable name
@@ -172,7 +172,7 @@ function game_update() {
     if (player.health <= 0) {
       game_die();
     }
-    else if (monsterKills === 4) {
+    else if (monsterKills === 5) {
       game_win();
     }
     

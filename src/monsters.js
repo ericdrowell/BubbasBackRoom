@@ -77,10 +77,10 @@ function monsters_add(x, y, z) {
 }
 
 function monsters_spawn() {
-  monsters_add(-10, 0, -38);
-  monsters_add(-10, 0, 18);
-  monsters_add(38, 0, -38);
-  monsters_add(38, 0, 18);
+  monsters_add(-10, 0, -28);
+  monsters_add(-10, 0, 28);
+  monsters_add(58, 0, -28);
+  monsters_add(58, 0, 28);
   
 
   monsters_buildBuffers();

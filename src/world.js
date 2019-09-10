@@ -7,13 +7,14 @@ function world_buildModel() {
 
   // -------------------- BACK ROOM --------------------
   world_addRoom(-290, -241, 26, 36, -10, 50);
-  world_removePlane(-241, -241, 26, 36, -8, 2);
+  world_removeTunnelEntrance(-241, 31, -3);
+  // world_removePlane(-241, -241, 26, 36, -8, 2);
 
-  // tunnel filler
-  world_addPlane(-241, -241, 27, 28, 1, 2, TEXTURES_DIRT);
-  world_addPlane(-241, -241, 27, 28, -8, -7, TEXTURES_DIRT);
-  world_addPlane(-241, -241, 34, 35, 1, 2, TEXTURES_DIRT);
-  world_addPlane(-241, -241, 34, 35, -8, -7, TEXTURES_DIRT);
+  // // tunnel filler
+  // world_addPlane(-241, -241, 27, 28, 1, 2, TEXTURES_DIRT);
+  // world_addPlane(-241, -241, 27, 28, -8, -7, TEXTURES_DIRT);
+  // world_addPlane(-241, -241, 34, 35, 1, 2, TEXTURES_DIRT);
+  // world_addPlane(-241, -241, 34, 35, -8, -7, TEXTURES_DIRT);
 
   // z tables
   world_addTable(-289, -285, 27, 28, -8, 12);
@@ -43,9 +44,7 @@ function world_buildModel() {
   // -------------------- DIRT TUNNEL --------------------
 
   
-  
-  
-  
+ 
   world_addTunnel(-241, -141, 26, 16, -3, 5);
   world_addTunnel(-140, -101, 16, 11, 5, -5);
   world_addTunnel(-100, -82, 11, 19, -5, 5);
@@ -72,33 +71,125 @@ function world_buildModel() {
 
   // -------------------- FIRST MONSTER ROOM  --------------------
 
-  world_addPole(-10, 1, -10, 10);
-  world_addPole(10, 1, -10, 10);
-  world_addPole(-10, 1, 10, 10);
+
+  world_addRoom(-20, 60, -1, 10, -30, 30);
+
+  world_addPoles(-20, 60, 0, 9, -30, 30);
   
   // broken pole
-  world_addPlane(9, 11, 0, 0, 9, 11, TEXTURES_STONE);
-  world_addPlane(10, 10, 1, 3, 10, 10, TEXTURES_STONE);
-  world_addPlane(7, 11, 0, 0, 5, 5, TEXTURES_STONE);
-  world_addPlane(9, 11, 9, 9, 9, 11, TEXTURES_STONE);
+  // world_addPlane(9, 11, 0, 0, 9, 11, TEXTURES_STONE);
+  // world_addPlane(10, 10, 1, 3, 10, 10, TEXTURES_STONE);
+  // world_addPlane(7, 11, 0, 0, 5, 5, TEXTURES_STONE);
+  // world_addPlane(9, 11, 9, 9, 9, 11, TEXTURES_STONE);
 
-  world_addRoom(-20, 40, -1, 10, -40, 20);
+
   // cut out step doorway
   world_removePlane(-20, -20, 0, 10, -2, 2);
   // cut out step top
   world_removePlane(-20, -15, 10, 10, -2, 2);
 
   // steps
-  world_addSlope(-30, -20, 0, 10, -2, 2);
+  world_addSlope(-30, -20, 10, -2, 2);
   // sloped ceiling
-  world_addSlope(-22, -14, 12, 18, -2, 2);
+  world_addSlope(-22, -14, 18, -2, 2);
   // steps walls
   world_addPlane(-30, -20, 0, 10, -3, -3, TEXTURES_MOSSY_BRICK);
   world_addPlane(-30, -20, 0, 10, 3, 3, TEXTURES_MOSSY_BRICK);
 
+  // table for health
+  world_addTable(20, 30, 0, 2, -29, -26);
+
+
+  // -------------------- PLATFORM ROOM  --------------------
+
+  world_addRoom(69, 100, -10, 25, -20, 20);
+
+  world_addDoorwayZ(60, 0, 0);
+  
+
+  //world_addPlane(60, 66, -1, -1, -2, 2, TEXTURES_MOSSY_STONE);
+
+  world_addSlope(60, 68, -1, -2, 2);
+
+  world_removePlane(69, 69, -9, 6, -2, 2);
+
+  world_addPillar(92, -9, -15, 3);
+  world_addPillar(95, -9, -5, 6);
+  world_addPillar(90, -9, 9, 9);
+  world_addPillar(77, -9, 8, 13);
+  world_addPillar(77, -9, -8, 13);
+  //world_addPillar(75, -9, -19, 16);
+
+  
+
+  // -------------------- HALLWAY  --------------------
+
+
+  world_addRoom(77, 83, 6, 14, -220, -20);
+
+  world_addDoorwayX(80, 7, -20);
+
+  world_addTable(78, 82, 7, 9, -219, -217)
+
+  // -------------------- SECOND TUNNEL  --------------------
+
+  world_removeTunnelEntrance(77, 10, -200);
+
+  world_addTunnel(72, 77, 5, 5, -200, -200);
+  world_addTunnel(20, 72, 0, 5, -220, -200);
+  world_addTunnel(-20, 20, -5, 0, -230, -220);
+  world_addTunnel(-40, -20, -10, -5, -230, -230);
+  world_addTunnel(-80, -40, -14, -10, -226, -230);
+  
+  world_addRoom(-110, -85, -15, 0, -240, -210);
+  world_addTunnel(-85, -80, -15, -14, -226, -226);
+
+
+  // -------------------- HOLE ROOM  --------------------
+
+  world_removeTunnelEntrance(-85, -10, -226);
+
+  world_addPlane(-103, -96, -14, -14, -229, -222, TEXTURES_STONE);
+
+  world_addPillar(-108, -14, -238, 13);
+  world_addPillar(-108, -14, -212, 13);
+  world_addPillar(-87, -14, -238, 13);
+  world_addPillar(-87, -14, -212, 13);
+
+  world_removePlane(-102, -97, -15, -14, -228, -223);
+
 }
 
 // utils
+
+function world_removeTunnelEntrance(x, y, z) {
+  world_removePlane(x, x, y-4, y+4, z-3, z+3);
+  world_removePlane(x, x, y-3, y+3, z-4, z+4);
+}
+function world_addDoorwayX(x, y, z) {
+  world_addPlane(x-3, x+3, y, y+7, z, z, TEXTURES_ROTTING_WOOD);
+  world_removePlane(x-2, x+2, y, y+6, z, z);
+}
+
+function world_addDoorwayZ(x, y, z) {
+  world_addPlane(x, x, y, y+7, z-3, z+3, TEXTURES_ROTTING_WOOD);
+  world_removePlane(x, x, y, y+6, z-2, z+2);
+}
+
+function world_addPillar(x, y, z, height) {
+  world_addPole(x-1, y, z, height);
+  world_addPole(x+1, y, z, height);
+  world_addPole(x, y, z-1, height);
+  world_addPole(x, y, z+1, height);
+}
+
+function world_addPoles(startX, endX, startY, endY, startZ, endZ) {
+  for (let x = startX+20; x<endX; x+=20) {
+    for (let z = startZ+20; z<endZ; z+=20) {
+      world_addPole(x, startY, z, endY-startY);
+    }
+  }
+}
 
 function world_addDoor(startX, endX, startY, endY, startZ, endZ) {
   world_addPlane(startX-1, endX+1, startY, endY+1, startZ, endZ, TEXTURES_ROTTING_WOOD);
@@ -122,12 +213,12 @@ function world_addTable(startX, endX, startY, endY, startZ, endZ) {
 }
 
 function world_addPole(x, y, z, height) {
-  world_addPlane(x-1, x+1, y-1, y-1, z-1, z+1, TEXTURES_STONE);
-  world_addPlane(x, x, y, y+height-1, z, z, TEXTURES_STONE);
-  world_addPlane(x-1, x+1, y+height-2, y+height-2, z-1, z+1, TEXTURES_STONE);
+  world_addPlane(x-1, x+1, y, y, z-1, z+1, TEXTURES_STONE);
+  world_addPlane(x, x, y, y+height, z, z, TEXTURES_STONE);
+  world_addPlane(x-1, x+1, y+height, y+height, z-1, z+1, TEXTURES_STONE);
 }
 
-function world_addSlope(startX, endX, startY, endY, startZ, endZ) {
+function world_addSlope(startX, endX, endY, startZ, endZ) {
   let y = endY;
   for (let x = startX; x <= endX; x++) {
     world_addPlane(x, x, y, y, startZ, endZ, TEXTURES_ROTTING_WOOD); 
@@ -223,7 +314,9 @@ function world_removePlane(startX, endX, startY, endY, startZ, endZ) {
 }
 
 function world_removeBlock(x, y, z) {
-  delete world[x][y][z];
+  if (world[x] && world[x][y] && world[x][y][z]) {
+    delete world[x][y][z];
+  }
 }
 
 function world_buildBuffers() {
@@ -234,7 +327,6 @@ function world_buildBuffers() {
       for (let z in world[x][y]) {
         let block = world[x][y][z];
         let texture = block.texture;
-        let n;
 
         if (texture === TEXTURES_INVISIBLE) {
           continue;
@@ -256,7 +348,7 @@ function world_buildBuffers() {
         let lastBuffer = rawBuffers[texture][rawBuffers[texture].length-1];
 
         // used to slightly offset all blocks so they don't fit perfectly, and create a more organic fitting
-        let randomOffset = (Math.random() - 0.5) * 0.1;
+        let randomOffset = texture === TEXTURES_DIRT ? 0 : (Math.random() - 0.5) * 0.1;
 
         // position buffer
         for (let n = 0; n < CUBE_BUFFERS.position.length; n+=3) {

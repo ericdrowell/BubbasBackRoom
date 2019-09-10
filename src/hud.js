@@ -181,13 +181,7 @@ function hud_renderDialog() {
       hud_renderControlsBottom();
       text_renderLine('click to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
     }
-    else if(gameStory === 4) {
-      hud_renderDialogFrame();
-      text_renderLine('next mission', 75, 150, hudContext, 0);
-      text_renderLine('explore bubbas back room', 30, 280, hudContext, 0);
-      text_renderLine('click to start', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
 
-    }
 
   }
   else if (gameState === GAME_STATE_PAUSED) {

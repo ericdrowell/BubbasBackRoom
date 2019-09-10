@@ -15,9 +15,9 @@
     }
   },
   "scripts": {
-    "build": "npm run create-dist && npm run minify-glsl && node scripts/buildShaders && npm run concat && cp sprites/alphabet-tiny.gif dist",
-    "prod": "npm run build && node scripts/wrap.js && npm run uglify && node scripts/replace.js && npm run html && npm run zip",
-    "dev": "npm run build && cp ./dist/game-concatenated.js ./dist/bubbas-back-room.min.js && node scripts/replace.js && npm run html",
+    "build": "node scripts/buildShaders && npm run concat && cp sprites/alphabet-tiny.gif dist",
+    "prod": "npm run create-dist && npm run minify-glsl && npm run build && node scripts/wrap.js && npm run uglify && node scripts/replace.js && npm run html && npm run zip",
+    "dev": "npm run create-dist && cp ./src/shaders/* ./dist/shaders && npm run build && cp ./dist/game-concatenated.js ./dist/bubbas-back-room.min.js && node scripts/replace.js && npm run html",
     "jshint": "jshint ./src/*.js",
     "create-dist": "rm -rf ./dist && mkdir ./dist && mkdir ./dist/shaders",
     "closure": "google-closure-compiler --compilation_level=ADVANCED --js=./dist/game-wrapped.js --js_output_file=./dist/bubbas-back-room.min.js",

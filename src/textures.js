@@ -59,6 +59,16 @@ function textures_createBrick(colors) {
   return textureCanvas.toDataURL();
 }
 
+function textures_createHealth(colors) {
+  let backgroundColors = colors.slice(0);
+  backgroundColors.shift();
+  textures_createRandom(backgroundColors);
+  textureContext.fillStyle = '#' + colors[0];
+  textureContext.fillRect(0, 0, 16, 1);
+
+  return textureCanvas.toDataURL();
+}
+
 function textures_init(callback) {
   textures = [
     // 0 - dirt
@@ -191,12 +201,12 @@ function textures_init(callback) {
     },
     // 10 - health
     {
-      encoding: textures_createRandom([
-        '170503', 
-        'a41800', 
-        'ac300e', 
-        '7d1e18', 
-        '621a0e'
+      encoding: textures_createHealth([
+        'c0c0c0', 
+        'c41c21', 
+        '941618', 
+        'a81a1a', 
+        '7f1414'
       ])
     }
   ];
