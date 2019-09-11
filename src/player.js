@@ -2,32 +2,32 @@ function player_init() {
 
 
 // back room
-player = {
-  health: 6,
-  isAirborne: false,
-  pitch: -0.12,
-  sideMovement: 0,
-  straightMovement: 0,
-  upVelocity: 0,
-  x: -251.9,
-  y: 26.5,
-  yaw: 6.3,
-  z: 45
-};
-
-// end of first tunnel
 // player = {
 //   health: 6,
-//   pitch: -0.10123892818282226,
+//   isAirborne: false,
+//   pitch: -0.12,
 //   sideMovement: 0,
 //   straightMovement: 0,
-//   x: -62.67023136178909,
-//   y: 10.500999999999998,
-//   yaw: 4.73827409272751,
-//   z: 0.4229865121474473,
 //   upVelocity: 0,
-//   isAirborne: false
-// }
+//   x: -251.9,
+//   y: 26.5,
+//   yaw: 6.3,
+//   z: 45
+// };
+
+// end of first tunnel
+player = {
+  health: 6,
+  pitch: -0.10123892818282226,
+  sideMovement: 0,
+  straightMovement: 0,
+  x: -62.67023136178909,
+  y: 10.500999999999998,
+  yaw: 4.73827409272751,
+  z: 0.4229865121474473,
+  upVelocity: 0,
+  isAirborne: false
+}
 
 
 // first monster room
@@ -81,6 +81,11 @@ player = {
 }
 
 function player_update() {
+  if (gameStory < 10 && player.x >= 57 && player.x <= 60 && player.z >= -2 && player.z <= 2) {
+    soundEffects_play(SOUND_EFFECTS_DIALOG);
+    gameState = GAME_STATE_ROOM_BLOCK_1;
+  }
+
   // handle moving forward and backward
   if (player.straightMovement !== 0) {
     let direction = player.straightMovement === 1 ? -1 : 1;

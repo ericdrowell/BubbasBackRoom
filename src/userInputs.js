@@ -115,22 +115,8 @@ function userInputs_handleMouseDown() {
     if (gameState === GAME_STATE_PLAYING) {
       player_fire();
     }
-    else if (gameState === GAME_STATE_STORY) {
-      if (gameStory === 0) {
-
-      }
-      else if (gameStory < 3 ) {
-        hudDirty = true;
-        game_storyNext();
-      }
-      else if (gameStory === 3) {
-        hudDirty = true;
-        game_start();
-      }
-      else {
-        hudDirty = true;
-        game_resume();
-      }
+    else if (gameState === GAME_STATE_STORY && (gameStory === 1 || gameStory === 3 || gameStory === 5 || gameStory === 10 || gameStory === 15)) {
+      gameStory++;
     }
     else if (gameState === GAME_STATE_PAUSED) {
       hudDirty = true;

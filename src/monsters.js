@@ -19,8 +19,7 @@ let MONSTER_CUBES = [
 
 function monsters_init() {
   monsters = [];
-  monsterKills = 0;
-  monsterBatch = 0;
+  monstersKilled = 0;
 }
 
 function monsters_hurt(id) {
@@ -50,7 +49,7 @@ function monsters_restore() {
         if (monster.health <= 0) {
           soundEffects_play(SOUND_EFFECTS_MONSTER_DIE);
           monsters.splice(n, 1);
-          monsterKills++;
+          monstersKilled++;
         }
       }
     }
@@ -62,8 +61,9 @@ function monsters_add(x, y, z) {
     x: x,
     y: y,
     z: z,
+    startY: y,
     painFlash: 0,
-    health: 6,
+    health: 1,
     yaw: 0,
     attackCooldown: 0,
     turnFrequency: 0.001 + Math.random() * 0.001,
@@ -76,27 +76,29 @@ function monsters_add(x, y, z) {
   });
 }
 
-function monsters_spawn() {
-  monsters_add(-10, 0, -28);
-  monsters_add(-10, 0, 28);
-  monsters_add(58, 0, -28);
-  monsters_add(58, 0, 28);
-  
+function monsters_spawn(batch) {
+  if (batch == 0) {
+    // 4
+    monsters_add(-10, 0, -28);
+    monsters_add(-10, 0, 28);
+    monsters_add(58, 0, -28);
+    monsters_add(58, 0, 28);
+  }
+  else if (batch === 1) {
+    // 6
+    monsters_add(85, -9, 15);
+    monsters_add(85, -9, -15);
+    monsters_add(75, -9, 15);
+    monsters_add(75, -9, -15);
+    monsters_add(95, -9, 15);
+    monsters_add(95, -9, -15);
+  }
 
   monsters_buildBuffers();
-
-  monsterBatch++;
-
   soundEffects_play(SOUND_EFFECTS_MONSTER_SPAWN);
 }
 
 function monsters_update() {
-  if (ENABLE_MONSTERS && monsterBatch === 0 && player.x > -55) {
-    monsters_spawn();
-  }
-
-
-
   let distEachFrame = MONSTER_SPEED * elapsedTime / 1000;
 
   monsters.forEach(function(monster) {
@@ -117,24 +119,26 @@ function monsters_update() {
     let playerMonsterDist = Math.sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
     if (playerMonsterDist > MONSTER_ATTACK_DIST) {
       let newMonsterXDiff = -1 * distEachFrame * Math.cos(yaw);
-      let newMonsterYDiff = (0.3 * Math.sin(now * 0.02 + monster.bobbleOffset)) - monster.y;
+      // handle gravity
+      monster.upVelocity += GRAVITY * elapsedTime / 1000;
+      let newMonsterYDiff = monster.upVelocity * elapsedTime / 1000;
+      //let newMonsterYDiff = 0; //(0.3 * Math.sin(now * 0.02 + monster.bobbleOffset)) - monster.y;
       let newMonsterZDiff = -1 * distEachFrame * Math.sin(yaw);
 
-      if (monster.y > 0) {
-        monster.stepPending = true;
-      }
-      else if (monster.y <= 0 && monster.stepPending) {
-        monster.stepPending = false;
-        let volume = 0.3 * MONSTER_ATTACK_DIST / (playerMonsterDist*playerMonsterDist)
-        soundEffects_play(SOUND_EFFECTS_MONSTER_WALK, volume);
-      }
+      // if (monster.y > 0) {
+      //   //monster.stepPending = true;
+      // }
+      // else if (monster.y <= 0 && monster.stepPending) {
+      //   // monster.stepPending = false;
+      //   // let volume = 0.3 * MONSTER_ATTACK_DIST / (playerMonsterDist*playerMonsterDist)
+      //   // soundEffects_play(SOUND_EFFECTS_MONSTER_WALK, volume);
+      // }
+
+
 
       world_moveObject(monster, newMonsterXDiff, newMonsterYDiff, newMonsterZDiff);
 
-      // hack for now so monsters don't go below the floor
-      if (monster.y < 0) {
-        monster.y = 0;
-      }
+
     }
     else {
       if (monster.attackCooldown === 0) {

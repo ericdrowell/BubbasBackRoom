@@ -1,4 +1,4 @@
-let ENABLE_MUSIC = false;
+let ENABLE_MUSIC = true;
 let ENABLE_MONSTERS = true;
 
 // start game - have to do it this way because I need the compressor to convert game_init() to the right variable name
@@ -53,7 +53,6 @@ function game_restart() {
   items_init();
   gameState = GAME_STATE_STORY;
   gameStory = 1;
-  game_storyNext();
 }
 
 function game_setViewportSize() {
@@ -78,18 +77,18 @@ function game_setViewportSize() {
 function game_setReady() {
   hudDirty = true;
   if (ENABLE_MUSIC && spritesReady && musicReady) {
-    game_storyNext();
+    gameStory++;
   }
 
   if (!ENABLE_MUSIC && spritesReady) {
-    game_storyNext();
+    gameStory++;
   }
 }
 
 
 function game_render() {
   // TODO: should use dirty flag instead of looking at state
-  if (gameState === GAME_STATE_PLAYING || gameStory < 2) {
+  if (gameState === GAME_STATE_PLAYING || (!firstRender && texturesReady)) {
     let viewAngle = 45; // 45 -> 90
     let minDist = 0.1;
     let maxDist = 150; // 100
@@ -114,6 +113,7 @@ function game_render() {
     sceneCanvas.style.marginLeft = marginLeft + 'px';
     hudCanvas.style.marginLeft = marginLeft + 'px';
 
+    firstRender = true;
     
   }
 
@@ -158,7 +158,71 @@ function game_die() {
   gameState = GAME_STATE_DIED;
 }
 
+function game_triggers() { 
+  // on first screen.  user clicked to continue
+  if (gameStory === 2) {
+    hud_openDialog();
+
+    if (ENABLE_MUSIC && !musicPlaying) {
+      music_start();
+    }
+    gameStory++;
+  }
+  // on controls screen.  user clicked to continue
+  else if (gameStory === 4) {
+    hud_openDialog();
+    gameStory++;
+  }
+  // user pressed enter
+  else if (gameStory === 6) {
+    game_start();
+    gameStory++;
+  }
+  else if (gameStory === 7 && ENABLE_MONSTERS && player.x > -55) {
+    monsters_spawn(0);
+    gameStory++;
+  }
+  else if (gameStory === 8 && player.x > -55) {
+    items_spawn();
+    gameStory++;
+  }
+  else if (gameStory === 9 && player.x >= 57 && player.x <= 60 && player.z >= -2 && player.z <= 2) {
+    hud_openDialog();
+    gameStory++;
+  }
+  else if (gameStory === 11) {
+    game_resume();
+    gameStory++;
+  }
+  else if (gameStory >= 9 && gameStory <= 12 && monstersKilled >= 4) {
+    world_removePlane(60, 60, 0, 7, -2, 2);
+    soundEffects_play(SOUND_EFFECTS_MILESTONE);
+    gameStory = 13;
+  }  
+  else if (gameStory === 13 && player.x >= 61) { 
+    monsters_spawn(1);
+    gameStory++;
+  }
+  else if (gameStory === 14 && player.z < -22) {  
+    hud_openDialog();
+    gameStory++;
+  }
+  else if (gameStory === 16) {
+    game_resume();
+    gameStory++;
+  }
+  else if (gameStory >= 14 && gameStory <= 17 && monstersKilled >= 10) {
+    world_removePlane(78, 82, 7, 14, -25, -25);
+    soundEffects_play(SOUND_EFFECTS_MILESTONE);
+    gameStory = 18;
+  }  
+}
+
 function game_update() {
+  game_triggers();
+
+  // handle click block
+  // TODO: should move this to hud
   if (clickBlock > 0) {
     clickBlock -= elapsedTime;
     if (clickBlock <= 0) {
@@ -167,12 +231,11 @@ function game_update() {
     }
   }
   
-
   if (gameState === GAME_STATE_PLAYING) {
     if (player.health <= 0) {
       game_die();
     }
-    else if (monsterKills === 5) {
+    else if (monstersKilled === 100) {
       game_win();
     }
     
@@ -183,30 +246,13 @@ function game_update() {
   hud_update();
 }
 
-
-function game_storyNext() {
-  gameStory++;
-  player.straightMovement = 0;
-  player.sideMovement = 0;
-  document.exitPointerLock();
-
- 
-  if (gameStory === 2) {
-    if (ENABLE_MUSIC && !musicPlaying) {
-      music_start();
-    }
-  }
-  if (gameStory > 1) {
-    soundEffects_play(SOUND_EFFECTS_DIALOG);
-    gameState = GAME_STATE_STORY;
-  }
-}
-
 function game_loop() {
   now = new Date().getTime();
   if (lastTime !== 0) {
     elapsedTime = now - lastTime;
   }
+
+  //console.log(elapsedTime)
 
   game_update();
   game_render();

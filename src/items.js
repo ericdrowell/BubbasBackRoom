@@ -6,7 +6,6 @@ let HEALTH_CUBES = [
 
 function items_init() {
   items = [];
-  itemBatch = 0;
 }
 
 function items_add(x, y, z) {
@@ -24,14 +23,9 @@ function items_add(x, y, z) {
 function items_spawn() {
   items_add(25, 3.5, -27);
   items_buildBuffers();
-  itemBatch++;
 }
 
 function items_update() {
-  if (itemBatch === 0 && player.x > -55) {
-    items_spawn();
-  }
-
   items.forEach(function(item, n) {
     item.y = item.startY + 0.5 * Math.sin(now*0.001);
     item.yaw = now * 0.001;

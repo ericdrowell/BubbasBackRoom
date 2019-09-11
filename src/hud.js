@@ -149,6 +149,15 @@ function hud_renderControlsBottom() {
   
 }
 
+function hud_openDialog() {
+  player.straightMovement = 0;
+  player.sideMovement = 0;
+  document.exitPointerLock();
+  hudDirty = true;
+  gameState = GAME_STATE_STORY;
+  soundEffects_play(SOUND_EFFECTS_DIALOG);
+}
+
 function hud_renderDialog() {
   if (gameState === GAME_STATE_STORY) {
     if (gameStory === 0) {
@@ -163,7 +172,7 @@ function hud_renderDialog() {
       text_renderLine('created by @ericdrowell', 30, 280, hudContext, 0);
       text_renderLine('click to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
     }
-    else if(gameStory === 2) {
+    else if(gameStory === 3) {
       hud_renderDialogFrame();
  
       text_renderLine('ring. ring. ring.', 30, 170, hudContext, 0);
@@ -175,10 +184,24 @@ function hud_renderDialog() {
       text_renderLine('hes in the back room.', 30, 420, hudContext, 0);
       text_renderLine('click to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
     }
-    else if(gameStory === 3) {
+    else if(gameStory === 5) {
       hud_renderDialogFrame();
       text_renderLine('controls', 75, 150, hudContext, 0);
       hud_renderControlsBottom();
+      text_renderLine('click to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
+    }
+    else if(gameStory === 10) {
+      hud_renderDialogFrame();
+      text_renderLine('wait a minute.  i should kill the zombies', 30, 260, hudContext, 0);
+      text_renderLine('in case they escape into the gas station.', 30, 300, hudContext, 0);
+      text_renderLine('i dont want my boss to fire me.', 30, 340, hudContext, 0);
+      text_renderLine('click to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
+    }
+    else if(gameStory === 15) {
+      hud_renderDialogFrame();
+      text_renderLine('wait a minute.  i should kill the zombies', 30, 260, hudContext, 0);
+      text_renderLine('in case they escape into the gas station.', 30, 300, hudContext, 0);
+      text_renderLine('i dont want my boss to fire me.', 30, 340, hudContext, 0);
       text_renderLine('click to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
     }
 
