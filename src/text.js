@@ -1,4 +1,4 @@
-function text_renderLine(str, height, y, context, align) {
+function text_renderLine(str, height, y, align) {
   let scale = height / TEXT_HEIGHT;
   let width = text_getWidth(str, height);
   let startX;
@@ -18,8 +18,8 @@ function text_renderLine(str, height, y, context, align) {
 
   let x = startX;
 
-  context.save();
-  context.translate(0, 0);
+  hudContext.save();
+  hudContext.translate(0, 0);
 
   for (let n=0; n<str.length; n++) {
     let char = str[n];
@@ -57,7 +57,7 @@ function text_renderLine(str, height, y, context, align) {
     }
   }
 
-  context.restore();
+  hudContext.restore();
 }
 
 function text_getWidth(str, height) {

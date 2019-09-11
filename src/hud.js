@@ -145,8 +145,6 @@ function hud_renderControlsBottom() {
   text_renderLine('..reload', 30, 380, hudContext, 1);
   text_renderLine('..jump', 30, 420, hudContext, 1);
   text_renderLine('..pause', 30, 460, hudContext, 1);
-
-  
 }
 
 function hud_openDialog() {
@@ -159,74 +157,69 @@ function hud_openDialog() {
 }
 
 function hud_renderDialog() {
+  let bottomLineY = OPTIMAL_VIEWPORT_HEIGHT - 180;
+
   if (gameState === GAME_STATE_STORY) {
+    hud_renderDialogFrame();
     if (gameStory === 0) {
-      hud_renderDialogFrame();
-      text_renderLine('bubbas back room', 75, 160, hudContext, 0);
-      text_renderLine('created by @ericdrowell', 30, 280, hudContext, 0);
-      text_renderLine('loading...', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
+      
+      text_renderLine('bubbas back room', 75, 160, 0);
+      text_renderLine('created by @ericdrowell', 30, 280, 0);
+      text_renderLine('loading...', 30, bottomLineY, 0);
     }
     else if(gameStory === 1) {
-      hud_renderDialogFrame();
-      text_renderLine('bubbas back room', 75, 160, hudContext, 0);
-      text_renderLine('created by @ericdrowell', 30, 280, hudContext, 0);
-      text_renderLine('click to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
+      text_renderLine('bubbas back room', 75, 160, 0);
+      text_renderLine('created by @ericdrowell', 30, 280, 0);
+      text_renderLine('click to continue', 30, bottomLineY, 0);
     }
     else if(gameStory === 3) {
-      hud_renderDialogFrame();
- 
-      text_renderLine('ring. ring. ring.', 30, 170, hudContext, 0);
+      text_renderLine('ring. ring. ring.', 30, 170, 0);
       
-      text_renderLine('welcome to bubbas gas station.', 30, 260, hudContext, 0);
-      text_renderLine('im bubba your new boss.', 30, 300, hudContext, 0);
-      text_renderLine('my son bubba junior cant wait to eat you.', 30, 340, hudContext, 0);
-      text_renderLine('i mean...meet you...', 30, 380, hudContext, 0);
-      text_renderLine('hes in the back room.', 30, 420, hudContext, 0);
-      text_renderLine('click to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
+      text_renderLine('welcome to bubbas gas station.', 30, 260, 0);
+      text_renderLine('im bubba your new boss.', 30, 300, 0);
+      text_renderLine('my son bubba junior cant wait to eat you.', 30, 340, 0);
+      text_renderLine('i mean...meet you...', 30, 380, 0);
+      text_renderLine('hes in the back room.', 30, 420, 0);
+      text_renderLine('click to continue', 30, bottomLineY, 0);
     }
     else if(gameStory === 5) {
-      hud_renderDialogFrame();
-      text_renderLine('controls', 75, 150, hudContext, 0);
+      text_renderLine('controls', 75, 150, 0);
       hud_renderControlsBottom();
-      text_renderLine('click to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
+      text_renderLine('click to continue', 30, bottomLineY, 0);
     }
     else if(gameStory === 10) {
-      hud_renderDialogFrame();
-      text_renderLine('wait a minute.  i should kill the zombies', 30, 260, hudContext, 0);
-      text_renderLine('in case they escape into the gas station.', 30, 300, hudContext, 0);
-      text_renderLine('i dont want my boss to fire me.', 30, 340, hudContext, 0);
-      text_renderLine('click to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
+      text_renderLine('wait a minute.  i should kill the zombies', 30, 260, 0);
+      text_renderLine('in case they escape into the gas station.', 30, 300, 0);
+      text_renderLine('i dont want my boss to fire me.', 30, 340, 0);
+      text_renderLine('click to continue', 30, bottomLineY, 0);
     }
     else if(gameStory === 15) {
-      hud_renderDialogFrame();
-      text_renderLine('wait a minute.  i should kill the zombies', 30, 260, hudContext, 0);
-      text_renderLine('in case they escape into the gas station.', 30, 300, hudContext, 0);
-      text_renderLine('i dont want my boss to fire me.', 30, 340, hudContext, 0);
-      text_renderLine('click to continue', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
+      text_renderLine('wait a minute.  i should kill the zombies', 30, 260, 0);
+      text_renderLine('in case they escape into the gas station.', 30, 300, 0);
+      text_renderLine('i dont want my boss to fire me.', 30, 340, 0);
+      text_renderLine('click to continue', 30, bottomLineY, 0);
     }
-
-
   }
   else if (gameState === GAME_STATE_PAUSED) {
     hud_renderDialogFrame();
-    text_renderLine('paused', 75, 150, hudContext, 0);
+    text_renderLine('paused', 75, 150, 0);
     hud_renderControlsBottom();
-    text_renderLine('click to resume', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
+    text_renderLine('click to resume', 30, bottomLineY, 0);
   }
   else if (gameState === GAME_STATE_DIED) {
     hud_renderDialogFrame();
-    text_renderLine('you died', 75, 150, hudContext, 0);
-    text_renderLine('click to try again', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
+    text_renderLine('you died', 75, 150, 0);
+    text_renderLine('click to try again', 30, bottomLineY, 0);
   }
   else if (gameState === GAME_STATE_WIN) {
     hud_renderDialogFrame();
-    text_renderLine('you win', 75, 150, hudContext, 0);
+    text_renderLine('you win', 75, 150, 0);
 
     if (clickBlock === 0) {
-      text_renderLine('click to play again', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
+      text_renderLine('click to play again', 30, bottomLineY, 0);
     }
     else {
-      text_renderLine('...', 30, OPTIMAL_VIEWPORT_HEIGHT - 180, hudContext, 0);
+      text_renderLine('...', 30, bottomLineY, 0);
     }
     
   }
