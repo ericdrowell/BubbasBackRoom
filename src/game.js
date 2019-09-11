@@ -75,12 +75,14 @@ function game_setViewportSize() {
 }
 
 function game_setReady() {
-  hudDirty = true;
+  
   if (ENABLE_MUSIC && spritesReady && musicReady) {
+    hudDirty = true;
     gameStory++;
   }
 
   if (!ENABLE_MUSIC && spritesReady) {
+    hudDirty = true;
     gameStory++;
   }
 }

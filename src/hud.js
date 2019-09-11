@@ -132,19 +132,19 @@ function hud_gunRecoil() {
 }
 
 function hud_renderControlsBottom() {
-  text_renderLine('wasd', 30, 260, hudContext, -1);
-  text_renderLine('mouse move', 30, 300, hudContext, -1);
-  text_renderLine('mouse click', 30, 340, hudContext, -1);
-  text_renderLine('r', 30, 380, hudContext, -1);
-  text_renderLine('space', 30, 420, hudContext, -1);
-  text_renderLine('esc', 30, 460, hudContext, -1);
+  text_renderLine('wasd', 30, 260, -1);
+  text_renderLine('mouse move', 30, 300, -1);
+  text_renderLine('mouse click', 30, 340, -1);
+  text_renderLine('r', 30, 380, -1);
+  text_renderLine('space', 30, 420, -1);
+  text_renderLine('esc', 30, 460, -1);
 
-  text_renderLine('..move', 30, 260, hudContext, 1);
-  text_renderLine('..look', 30, 300, hudContext, 1);
-  text_renderLine('..shoot', 30, 340, hudContext, 1);
-  text_renderLine('..reload', 30, 380, hudContext, 1);
-  text_renderLine('..jump', 30, 420, hudContext, 1);
-  text_renderLine('..pause', 30, 460, hudContext, 1);
+  text_renderLine('..move', 30, 260, 1);
+  text_renderLine('..look', 30, 300, 1);
+  text_renderLine('..shoot', 30, 340, 1);
+  text_renderLine('..reload', 30, 380, 1);
+  text_renderLine('..jump', 30, 420, 1);
+  text_renderLine('..pause', 30, 460, 1);
 }
 
 function hud_openDialog() {
