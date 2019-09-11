@@ -1,0 +1,2 @@
+#NOTES
+* to run code coverage, use npm run coverage, then open up the game and plan it, then access code coverage results via window.__coverage__, copy that json, and put it in coverage/coverage.json.  Then run npm run report, and open up the generated html page inside the coverage directory

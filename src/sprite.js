@@ -262,12 +262,12 @@ function sprite_addBullet() {
 }
 
 
-function sprite_show() {
-  spriteCanvas.style.display = 'fixed';
-  spriteCanvas.style.top = 0;
-  document.body.appendChild(spriteCanvas);
+// function sprite_show() {
+//   spriteCanvas.style.display = 'fixed';
+//   spriteCanvas.style.top = 0;
+//   document.body.appendChild(spriteCanvas);
 
-}
+// }
 
 function sprite_draw(context, x, y, width, height) {
   context.drawImage(spriteCanvas, x* PIXEL_RATIO+1, y* PIXEL_RATIO, width* PIXEL_RATIO-2, height* PIXEL_RATIO, 0, 0, width, height);

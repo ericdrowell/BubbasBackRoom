@@ -3,3 +3,4 @@ dist
 **/tmp
 .tmp
 .DS_Store
+coverage
