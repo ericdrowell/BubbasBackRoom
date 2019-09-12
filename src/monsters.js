@@ -107,7 +107,7 @@ function monsters_spawn(batch) {
       for (let n=0; n<12; n++) {
         let xOffset = 2 * Math.random();
         let zOffset = 20 * Math.random();
-        monsters_add(80 + xOffset, 7, -190 + zOffset, false);
+        monsters_add(80 + xOffset, 7, -140 + zOffset, false);
       }
      
     }
