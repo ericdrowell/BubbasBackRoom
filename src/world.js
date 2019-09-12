@@ -104,7 +104,7 @@ function world_buildModel() {
 
   world_addRoom(69, 100, -10, 17, -20, 20);
 
-  world_addDoorwayZ(60, 0, 0, true);
+  world_addDoorwayZ(60, 0, 0);
   
 
   //world_addPlane(60, 66, -1, -1, -2, 2, TEXTURES_MOSSY_STONE);
@@ -205,28 +205,14 @@ function world_removeTunnelEntrance(x, y, z) {
   world_removePlane(x, x, y-4, y+4, z-3, z+3);
   world_removePlane(x, x, y-3, y+3, z-4, z+4);
 }
-function world_addDoorwayX(x, y, z, forceField) {
+function world_addDoorwayX(x, y, z) {
   world_addPlane(x-3, x+3, y, y+7, z, z, TEXTURES_ROTTING_WOOD);
-  
-  if (forceField) { 
-    world_addPlane(x-2, x+2, y, y+6, z, z, TEXTURES_INVISIBLE);
-  }
-  else {
-    world_removePlane(x-2, x+2, y, y+6, z, z);
-  }
-  
+  world_removePlane(x-2, x+2, y, y+6, z, z);
 }
 
-function world_addDoorwayZ(x, y, z, forceField) {
+function world_addDoorwayZ(x, y, z) {
   world_addPlane(x, x, y, y+7, z-3, z+3, TEXTURES_ROTTING_WOOD);
-
-  if (forceField) {
-    world_addPlane(x, x, y, y+6, z-2, z+2, TEXTURES_INVISIBLE);
-  }
-  else {
-    world_removePlane(x, x, y, y+6, z-2, z+2);
-  }
-  
+  world_removePlane(x, x, y, y+6, z-2, z+2);
 }
 
 function world_addPillar(x, y, z, height) {

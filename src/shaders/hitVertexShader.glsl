@@ -1,13 +1,13 @@
-attribute vec3 aVertexPosition;
+attribute vec3 ve;
 attribute vec3 aVertexColor;
 
-uniform mat4 uMVMatrix;
-uniform mat4 uPMatrix;
-varying vec4 vVertexColor;
+uniform mat4 mv;
+uniform mat4 pm;
+varying vec4 co; // vVertexColor
 
 void main(void) {
-  vec4 worldVertexPos = uMVMatrix * vec4(aVertexPosition, 1.0);
-  gl_Position = uPMatrix * worldVertexPos;
+  vec4 worldVertexPos = mv * vec4(ve, 1.0);
+  gl_Position = pm * worldVertexPos;
 
-  vVertexColor = vec4(aVertexColor, 1.0);
+  co = vec4(aVertexColor, 1.0);
 }

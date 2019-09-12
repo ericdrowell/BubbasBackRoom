@@ -1,7 +1,7 @@
 precision highp float;
 
-varying vec4 vVertexColor;
+varying vec4 co;
 
 void main(void) {
-  gl_FragColor = vVertexColor;
+  gl_FragColor = co;
 }

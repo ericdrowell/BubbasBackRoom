@@ -20,23 +20,23 @@ function hit_init() {
 };
 
 function hit_initUniforms() {
-  webgl_setAttribLocation(hitShaderProgram, hitContext, 'aVertexPosition');
+  webgl_setAttribLocation(hitShaderProgram, hitContext, 've');
   webgl_setAttribLocation(hitShaderProgram, hitContext, 'aVertexColor');
 
-  webgl_setUniformLocation(hitShaderProgram, hitContext, 'uPMatrix');
-  webgl_setUniformLocation(hitShaderProgram, hitContext, 'uMVMatrix');
+  webgl_setUniformLocation(hitShaderProgram, hitContext, 'pm');
+  webgl_setUniformLocation(hitShaderProgram, hitContext, 'mv');
 };
 
 function hit_setUniforms() {
   hitContext.uniform1i(hitShaderProgram.samplerUniform, 0);
-  hitContext.uniformMatrix4fv(hitShaderProgram.uPMatrix, false, pMatrix);
-  hitContext.uniformMatrix4fv(hitShaderProgram.uMVMatrix, false, mvMatrix);
+  hitContext.uniformMatrix4fv(hitShaderProgram.pm, false, pMatrix);
+  hitContext.uniformMatrix4fv(hitShaderProgram.mv, false, mvMatrix);
 };
 
 function hit_render(buffers) {
   // position buffers
   hitContext.bindBuffer(hitContext.ARRAY_BUFFER, buffers.position);
-  hitContext.vertexAttribPointer(hitShaderProgram.aVertexPosition, 3, hitContext.FLOAT, false, 0, 0);
+  hitContext.vertexAttribPointer(hitShaderProgram.ve, 3, hitContext.FLOAT, false, 0, 0);
 
   // color buffers
   hitContext.bindBuffer(hitContext.ARRAY_BUFFER, buffers.color);

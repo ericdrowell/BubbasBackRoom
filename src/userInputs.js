@@ -28,9 +28,6 @@ function userInputs_handleKeyDown(evt) {
   let keycode = ((evt.which) || (evt.keyCode));
 
   switch (keycode) {
-    // enter key
-    case 13:
-      break;
     case 65:
       // a key (strafe left)
       if (gameState === GAME_STATE_PLAYING) {

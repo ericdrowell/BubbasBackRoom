@@ -14,38 +14,38 @@ function scene_init() {
 };
 
 function scene_initUniforms() {
-  webgl_setAttribLocation(shaderProgram, sceneContext, 'aVertexPosition');
-  webgl_setAttribLocation(shaderProgram, sceneContext, 'aVertexNormal');
-  webgl_setAttribLocation(shaderProgram, sceneContext, 'aTextureCoord');
+  webgl_setAttribLocation(shaderProgram, sceneContext, 've');
+  webgl_setAttribLocation(shaderProgram, sceneContext, 'no');
+  webgl_setAttribLocation(shaderProgram, sceneContext, 'tc');
 
-  webgl_setUniformLocation(shaderProgram, sceneContext, 'uPMatrix');
-  webgl_setUniformLocation(shaderProgram, sceneContext, 'uMVMatrix');
-  webgl_setUniformLocation(shaderProgram, sceneContext, 'uSampler');
-  webgl_setUniformLocation(shaderProgram, sceneContext, 'uNMatrix');
-  webgl_setUniformLocation(shaderProgram, sceneContext, 'isFlashing');
+  webgl_setUniformLocation(shaderProgram, sceneContext, 'pm');
+  webgl_setUniformLocation(shaderProgram, sceneContext, 'mv');
+  webgl_setUniformLocation(shaderProgram, sceneContext, 'sa');
+  webgl_setUniformLocation(shaderProgram, sceneContext, 'nm');
+  webgl_setUniformLocation(shaderProgram, sceneContext, 'fl');
 };
 
 function scene_setUniforms() {
-  sceneContext.uniform1i(shaderProgram.uSampler, 0);
-  sceneContext.uniformMatrix4fv(shaderProgram.uPMatrix, false, pMatrix);
-  sceneContext.uniformMatrix4fv(shaderProgram.uMVMatrix, false, mvMatrix);
+  sceneContext.uniform1i(shaderProgram.sa, 0);
+  sceneContext.uniformMatrix4fv(shaderProgram.pm, false, pMatrix);
+  sceneContext.uniformMatrix4fv(shaderProgram.mv, false, mvMatrix);
   
   let normalMatrix = mat3.create();
   mat4.toInverseMat3(mvMatrix, normalMatrix);
   mat3.transpose(normalMatrix);
-  sceneContext.uniformMatrix3fv(shaderProgram.uNMatrix, false, normalMatrix);
+  sceneContext.uniformMatrix3fv(shaderProgram.nm, false, normalMatrix);
 
-  sceneContext.uniform1i(shaderProgram.isFlashing, flashTimeRemaining > 0);
+  sceneContext.uniform1i(shaderProgram.fl, flashTimeRemaining > 0);
 };
 
 function scene_render(buffers, texture) {
   // position buffers
   sceneContext.bindBuffer(sceneContext.ARRAY_BUFFER, buffers.position);
-  sceneContext.vertexAttribPointer(shaderProgram.aVertexPosition, 3, sceneContext.FLOAT, false, 0, 0);
+  sceneContext.vertexAttribPointer(shaderProgram.ve, 3, sceneContext.FLOAT, false, 0, 0);
 
   // texture buffers
   sceneContext.bindBuffer(sceneContext.ARRAY_BUFFER, buffers.texture);
-  sceneContext.vertexAttribPointer(shaderProgram.aTextureCoord, 2, sceneContext.FLOAT, false, 0, 0);
+  sceneContext.vertexAttribPointer(shaderProgram.tc, 2, sceneContext.FLOAT, false, 0, 0);
   sceneContext.activeTexture(sceneContext.TEXTURE0);
   sceneContext.bindTexture(sceneContext.TEXTURE_2D, texture);
   // index buffers
@@ -53,7 +53,7 @@ function scene_render(buffers, texture) {
 
   // normal buffers
   sceneContext.bindBuffer(sceneContext.ARRAY_BUFFER, buffers.normal);
-  sceneContext.vertexAttribPointer(shaderProgram.aVertexNormal, 3, sceneContext.FLOAT, false, 0, 0);
+  sceneContext.vertexAttribPointer(shaderProgram.no, 3, sceneContext.FLOAT, false, 0, 0);
 
   // set uniforms
   scene_setUniforms();
