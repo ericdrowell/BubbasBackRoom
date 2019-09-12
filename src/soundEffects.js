@@ -12,7 +12,7 @@ let soundEffectsMap = [
   77166, // 8 - empty gun
   63716, // 9 - hit
   15311, // 10 - monster spawn
-  95794, //16262, // 11 - monster jump
+  13826, //95794, //16262, // 11 - monster jump
   5171, // 12 - health
   84557 // 13 - milestone
 ];

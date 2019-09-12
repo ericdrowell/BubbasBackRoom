@@ -31,11 +31,6 @@ function hit_setUniforms() {
   hitContext.uniform1i(hitShaderProgram.samplerUniform, 0);
   hitContext.uniformMatrix4fv(hitShaderProgram.uPMatrix, false, pMatrix);
   hitContext.uniformMatrix4fv(hitShaderProgram.uMVMatrix, false, mvMatrix);
-  
-  let normalMatrix = mat3.create();
-  mat4.toInverseMat3(mvMatrix, normalMatrix);
-  mat3.transpose(normalMatrix);
-  hitContext.uniformMatrix3fv(hitShaderProgram.uMVMatrix, false, normalMatrix);
 };
 
 function hit_render(buffers) {

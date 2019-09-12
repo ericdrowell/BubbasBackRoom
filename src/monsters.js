@@ -63,7 +63,7 @@ function monsters_add(x, y, z) {
     z: z,
     startY: y,
     painFlash: 0,
-    health: 4,
+    health: 1,
     yaw: 0,
     attackCooldown: 0,
     turnFrequency: 0.001 + Math.random() * 0.001,
@@ -77,32 +77,34 @@ function monsters_add(x, y, z) {
 }
 
 function monsters_spawn(batch) {
-  if (batch == 0) {
-    // 4
-    monsters_add(-10, 0, -28);
-    monsters_add(-10, 0, 28);
-    monsters_add(58, 0, -28);
-    monsters_add(58, 0, 28);
-  }
-  else if (batch === 1) {
-    // 6
-    monsters_add(85, -9, 15);
-    monsters_add(85, -9, -15);
-    monsters_add(75, -9, 15);
-    monsters_add(75, -9, -15);
-    monsters_add(95, -9, 15);
-    monsters_add(95, -9, -15);
-  }
-  else if (batch === 2) {
-    for (let n=0; n<12; n++) {
-      let xOffset = 2 * Math.random();
-      let zOffset = 20 * Math.random();
-      monsters_add(80 + xOffset, 7, -190 + zOffset);
+  if (ENABLE_MONSTERS) {
+    if (batch == 0) {
+      // 4
+      monsters_add(-10, 0, -28);
+      monsters_add(-10, 0, 28);
+      monsters_add(58, 0, -28);
+      monsters_add(58, 0, 28);
     }
-   
-  }
+    else if (batch === 1) {
+      // 6
+      monsters_add(85, -9, 15);
+      monsters_add(85, -9, -15);
+      monsters_add(75, -9, 15);
+      monsters_add(75, -9, -15);
+      monsters_add(95, -9, 15);
+      monsters_add(95, -9, -15);
+    }
+    else if (batch === 2) {
+      for (let n=0; n<12; n++) {
+        let xOffset = 2 * Math.random();
+        let zOffset = 20 * Math.random();
+        monsters_add(80 + xOffset, 7, -190 + zOffset);
+      }
+     
+    }
 
-  monsters_buildBuffers();
+    monsters_buildBuffers();
+  }
   soundEffects_play(SOUND_EFFECTS_MONSTER_SPAWN);
 }
 

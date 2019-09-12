@@ -136,13 +136,16 @@ function world_buildModel() {
   world_addRoom(77, 83, 6, 15, -220, -20);
 
   world_addDoorwayX(80, 7, -20);
-  world_addDoorwayX(80, 7, -25, true);
+
+  world_addPlane(78, 82, 7, 17, -25, -25, TEXTURES_INVISIBLE);
 
   world_addTable(78, 82, 7, 9, -219, -217)
 
   // -------------------- SECOND TUNNEL  --------------------
 
   world_removeTunnelEntrance(77, 10, -200);
+
+  world_addPlane(73, 73, 6, 14, -210, -190, TEXTURES_INVISIBLE);
 
   world_addTunnel(72, 77, 5, 5, -200, -200);
   world_addTunnel(20, 72, 0, 5, -220, -200);
@@ -217,7 +220,7 @@ function world_addPillars(startX, endX, startY, endY, startZ, endZ) {
 function world_addDoor(startX, endX, startY, endY, startZ, endZ) {
   world_addPlane(startX-1, endX+1, startY, endY+1, startZ, endZ, TEXTURES_ROTTING_WOOD);
   world_addPlane(startX, endX, startY, endY, startZ, endZ, TEXTURES_DIRTY_GRAY);
-  world_addBlock(startX, startY + Math.round((endY-startY)/2), startZ, TEXTURES_DOOR_KNOB);
+  //world_addBlock(startX, startY + Math.round((endY-startY)/2), startZ, TEXTURES_DOOR_KNOB);
 }
 
 function world_addTable(startX, endX, startY, endY, startZ, endZ) {

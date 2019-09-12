@@ -115,7 +115,7 @@ function userInputs_handleMouseDown() {
     if (gameState === GAME_STATE_PLAYING) {
       player_fire();
     }
-    else if (gameState === GAME_STATE_STORY && (gameStory === 1 || gameStory === 3 || gameStory === 5 || gameStory === 10 || gameStory === 15)) {
+    else if (gameState === GAME_STATE_STORY && (gameStory === 1 || gameStory === 3 || gameStory === 5 || gameStory === 10 || gameStory === 15 || gameStory === 21)) {
       gameStory++;
     }
     else if (gameState === GAME_STATE_PAUSED) {

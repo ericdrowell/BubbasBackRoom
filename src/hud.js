@@ -187,13 +187,7 @@ function hud_renderDialog() {
       hud_renderControlsBottom();
       text_renderLine('click to continue', 30, bottomLineY, 0);
     }
-    else if(gameStory === 10) {
-      text_renderLine('wait a minute.  i should kill the zombies', 30, 260, 0);
-      text_renderLine('in case they escape into the gas station.', 30, 300, 0);
-      text_renderLine('i dont want my boss to fire me.', 30, 340, 0);
-      text_renderLine('click to continue', 30, bottomLineY, 0);
-    }
-    else if(gameStory === 15) {
+    else if(gameStory === 10 || gameStory === 15 || gameStory === 21) {
       text_renderLine('wait a minute.  i should kill the zombies', 30, 260, 0);
       text_renderLine('in case they escape into the gas station.', 30, 300, 0);
       text_renderLine('i dont want my boss to fire me.', 30, 340, 0);

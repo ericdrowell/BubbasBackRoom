@@ -158,6 +158,7 @@ function game_die() {
   hudDirty = true;
   document.exitPointerLock();
   gameState = GAME_STATE_DIED;
+  clickBlock = 500;
 }
 
 function game_triggers() { 
@@ -180,7 +181,7 @@ function game_triggers() {
     game_start();
     gameStory++;
   }
-  else if (gameStory === 7 && ENABLE_MONSTERS && player.x > -55) {
+  else if (gameStory === 7 && player.x > -55) {
     monsters_spawn(0);
     gameStory++;
   }
@@ -188,6 +189,8 @@ function game_triggers() {
     items_spawn(0);
     gameStory++;
   }
+
+
   else if (gameStory === 9 && player.x >= 57 && player.x <= 60 && player.z >= -2 && player.z <= 2) {
     hud_openDialog();
     gameStory++;
@@ -200,11 +203,15 @@ function game_triggers() {
     world_removePlane(60, 60, 0, 7, -2, 2);
     soundEffects_play(SOUND_EFFECTS_MILESTONE);
     gameStory = 13;
-  }  
+  }
+
+
   else if (gameStory === 13 && player.x >= 61) { 
     monsters_spawn(1);
     gameStory++;
   }
+
+
   else if (gameStory === 14 && player.z < -22) {  
     hud_openDialog();
     gameStory++;
@@ -217,7 +224,9 @@ function game_triggers() {
     world_removePlane(78, 82, 7, 14, -25, -25);
     soundEffects_play(SOUND_EFFECTS_MILESTONE);
     gameStory = 18;
-  }  
+  }
+
+
   else if (gameStory === 18 && player.z < -25 && player.x > 61) { 
     monsters_spawn(2);
     gameStory++;
@@ -226,6 +235,21 @@ function game_triggers() {
     items_spawn(1);
     gameStory++;
   }
+
+  else if (gameStory === 20 && player.z < -25 && player.x < 75) {  
+    hud_openDialog();
+    gameStory++;
+  }
+  else if (gameStory === 22) {
+    game_resume();
+    gameStory++;
+  }
+  else if (gameStory >= 20 && gameStory <= 23 && monstersKilled >= 22) {
+    world_removePlane(73, 73, 6, 14, -210, -190);
+    soundEffects_play(SOUND_EFFECTS_MILESTONE);
+    gameStory = 24;
+  }  
+
 }
 
 function game_update() {
