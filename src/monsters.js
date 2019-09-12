@@ -31,7 +31,10 @@ function monsters_hurt(id) {
       let zDiff = monster.z - player.z;
       let dist = Math.sqrt(xDiff * xDiff + zDiff * zDiff);
 
-      world_moveObject(monster, 5*xDiff/dist, 0, 5*zDiff/dist);
+      // knockback if not the boss
+      if (!monster.isBoss) {
+        world_moveObject(monster, 5*xDiff/dist, 0, 5*zDiff/dist);
+      }
 
       soundEffects_play(SOUND_EFFECTS_HIT, 0.3);
     }
@@ -50,20 +53,24 @@ function monsters_restore() {
           soundEffects_play(SOUND_EFFECTS_MONSTER_DIE);
           monsters.splice(n, 1);
           monstersKilled++;
+
+          if (monster.isBoss) {
+            game_win();
+          }
         }
       }
     }
   }); 
 }
 
-function monsters_add(x, y, z) {
+function monsters_add(x, y, z, isBoss) {
   monsters.push({
     x: x,
     y: y,
     z: z,
     startY: y,
     painFlash: 0,
-    health: 1,
+    health: isBoss ? 60 : 4,
     yaw: 0,
     attackCooldown: 0,
     turnFrequency: 0.001 + Math.random() * 0.001,
@@ -72,6 +79,7 @@ function monsters_add(x, y, z) {
     upVelocity: 0,
     isAirborne: false,
     stepPending: false,
+    isBoss: !!isBoss,
     id: utils_generateId()
   });
 }
@@ -94,6 +102,7 @@ function monsters_spawn(batch) {
       monsters_add(95, -9, 15);
       monsters_add(95, -9, -15);
     }
+    // 12
     else if (batch === 2) {
       for (let n=0; n<12; n++) {
         let xOffset = 2 * Math.random();
@@ -102,6 +111,11 @@ function monsters_spawn(batch) {
       }
      
     }
+    // final boss
+    else if (batch === 3) {
+      // center is -100, -99, -226
+      monsters_add(-170, -98, -230, true);
+    }
 
     monsters_buildBuffers();
   }
@@ -109,12 +123,16 @@ function monsters_spawn(batch) {
 }
 
 function monsters_update() {
-  let distEachFrame = MONSTER_SPEED * elapsedTime / 1000;
+  
 
   monsters.forEach(function(monster) {
+    let speed = monster.isBoss ? 3 : 4.5;
+    let distEachFrame = speed * elapsedTime / 1000;
+    let monsterAttackDist = monster.isBoss ? MONSTER_ATTACK_DIST * 2 : MONSTER_ATTACK_DIST;
+
     // tan(theta) = o/a
     let xDiff = monster.x - player.x;
-    let yDiff = monster.y - player.y;
+    let yDiff = monster.isBoss ? 0 : monster.y - player.y;
     let zDiff = monster.z - player.z;
     let theta = Math.atan2(zDiff, xDiff);
     let thetaDiff = monster.yaw - theta;
@@ -131,13 +149,21 @@ function monsters_update() {
     if (!monster.isAirborne && Math.random() < 0.05) {
       monster.upVelocity = 20;
       monster.isAirborne = true;
-      let volume = 0.5 * MONSTER_ATTACK_DIST / playerMonsterDist;
-      soundEffects_play(SOUND_EFFECTS_MONSTER_JUMP, volume);
+      
+
+      if (monster.isBoss) {
+        soundEffects_play(SOUND_EFFECTS_BOSS_JUMP);
+      }
+      else {
+        let volume = 0.5 * monsterAttackDist / playerMonsterDist;
+        soundEffects_play(SOUND_EFFECTS_MONSTER_JUMP, volume);
+      }
+      
     }
 
 
     
-    if (playerMonsterDist > MONSTER_ATTACK_DIST) {
+    if (playerMonsterDist > monsterAttackDist) {
       let newMonsterXDiff = -1 * distEachFrame * Math.cos(yaw);
       // handle gravity
       monster.upVelocity += GRAVITY * elapsedTime / 1000;
@@ -145,18 +171,16 @@ function monsters_update() {
       //newMonsterYDiff += (0.2 * Math.sin(now * 0.02 + monster.bobbleOffset));
       let newMonsterZDiff = -1 * distEachFrame * Math.sin(yaw);
 
-      // if (monster.y > 0) {
-      //   //monster.stepPending = true;
-      // }
-      // else if (monster.y <= 0 && monster.stepPending) {
-      //   // monster.stepPending = false;
-      //   // let volume = 0.3 * MONSTER_ATTACK_DIST / (playerMonsterDist*playerMonsterDist)
-      //   // soundEffects_play(SOUND_EFFECTS_MONSTER_WALK, volume);
-      // }
-
-
-
-      world_moveObject(monster, newMonsterXDiff, newMonsterYDiff, newMonsterZDiff);
+      // if boss, constrain y movement, but not x and y because he gets stuck on pillars
+      if (monster.isBoss) {
+        world_moveObject(monster, 0, newMonsterYDiff, 0);
+        monster.x += newMonsterXDiff;
+        monster.z += newMonsterZDiff;
+      }
+      else {
+        world_moveObject(monster, newMonsterXDiff, newMonsterYDiff, newMonsterZDiff);
+      }
+      
 
 
     }
@@ -211,14 +235,15 @@ function monsters_buildBuffers() {
     let texture = [];
     let index = [];
     let numBlocks = 0;
+    let scale = monster.isBoss ? 10 : 1;
 
     for (let n=0; n<MONSTER_CUBES.length; n+=6) {
-      let x = MONSTER_CUBES[n];
-      let y = MONSTER_CUBES[n+1];
-      let z = MONSTER_CUBES[n+2];
-      let xSize = MONSTER_CUBES[n+3];
-      let ySize = MONSTER_CUBES[n+4];
-      let zSize = MONSTER_CUBES[n+5];
+      let x = MONSTER_CUBES[n] * scale;
+      let y = MONSTER_CUBES[n+1] * scale;
+      let z = MONSTER_CUBES[n+2] * scale;
+      let xSize = MONSTER_CUBES[n+3] * scale;
+      let ySize = MONSTER_CUBES[n+4] * scale;
+      let zSize = MONSTER_CUBES[n+5] * scale;
 
       // position buffer
       for (let n = 0; n < CUBE_BUFFERS.position.length; n+=3) {

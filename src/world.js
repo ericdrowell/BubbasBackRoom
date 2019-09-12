@@ -170,6 +170,33 @@ function world_buildModel() {
 
   world_removePlane(-102, -97, -15, -14, -228, -223);
 
+  // -------------------- BOSS ROOM  --------------------
+
+
+  world_addPlane(-200, 0, -100, -100, -326, -126, TEXTURES_BLOOD_STONE);
+
+  //world_addPillar(-100, -99, -225, 7);
+
+  for (let x=-2; x<=2; x++) {
+    for (let z=-2; z<=2; z++) {
+      let xOffset = Math.random() * 5 - 2.5;
+      let zOffset = Math.random() * 5 - 2.5;
+      let heightOffset = Math.random() * 5 - 2.5;
+
+      if (x===0 && z===0) {
+        xOffset = 0;
+        zOffset = 0;
+      }
+
+      let pillarX = Math.round(-100+ x*12 + xOffset);
+      let pillarZ = Math.round(-225+ z*12 + zOffset);
+      let pillarHeight = Math.round(9 + heightOffset);
+
+      world_addPillar(pillarX, -101, pillarZ, pillarHeight);
+
+    }
+  }
+
 }
 
 // utils

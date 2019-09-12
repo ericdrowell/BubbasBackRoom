@@ -14,7 +14,8 @@ let soundEffectsMap = [
   15311, // 10 - monster spawn
   13826, //95794, //16262, // 11 - monster jump
   5171, // 12 - health
-  84557 // 13 - milestone
+  84557, // 13 - milestone
+  39023, // 14 boss jump
 ];
 
 let SOUND_EFFECTS_START = 0;
@@ -31,6 +32,7 @@ let SOUND_EFFECTS_MONSTER_SPAWN = 10;
 let SOUND_EFFECTS_MONSTER_JUMP = 11;
 let SOUND_EFFECTS_HEALTH = 12;
 let SOUND_EFFECTS_MILESTONE = 13;
+let SOUND_EFFECTS_BOSS_JUMP = 14;
 
 
 function soundEffects_play(str, volume) {

@@ -1,5 +1,4 @@
 let MONSTER_ATTACK_COOLDOWN = 1; // s
-let MONSTER_SPEED = 4.5; // units / s
 let MONSTER_JUMP_SPEED = 25; // units / s
 let MONSTER_TURN_SPEED = 0.5; // radians / s
 let MONSTER_ATTACK_DIST = 4; 

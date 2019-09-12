@@ -188,7 +188,7 @@ function hud_renderDialog() {
       text_renderLine('click to continue', 30, bottomLineY, 0);
     }
     else if(gameStory === 10 || gameStory === 15 || gameStory === 21) {
-      text_renderLine('wait a minute.  i should kill the zombies', 30, 260, 0);
+      text_renderLine('wait a minute.i should kill the zombies', 30, 260, 0);
       text_renderLine('in case they escape into the gas station.', 30, 300, 0);
       text_renderLine('i dont want my boss to fire me.', 30, 340, 0);
       text_renderLine('click to continue', 30, bottomLineY, 0);
@@ -207,15 +207,11 @@ function hud_renderDialog() {
   }
   else if (gameState === GAME_STATE_WIN) {
     hud_renderDialogFrame();
-    text_renderLine('you win', 75, 150, 0);
-
-    if (clickBlock === 0) {
-      text_renderLine('click to play again', 30, bottomLineY, 0);
-    }
-    else {
-      text_renderLine('...', 30, bottomLineY, 0);
-    }
-    
+    text_renderLine('you did it', 75, 150, 0);
+    text_renderLine('i defeated bubba junior.', 30, 300, 0);
+    text_renderLine('evil will no longer lurk here', 30, 340, 0);
+    text_renderLine('so yeah.screw this job.i quit.', 30, 380, 0);
+    text_renderLine('click to play again', 30, bottomLineY, 0);
   }
 }
 
@@ -243,7 +239,7 @@ function hud_renderDialogFrame() {
   hudContext.save();
   hudContext.scale(10, 10);
   hudContext.fillStyle = hudContext.createPattern(textures[TEXTURES_BURNED_STONE].image, 'repeat');
-  hudContext.globalAlpha = 0.7;
+  hudContext.globalAlpha = 0.9;
   hudContext.fill();
   hudContext.restore();
 

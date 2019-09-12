@@ -73,6 +73,20 @@ player = {
 // z: -190.85,
 // };
 
+// hole of death
+// player = {
+// health: 6,
+// isAirborne: false,
+// pitch: -0.34,
+// sideMovement: 0,
+// straightMovement: 0,
+// upVelocity: 0,
+// x: -88.13,
+// y: -14.49,
+// yaw: 7.86,
+// z: -225.95
+// }
+
   playerHurting = 0;
   flashTimeRemaining = 0;
   numBullets = 6;
@@ -81,11 +95,6 @@ player = {
 }
 
 function player_update() {
-  if (gameStory < 10 && player.x >= 57 && player.x <= 60 && player.z >= -2 && player.z <= 2) {
-    soundEffects_play(SOUND_EFFECTS_DIALOG);
-    gameState = GAME_STATE_ROOM_BLOCK_1;
-  }
-
   // handle moving forward and backward
   if (player.straightMovement !== 0) {
     let direction = player.straightMovement === 1 ? -1 : 1;
@@ -144,6 +153,13 @@ function player_update() {
         isReloading = false; 
       }
     }
+  }
+
+  if (gameStory === 25 && player.y < -99 && playerHurting === 0) {
+    playerHurting = PLAYER_PAIN_FLASH_DURATION;
+    player.health -= 1;
+    hudDirty = true; 
+    soundEffects_play(SOUND_EFFECTS_HIT, 0.5);
   }
 
   // pain flash

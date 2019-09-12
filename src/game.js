@@ -250,6 +250,13 @@ function game_triggers() {
     gameStory = 24;
   }  
 
+  else if (gameStory === 24 && player.y < -40) {
+    // spawn boss
+    monsters_spawn(3);
+    gameStory++;
+  }
+
+
 }
 
 function game_update() {
@@ -268,9 +275,6 @@ function game_update() {
   if (gameState === GAME_STATE_PLAYING) {
     if (player.health <= 0) {
       game_die();
-    }
-    else if (monstersKilled === 100) {
-      game_win();
     }
     
     player_update();
