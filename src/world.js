@@ -132,20 +132,18 @@ function world_buildModel() {
 
   // -------------------- HALLWAY  --------------------
 
-
   world_addRoom(77, 83, 6, 15, -220, -20);
-
   world_addDoorwayX(80, 7, -20);
-
   world_addPlane(78, 82, 7, 17, -25, -25, TEXTURES_INVISIBLE);
-
-  world_addTable(78, 82, 7, 9, -219, -217)
+  world_addPlane(78, 82, 7, 17, -185, -185, TEXTURES_INVISIBLE);
+  world_addTable(78, 82, 7, 9, -219, -217);
+  
 
   // -------------------- SECOND TUNNEL  --------------------
 
   world_removeTunnelEntrance(77, 10, -200);
 
-  world_addPlane(73, 73, 6, 14, -210, -190, TEXTURES_INVISIBLE);
+  
 
   world_addTunnel(72, 77, 5, 5, -200, -200);
   world_addTunnel(20, 72, 0, 5, -220, -200);
@@ -155,6 +153,8 @@ function world_buildModel() {
   
   world_addRoom(-110, -85, -15, 0, -240, -210);
   world_addTunnel(-85, -80, -15, -14, -226, -226);
+
+  
 
 
   // -------------------- HOLE ROOM  --------------------

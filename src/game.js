@@ -232,7 +232,7 @@ function game_triggers() {
     gameStory++;
   }
 
-  else if (gameStory === 20 && player.z < -25 && player.x < 75) {  
+  else if (gameStory === 20 && player.z < -182 && player.x > 70) {  
     hud_openDialog();
     gameStory++;
   }
@@ -241,7 +241,7 @@ function game_triggers() {
     gameStory++;
   }
   else if (gameStory >= 20 && gameStory <= 23 && monstersKilled >= 22) {
-    world_removePlane(73, 73, 6, 14, -210, -190);
+    world_removePlane(78, 82, 7, 17, -185, -185);
     soundEffects_play(SOUND_EFFECTS_MILESTONE);
     gameStory = 24;
   }  

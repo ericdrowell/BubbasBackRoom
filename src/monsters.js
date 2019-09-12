@@ -70,7 +70,7 @@ function monsters_add(x, y, z, isBoss) {
     z: z,
     startY: y,
     painFlash: 0,
-    health: isBoss ? 60 : 4,
+    health: isBoss ? 60 : 1,
     yaw: 0,
     attackCooldown: 0,
     turnFrequency: 0.001 + Math.random() * 0.001,
