@@ -104,7 +104,10 @@ function world_buildModel() {
 
   world_addRoom(69, 100, -10, 17, -20, 20);
 
-  world_addDoorwayZ(60, 0, 0);
+  // doorway with force field
+  world_addPlane(60, 60, 0, 8, -3, 3, TEXTURES_ROTTING_WOOD);
+  world_addPlane(60, 60, 0, 7, -2, 2, TEXTURES_INVISIBLE);
+  
   
 
   //world_addPlane(60, 66, -1, -1, -2, 2, TEXTURES_MOSSY_STONE);
@@ -133,9 +136,17 @@ function world_buildModel() {
   // -------------------- HALLWAY  --------------------
 
   world_addRoom(77, 83, 6, 15, -220, -20);
-  world_addDoorwayX(80, 7, -20);
+
+
+  world_addPlane(77, 83, 7, 15, -20, -20, TEXTURES_ROTTING_WOOD);
+  world_removePlane(78, 82, 7, 14, -20, -20, TEXTURES_INVISIBLE);
+
+  // doorway with force field
   world_addPlane(78, 82, 7, 17, -25, -25, TEXTURES_INVISIBLE);
+
+  // force field only
   world_addPlane(78, 82, 7, 17, -185, -185, TEXTURES_INVISIBLE);
+  
   world_addTable(78, 82, 7, 9, -219, -217);
   
 
@@ -204,15 +215,6 @@ function world_buildModel() {
 function world_removeTunnelEntrance(x, y, z) {
   world_removePlane(x, x, y-4, y+4, z-3, z+3);
   world_removePlane(x, x, y-3, y+3, z-4, z+4);
-}
-function world_addDoorwayX(x, y, z) {
-  world_addPlane(x-3, x+3, y, y+7, z, z, TEXTURES_ROTTING_WOOD);
-  world_removePlane(x-2, x+2, y, y+6, z, z);
-}
-
-function world_addDoorwayZ(x, y, z) {
-  world_addPlane(x, x, y, y+7, z-3, z+3, TEXTURES_ROTTING_WOOD);
-  world_removePlane(x, x, y, y+6, z-2, z+2);
 }
 
 function world_addPillar(x, y, z, height) {

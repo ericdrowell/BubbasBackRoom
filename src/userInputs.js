@@ -122,7 +122,6 @@ function userInputs_handleMouseDown() {
       game_resume();
     }
     else if (gameState === GAME_STATE_DIED || gameState === GAME_STATE_WIN) {
-      hudCanvas.requestPointerLock();
       hudDirty = true;
       game_restart()
     }
