@@ -8,11 +8,15 @@ setTimeout(function() {
 function game_init() {
   game_setViewportSize();
 
+  let html = document.querySelector('html');
+  html.style.height = '100%';
+
   let body = document.querySelector('body');
   body.style.overflow = 'hidden';
   body.style.padding = 0;
   body.style.margin = 0;
   body.style.backgroundColor = 'black';
+  body.style.height = '100%';
 
   canvas2d_init()
   webgl_init();
@@ -135,7 +139,7 @@ function game_pause() {
 function game_resume() {
   hudDirty = true;
   gameState = GAME_STATE_PLAYING;
-  sceneCanvas.requestPointerLock();
+  //hudCanvas.requestPointerLock();
   soundEffects_play(SOUND_EFFECTS_DIALOG);
 }
 

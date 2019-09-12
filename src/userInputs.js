@@ -11,7 +11,7 @@ function userInputs_init() {
     userInputs_handleMouseMove(evt);
   }, false);
 
-  document.addEventListener('mousedown', function(evt) {
+  hudCanvas.addEventListener('mousedown', function(evt) {
     userInputs_handleMouseDown(evt);
   }, false);
 
@@ -116,13 +116,16 @@ function userInputs_handleMouseDown() {
       player_fire();
     }
     else if (gameState === GAME_STATE_STORY && (gameStory === 1 || gameStory === 3 || gameStory === 5 || gameStory === 10 || gameStory === 15 || gameStory === 21)) {
+      hudCanvas.requestPointerLock();
       gameStory++;
     }
     else if (gameState === GAME_STATE_PAUSED) {
+      hudCanvas.requestPointerLock();
       hudDirty = true;
       game_resume();
     }
     else if (gameState === GAME_STATE_DIED || gameState === GAME_STATE_WIN) {
+      hudCanvas.requestPointerLock();
       hudDirty = true;
       game_restart()
     }
@@ -130,5 +133,5 @@ function userInputs_handleMouseDown() {
 }
 
 function userInputs_isPointerLocked() {
-  return document.pointerLockElement === sceneCanvas;
+  return document.pointerLockElement === hudCanvas;
 }

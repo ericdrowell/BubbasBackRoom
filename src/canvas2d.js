@@ -17,6 +17,8 @@ function canvas2d_init() {
 
   spriteCanvas = document.createElement('canvas');
   spriteContext = canvas2d_initCanvas(spriteCanvas, OPTIMAL_VIEWPORT_WIDTH, OPTIMAL_VIEWPORT_HEIGHT, PIXEL_RATIO);
+  spriteContext.webkitImageSmoothingEnabled = false;
+  spriteContext.imageSmoothingEnabled = false;
 
   textureCanvas = document.createElement('canvas');
   textureCanvas.width = 16;
@@ -34,9 +36,7 @@ function canvas2d_initCanvas(canvas, width, height, pixelRatio) {
   canvas.style.top = 0;
   canvas.style.left = 0;
 
-  context.mozImageSmoothingEnabled = false;
-  context.webkitImageSmoothingEnabled = false;
-  context.imageSmoothingEnabled = false;
+
 
   if (pixelRatio !== 1) {
     context.scale(pixelRatio, pixelRatio);
