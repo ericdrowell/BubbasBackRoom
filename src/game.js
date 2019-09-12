@@ -1,4 +1,3 @@
-let ENABLE_MUSIC = true;
 let ENABLE_MONSTERS = true;
 
 // start game - have to do it this way because I need the compressor to convert game_init() to the right variable name
@@ -37,12 +36,12 @@ function game_init() {
     });
   });
 
-  if (ENABLE_MUSIC) {
+
     music_init(function() {
       musicReady = true;
       game_setReady();
     });
-  }
+ 
 
   game_loop();
 }
@@ -76,15 +75,12 @@ function game_setViewportSize() {
 
 function game_setReady() {
   
-  if (ENABLE_MUSIC && spritesReady && musicReady) {
+  if (spritesReady && musicReady) {
     hudDirty = true;
     gameStory++;
   }
 
-  if (!ENABLE_MUSIC && spritesReady) {
-    hudDirty = true;
-    gameStory++;
-  }
+
 }
 
 
@@ -166,7 +162,7 @@ function game_triggers() {
   if (gameStory === 2) {
     hud_openDialog();
 
-    if (ENABLE_MUSIC && !musicPlaying) {
+    if (!musicPlaying) {
       music_start();
     }
     gameStory++;

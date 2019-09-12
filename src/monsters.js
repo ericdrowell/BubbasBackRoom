@@ -88,26 +88,26 @@ function monsters_spawn(batch) {
   if (ENABLE_MONSTERS) {
     if (batch == 0) {
       // 4
-      monsters_add(-10, 0, -28);
-      monsters_add(-10, 0, 28);
-      monsters_add(58, 0, -28);
-      monsters_add(58, 0, 28);
+      monsters_add(-10, 0, -28, false);
+      monsters_add(-10, 0, 28, false);
+      monsters_add(58, 0, -28, false);
+      monsters_add(58, 0, 28, false);
     }
     else if (batch === 1) {
       // 6
-      monsters_add(85, -9, 15);
-      monsters_add(85, -9, -15);
-      monsters_add(75, -9, 15);
-      monsters_add(75, -9, -15);
-      monsters_add(95, -9, 15);
-      monsters_add(95, -9, -15);
+      monsters_add(85, -9, 15, false);
+      monsters_add(85, -9, -15, false);
+      monsters_add(75, -9, 15, false);
+      monsters_add(75, -9, -15, false);
+      monsters_add(95, -9, 15, false);
+      monsters_add(95, -9, -15, false);
     }
     // 12
     else if (batch === 2) {
       for (let n=0; n<12; n++) {
         let xOffset = 2 * Math.random();
         let zOffset = 20 * Math.random();
-        monsters_add(80 + xOffset, 7, -190 + zOffset);
+        monsters_add(80 + xOffset, 7, -190 + zOffset, false);
       }
      
     }
@@ -128,11 +128,11 @@ function monsters_update() {
   monsters.forEach(function(monster) {
     let speed = monster.isBoss ? 3 : 4.5;
     let distEachFrame = speed * elapsedTime / 1000;
-    let monsterAttackDist = monster.isBoss ? MONSTER_ATTACK_DIST * 2 : MONSTER_ATTACK_DIST;
+    let monsterAttackDist = monster.isBoss ? (MONSTER_ATTACK_DIST * 2) : MONSTER_ATTACK_DIST;
 
     // tan(theta) = o/a
     let xDiff = monster.x - player.x;
-    let yDiff = monster.isBoss ? 0 : monster.y - player.y;
+    let yDiff = monster.isBoss ? 0 : (monster.y - player.y);
     let zDiff = monster.z - player.z;
     let theta = Math.atan2(zDiff, xDiff);
     let thetaDiff = monster.yaw - theta;
