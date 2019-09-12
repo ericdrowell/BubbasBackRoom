@@ -220,7 +220,7 @@ function world_addPillars(startX, endX, startY, endY, startZ, endZ) {
 function world_addDoor(startX, endX, startY, endY, startZ, endZ) {
   world_addPlane(startX-1, endX+1, startY, endY+1, startZ, endZ, TEXTURES_ROTTING_WOOD);
   world_addPlane(startX, endX, startY, endY, startZ, endZ, TEXTURES_DIRTY_GRAY);
-  //world_addBlock(startX, startY + Math.round((endY-startY)/2), startZ, TEXTURES_DOOR_KNOB);
+  world_addBlock(startX, startY + Math.round((endY-startY)/2), startZ, TEXTURES_DOOR_KNOB);
 }
 
 function world_addTable(startX, endX, startY, endY, startZ, endZ) {
