@@ -20,8 +20,14 @@ function items_add(x, y, z) {
   });
 }
 
-function items_spawn() {
-  items_add(25, 3.5, -27);
+function items_spawn(batch) {
+  if (batch === 0) {
+    items_add(25, 3.5, -27);
+  }
+  else if (batch === 1) {
+    items_add(80, 10.5, -219);
+  }
+
   items_buildBuffers();
 }
 

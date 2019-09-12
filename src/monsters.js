@@ -1,20 +1,20 @@
 let MONSTER_CUBES = [
-  0, 0.8, 0.3, 0.5, 2, 0.5, // left leg
-  0, 0.8, -0.3, 0.5, 2, 0.5, // right leg
-  -0.2, -0.4, 0.3, 0.8, 0.3, 0.5, // left foot
-  -0.2, -0.4, -0.3, 0.8, 0.3, 0.5, // right foot
-  0, 2.2, 0, 0.7, 1.4, 1, // body
-  0, 2.8, 0, 0.4, 0.4, 0.4, // neck
-  0, 3.4, 0, 0.8, 0.6, 0.8, // head 1
-  0, 3.4, 0, 0.6, 0.8, 0.6, // head 2
-  -0.8, 2.5, 0.65, 1.8, 0.35, 0.35, // left arm
-  -0.8, 2.5, -0.65, 1.8, 0.35, 0.35, // right arm
+  0, 1.3, 0.3, 0.5, 2, 0.5, // left leg
+  0, 1.3, -0.3, 0.5, 2, 0.5, // right leg
+  -0.2, 0.1, 0.3, 0.8, 0.3, 0.5, // left foot
+  -0.2, 0.1, -0.3, 0.8, 0.3, 0.5, // right foot
+  0, 2.7, 0, 0.7, 1.4, 1, // body
+  0, 3.3, 0, 0.4, 0.4, 0.4, // neck
+  0, 3.9, 0, 0.8, 0.6, 0.8, // head 1
+  0, 3.9, 0, 0.6, 0.8, 0.6, // head 2
+  -0.8, 3, 0.65, 1.8, 0.35, 0.35, // left arm
+  -0.8, 3, -0.65, 1.8, 0.35, 0.35, // right arm
 
-  -1.8, 2.5, 0.8, 0.3, 0.35, 0.1, // left fingers
-  -1.8, 2.5, -0.8, 0.3, 0.35, 0.1, // right fingers
+  -1.8, 3, 0.8, 0.3, 0.35, 0.1, // left fingers
+  -1.8, 3, -0.8, 0.3, 0.35, 0.1, // right fingers
   
-  -1.8, 2.6, 0.6, 0.3, 0.1, 0.1, // left thumb
-  -1.8, 2.6, -0.6, 0.3, 0.1, 0.1 // right thumb
+  -1.8, 3.1, 0.6, 0.3, 0.1, 0.1, // left thumb
+  -1.8, 3.1, -0.6, 0.3, 0.1, 0.1 // right thumb
 ];
 
 function monsters_init() {
@@ -63,7 +63,7 @@ function monsters_add(x, y, z) {
     z: z,
     startY: y,
     painFlash: 0,
-    health: 1,
+    health: 4,
     yaw: 0,
     attackCooldown: 0,
     turnFrequency: 0.001 + Math.random() * 0.001,
@@ -93,6 +93,14 @@ function monsters_spawn(batch) {
     monsters_add(95, -9, 15);
     monsters_add(95, -9, -15);
   }
+  else if (batch === 2) {
+    for (let n=0; n<12; n++) {
+      let xOffset = 2 * Math.random();
+      let zOffset = 20 * Math.random();
+      monsters_add(80 + xOffset, 7, -190 + zOffset);
+    }
+   
+  }
 
   monsters_buildBuffers();
   soundEffects_play(SOUND_EFFECTS_MONSTER_SPAWN);
@@ -115,14 +123,24 @@ function monsters_update() {
     let yawOffset = 0.5 * Math.sin(now * monster.turnFrequency);
     yaw += yawOffset;
 
-
     let playerMonsterDist = Math.sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
+
+    // random jump
+    if (!monster.isAirborne && Math.random() < 0.05) {
+      monster.upVelocity = 20;
+      monster.isAirborne = true;
+      let volume = 0.5 * MONSTER_ATTACK_DIST / playerMonsterDist;
+      soundEffects_play(SOUND_EFFECTS_MONSTER_JUMP, volume);
+    }
+
+
+    
     if (playerMonsterDist > MONSTER_ATTACK_DIST) {
       let newMonsterXDiff = -1 * distEachFrame * Math.cos(yaw);
       // handle gravity
       monster.upVelocity += GRAVITY * elapsedTime / 1000;
       let newMonsterYDiff = monster.upVelocity * elapsedTime / 1000;
-      //let newMonsterYDiff = 0; //(0.3 * Math.sin(now * 0.02 + monster.bobbleOffset)) - monster.y;
+      //newMonsterYDiff += (0.2 * Math.sin(now * 0.02 + monster.bobbleOffset));
       let newMonsterZDiff = -1 * distEachFrame * Math.sin(yaw);
 
       // if (monster.y > 0) {

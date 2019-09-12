@@ -185,7 +185,7 @@ function game_triggers() {
     gameStory++;
   }
   else if (gameStory === 8 && player.x > -55) {
-    items_spawn();
+    items_spawn(0);
     gameStory++;
   }
   else if (gameStory === 9 && player.x >= 57 && player.x <= 60 && player.z >= -2 && player.z <= 2) {
@@ -218,6 +218,14 @@ function game_triggers() {
     soundEffects_play(SOUND_EFFECTS_MILESTONE);
     gameStory = 18;
   }  
+  else if (gameStory === 18 && player.z < -25 && player.x > 61) { 
+    monsters_spawn(2);
+    gameStory++;
+  }
+  else if (gameStory === 19 && player.z < -25) {
+    items_spawn(1);
+    gameStory++;
+  }
 }
 
 function game_update() {

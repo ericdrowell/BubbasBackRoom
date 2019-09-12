@@ -133,7 +133,7 @@ function world_buildModel() {
   // -------------------- HALLWAY  --------------------
 
 
-  world_addRoom(77, 83, 6, 14, -220, -20);
+  world_addRoom(77, 83, 6, 15, -220, -20);
 
   world_addDoorwayX(80, 7, -20);
   world_addDoorwayX(80, 7, -25, true);
