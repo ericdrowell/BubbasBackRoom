@@ -138,13 +138,13 @@ function sprite_addMuzzleFlash() {
 
 
 
-    let pattern = spriteContext.createPattern(textures[TEXTURES_BLOOD_STONE].image, 'repeat');
-    canvas2d_fillPattern(spriteContext, 2, pattern);
+    // let pattern = spriteContext.createPattern(textures[TEXTURES_BLOOD_STONE].image, 'repeat');
+    // canvas2d_fillPattern(spriteContext, 2, pattern);
     
     let gradient = spriteContext.createRadialGradient(0, 0, 0, 0, 0, 100);
     gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-    gradient.addColorStop(0.7, 'rgba(253, 254, 206, 0.5)');
-    gradient.addColorStop(1, 'rgba(166, 82, 40, 0.5)');
+    gradient.addColorStop(0.9, 'rgba(253, 254, 206, 1)');
+    gradient.addColorStop(1, 'rgba(166, 82, 40, 1)');
     spriteContext.fillStyle = gradient;
     spriteContext.fill();
 
@@ -221,7 +221,7 @@ function sprite_addBullet() {
   gradient.addColorStop(0.6, '#3f0805');
   gradient.addColorStop(1, '#190b02');
   spriteContext.fillStyle = gradient;
-  spriteContext.fillRect(x, -65, 20, 50);
+  spriteContext.fillRect(x, -66, 20, 51);
 
   spriteContext.save();
   spriteContext.beginPath();

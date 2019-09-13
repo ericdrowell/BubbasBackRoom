@@ -16,28 +16,26 @@ void main(void) {
   gl_Position = pm * worldVertexPos;
 
   vTextureCoord = tc;
+  
+  vec3 pointLightPos = vec3(0, 0, 0);
+  vec3 pointLightColor = vec3(1, 1, 1);
+  float pointLightDist = length(pointLightPos - worldVertexPos.xyz);
+  float pointLightWeight;
 
   // gun fire flash
   if (fl) {
-    vec3 ambientLight = vec3(1.0, 1.0, 1.0);
-    vec3 transformedNormal = nm * no;
-    vec4 directionalVector = normalize(vec4(0.85, 0.8, 0.75, 0.0));
-    vec3 directionalLightColor = vec3(1, 1, 1);
-    vec3 directionalLight = directionalLightColor * max(dot(transformedNormal.xyz, directionalVector.xyz), 0.0);
-
-    vLightWeighting = ambientLight + directionalLight;
+    pointLightWeight = 3.0 * pow(0.99, pointLightDist);
   }
   else {
-    vec3 pointLightPos = vec3(0, 0, 0);
-    vec3 pointLightColor = vec3(1, 1, 1);
-    float pointLightDist = length(pointLightPos - worldVertexPos.xyz);
-    float pointLightWeight = 3.0 * pow(0.97, pointLightDist);
-    vec3 pointLight = pointLightColor * pointLightWeight; 
-
-    vLightWeighting = pointLight;
+    pointLightWeight = 3.0 * pow(0.97, pointLightDist);
   }
 
-  
+  vec3 pointLight = pointLightColor * pointLightWeight; 
+
+  vLightWeighting = pointLight;
+
+
+
   //vLightWeighting = ambientLight + directionalLight + pointLight;
   //vLightWeighting = pointLight;
 }
