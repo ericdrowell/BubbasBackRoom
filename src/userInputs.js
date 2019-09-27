@@ -25,36 +25,42 @@ function userInputs_init() {
 
 function userInputs_handleKeyDown(evt) {
 
-  let keycode = ((evt.which) || (evt.keyCode));
+  let keycode = ((evt.code) || (evt.which) || (evt.keyCode));
 
   switch (keycode) {
+    case 'KeyA':
     case 65:
       // a key (strafe left)
       if (gameState === GAME_STATE_PLAYING) {
         player.sideMovement = -1;
       }
       break;
+    case 'KeyW':
     case 87:
       // w key (move forward)
       if (gameState === GAME_STATE_PLAYING) {
         player.straightMovement = 1;
       }
       break;
+    case 'KeyD':
     case 68:
       // d key (strafe right)
       if (gameState === GAME_STATE_PLAYING) {
         player.sideMovement = 1;
       }
       break;
+    case 'KeyS':
     case 83: 
       // s key (move backwards)
       if (gameState === GAME_STATE_PLAYING) {
         player.straightMovement = -1;
       }
       break;
+    case 'Space':
     case 32:
       player_jump();
       break;
+    case 'KeyR':
     case 82:
       // r key (reload)
       hudDirty = true;
@@ -65,22 +71,26 @@ function userInputs_handleKeyDown(evt) {
 
 function userInputs_handleKeyUp(evt) {
   if (gameState === GAME_STATE_PLAYING) {
-    let keycode = ((evt.which) || (evt.keyCode));
+    let keycode = ((evt.code) || (evt.which) || (evt.keyCode));
 
     switch (keycode) {
+      case 'KeyA':
       case 65:
         // a key
         player.sideMovement = 0;
         break;
+      case 'KeyW':
       case 87:
         // w key
         player.straightMovement = 0;
         
         break;
+      case 'KeyD':
       case 68:
         // d key
         player.sideMovement = 0;
         break;
+      case 'KeyS':
       case 83:
         // s key
         player.straightMovement = 0;
